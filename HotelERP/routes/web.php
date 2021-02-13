@@ -23,3 +23,4 @@ Route::get('/', function () {
 Route::get('/admin',[AdminController::class,'Login']);
 Route::post('/admin',[UserController::class,'isAuthenticate']);
 Route::get('/dashboard',[AdminController::class,'isDashboard']);
+Route::get('/admin',[AdminController::class,'Logout']);

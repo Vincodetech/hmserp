@@ -15,4 +15,10 @@ class AdminController extends Controller
     {
         return view('admin.dashboard');
     }
+
+    public function Logout(Request $request)
+    {
+        $request->session()->forget('admin_name');
+        return view('admin.login');
+    }
 }
