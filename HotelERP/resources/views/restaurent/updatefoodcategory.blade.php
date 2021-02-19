@@ -6,52 +6,53 @@
             <div class="panel panel-default">
                 <div class="panel-heading">
                 <div class="d-sm-flex align-items-center justify-content-between mb-5">
-                   Add Food Category Information
+                   Update Food Category Information
                 </div>
-                
-                {{--{{Session::get('roleMsg')}}--}}
-                @if (Session::get('roleSccssMsg'))
+                @if (Session::get('updateStockInMsg'))
                     <div class="alert alert-success">
-                        {{ Session::get('roleSccssMsg') }}
+                        {{ Session::get('updateStockInMsg') }}
                     </div>
                 @endif
 
-                @if (Session::get('roleErrMsg'))
+                @if (Session::get('errUpdateStockInMsg'))
                     <div class="alert alert-danger">
-                        {{ Session::get('roleErrMsg') }}
+                        {{ Session::get('errUpdateStockInMsg') }}
                     </div>
                 @endif
                 <div class="panel-body">
                     <div class="row">
                         <div class="col-lg-6 col-lg-offset-3">
-                            <form role="form" action="{{ url('postfoodcategory') }}" method="post">
+                            <form role="form" action="{{ url('postupdatefoodcategory/'.$singlefoodcategory->id) }}" method="post">
                                 {{ csrf_field() }}
                                 <div class="form-group">
                                     <label>Category Name</label>
-                                    <input class="form-control" type="text" name="name" placeholder="Enter Category Name"
+                                    <input class="form-control" type="text" name="name" value="{{ $singlefoodcategory->name }}" placeholder="Enter Category Name"
                                            autofocus
                                            required>
                                 </div>
                                 <div class="form-group">
                                     <label>Category Type</label>
                                     <select class="form-control" name="category_type">
-                                        <option value="">Select</option>
-                                        <option value="restaurant">Restaurant</option>
-                                        <option value="cafe">Cafe</option>
+                                        <!-- <option value="">Select</option> -->
+                                        <option {{ ($singlefoodcategory->category_type) == 'Restaurant' ? 'selected' : ''}} value="Restaurant">Restaurant</option>
+                                        <option {{ ($singlefoodcategory->category_type) == 'Cafe' ? 'selected' : '' }} value="Cafe">Cafe</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
                                     <label>Category Quantity</label>
-                                    <input class="form-control" type="text" name="category_quantity" placeholder="Enter Category Quantity"
+                                    <input class="form-control" type="text" name="category_quantity"
+                                     value="{{ $singlefoodcategory->category_quantity }}" 
+                                     placeholder="Enter Category Quantity"
                                            autofocus>
                                 </div>
                                 <div class="form-group">
                                     <label>Active</label>
                                 
-                                    <input type="checkbox" name="active" value="1">
+                                    <input type="checkbox" name="active" value="{{ $singlefoodcategory->active }}">
+                                    
                                 </div>
 
-                                <button type="submit" class="btn btn-primary"> Add Category</button>
+                                <button type="submit" class="btn btn-primary"> Update Category</button>
                             </form>
                         </div>
                         <!-- /.col-lg-6 (nested) -->

@@ -1,18 +1,96 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Illuminate\Support\Facades\DB;
+use App\Http\Controllers\Session;
 use Illuminate\Http\Request;
+use App\Models\User;
 
 class CategoryController extends Controller
 {
+    // public function index()
+    // {
+    //     $users = User::paginate(5);
+
+    //     return view('restaurent.foodcategorylist',compact('users'));
+    
     public function foodCategoryList()
     {
-        return view('restaurent.foodcategorylist');
+        $result = DB::select('select * from food_category');
+        return view('restaurent.foodcategorylist',['result' => $result]);
     }
 
     public function addFoodCategory()
     {
         return view('restaurent.addfoodcategory');
+    }
+
+    public function addPostFoodCategory(Request $request)
+    {
+        $cat_name = $request->name;
+        $category_type = $request->category_type;
+        $category_quantity = $request->category_quantity;
+        $active = $request->active;
+        
+        if($active != 1)
+        {
+            $active = 0;
+        }
+        else
+        {
+            $active = 1;
+        }
+        $results = DB::insert('insert into food_category(name,category_type,category_quantity,active) 
+        values (?,?,?,?)', [$cat_name,$category_type,$category_quantity,$active]);
+
+        if ($results != false) {
+            return redirect('/addfoodcategory')->with('roleSccssMsg', 'Food Category Added Successfully.');
+        } else {
+            return redirect('/addfoodcategory')->with('roleErrMsg', 'Food Category add to failed!!');
+        }
+       return view('restaurent.addfoodcategory');
+    }
+
+    public function updateFoodCategory($id)
+    {
+        $singlefoodcategory = DB::table('food_category')->where('id', $id)->first();
+        return view('restaurent.updatefoodcategory',['singlefoodcategory' => $singlefoodcategory]);
+    }   
+    
+    public function updatePostFoodCategory(Request $request, $id)
+    {
+        $cat_name = $request->name;
+        $category_type = $request->category_type;
+        $category_quantity = $request->category_quantity;
+        $active = $request->active;
+        
+        if($active != 1)
+        {
+            $active = 0;
+        }
+        else
+        {
+            $active = 1;
+        }
+        $result = DB::update('update food_category set name = ?, category_type = ?, 
+        category_quantity = ?, active = ? where id = ?', [$cat_name, $category_type, $category_quantity, $active, $id]);
+
+        if ($result != false) {
+            return redirect('foodcategory')->with('updateStockInMsg', 'Food Category Updated Successfully');
+        } else {
+            return redirect('updatefoodcategory/'. $id)->with('errUpdateStockInMsg', 'Food Category not Updated');
+        }
+    }
+
+    public function deleteFoodCategory($id)
+    {
+        $data = DB::delete('delete from food_category where id = ?', [$id]);
+
+        if ($data != false) {
+            return redirect('/foodcategory')->with('deleteStockInMsg', 'Food Category Deleted Successfully');
+        } else {
+            return redirect('/foodcategory')->with('errDeleteStockInMsg', 'Food Category not Deleted');
+        }
+
     }
 }

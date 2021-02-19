@@ -28,4 +28,9 @@ Route::get('/dashboard',[AdminController::class,'isDashboard']);
 Route::get('/admin',[AdminController::class,'Logout']);
 
 Route::get('/foodcategory',[CategoryController::class,'foodCategoryList']);
+
 Route::get('/addfoodcategory',[CategoryController::class,'addFoodCategory']);
+Route::post('/postfoodcategory',[CategoryController::class,'addPostFoodCategory']);
+Route::get('/updatefoodcategory/{id}',[CategoryController::class,'updateFoodCategory']);
+Route::post('/postupdatefoodcategory/{id}',[CategoryController::class,'updatePostFoodCategory']);
+Route::get('/deletefoodcategory/{id}',[CategoryController::class,'deleteFoodCategory']);
