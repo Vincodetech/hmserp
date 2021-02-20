@@ -36,7 +36,7 @@
           <div class="bg-white py-2 collapse-inner rounded">
             <!-- <h6 class="collapse-header">Custom Components:</h6> -->
             <a class="collapse-item" href="{{ url('foodcategory') }}">Food Category</a>
-            <a class="collapse-item" href="cards.html">Food Item</a>
+            <a class="collapse-item" href="{{ url('fooditem') }}">Food Item</a>
           </div>
         </div>
       </li>

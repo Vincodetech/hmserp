@@ -8,15 +8,17 @@ use App\Models\User;
 
 class CategoryController extends Controller
 {
+    
     // public function index()
     // {
-    //     $users = User::paginate(5);
+    //     return view('restaurent.foodcategorylist', [
+    //         'food_category' => DB::table('food_category')->paginate(5)
+    //     ]);
+    // }
 
-    //     return view('restaurent.foodcategorylist',compact('users'));
-    
     public function foodCategoryList()
     {
-        $result = DB::select('select * from food_category');
+        $result = DB::table('food_category')->paginate(5);
         return view('restaurent.foodcategorylist',['result' => $result]);
     }
 

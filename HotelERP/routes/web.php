@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ItemController;
 use App\Http\Controllers\Session;
 /*
 |--------------------------------------------------------------------------
@@ -28,9 +29,19 @@ Route::get('/dashboard',[AdminController::class,'isDashboard']);
 Route::get('/admin',[AdminController::class,'Logout']);
 
 Route::get('/foodcategory',[CategoryController::class,'foodCategoryList']);
-
 Route::get('/addfoodcategory',[CategoryController::class,'addFoodCategory']);
 Route::post('/postfoodcategory',[CategoryController::class,'addPostFoodCategory']);
 Route::get('/updatefoodcategory/{id}',[CategoryController::class,'updateFoodCategory']);
 Route::post('/postupdatefoodcategory/{id}',[CategoryController::class,'updatePostFoodCategory']);
 Route::get('/deletefoodcategory/{id}',[CategoryController::class,'deleteFoodCategory']);
+
+
+Route::get('/fooditem',[ItemController::class,'foodItemList']);
+Route::get('/addfooditem',[ItemController::class,'addFoodItem']);
+Route::post('/postfooditem',[ItemController::class,'addPostFoodItem']);
+Route::get('/updatefooditem/{id}',[ItemController::class,'updateFoodItem']);
+Route::post('/postupdatefooditem/{id}',[ItemController::class,'updatePostFoodItem']);
+Route::get('/deletefooditem/{id}',[ItemController::class,'deleteFoodItem']);
+
+
+// Route::post('/upload',[ItemController::class,'upload']);
