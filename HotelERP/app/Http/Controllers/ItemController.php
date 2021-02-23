@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Http\Controllers\Storage;
 use File;
+
 class ItemController extends Controller
 {
     // public function upload(Request $request)
@@ -50,19 +51,40 @@ class ItemController extends Controller
         $item_type = $request->item_type;
         $active = $request->active;
         
+        // $data = DB::table('food_item');  
+        // if($files=$request->file('item_image'))
+        // {  
+        //     $name=$files->getClientOriginalName();  
+        //     $files->move('images',$name);  
+        //     $data->item_image=$name;  
+        // }  
+        // $data->DB::table('food_item')->save();  
         if($request->hasFile('item_image'))
         {
             $filename = $request->item_image->getClientOriginalName();
-            if(DB::table('food_item')->item_image)
-            {
-                \Storage::delete('/public/images/'.DB::table('food_item')->item_image);
-            }
-            $request->item_image->storeAs('images',$filename,'public');
+            
+            $request->item_image->storeAs('images',$filename,'public');    
+            
+            
             DB::table('food_item')->update(['item_image'=>$filename]);
             session()->put('message','Image Uploaded...');
         }
-        
+       // if( $request->hasFile( 'item_image' ) ) 
+        // {
+        //     $destinationPath = storage_path( 'app/public/images' );
+        //     $file = $request->item_image;
+        //     $fileName = time() . '.'.$file->clientExtension();
+        //     $file->move( $destinationPath, $fileName );
+        // }
 
+        // $request->validate([
+        //     'item_image' => 'required|item_image|mimes:jpeg,png,jpg,gif,svg|max:1024',
+        // ]);
+    
+        // $imageName = time().'.'.$request->item_image->extension();
+     
+        // $request->item_image->move(public_path('images'), $imageName);
+  
         if($active != 1)
         {
             $active = 0;
@@ -86,17 +108,23 @@ class ItemController extends Controller
 
     public function updateFoodItem($id)
     {
-        $singlefoodcategory = DB::table('food_category')->where('id', $id)->first();
-        return view('restaurent.updatefoodcategory',['singlefoodcategory' => $singlefoodcategory]);
+        $singlefooditem = DB::table('food_item')->where('id', $id)->first();
+        return view('restaurent.updatefooditem',['singlefooditem' => $singlefooditem]);
     }   
     
     public function updatePostFoodItem(Request $request, $id)
     {
-        $cat_name = $request->name;
-        $category_type = $request->category_type;
-        $category_quantity = $request->category_quantity;
+        $item_name = $request->name;
+        $slug = $request->slug;
+        $item_image = $request->item_image;
+        $food_category = $request->category_id;
+        $description = $request->description;
+        $unit = $request->unit;
+        $price = $request->price;
+        $quantity = $request->quantity;
+        $item_type = $request->item_type;
         $active = $request->active;
-        
+ 
         if($active != 1)
         {
             $active = 0;
@@ -105,24 +133,26 @@ class ItemController extends Controller
         {
             $active = 1;
         }
-        $result = DB::update('update food_category set name = ?, category_type = ?, 
-        category_quantity = ?, active = ? where id = ?', [$cat_name, $category_type, $category_quantity, $active, $id]);
+        $result = DB::update('update food_item set name = ?, slug = ?, item_image = ?,
+        category_id = ?, description = ?, unit = ?, price = ?, quantity = ?,
+        item_type = ?, active = ? where id = ?', [$item_name, $slug, $item_image, $food_category,
+         $description, $unit, $price, $quantity, $item_type, $active, $id]);
 
         if ($result != false) {
-            return redirect('foodcategory')->with('updateStockInMsg', 'Food Category Updated Successfully');
+            return redirect('fooditem')->with('updateStockInMsg', 'Food Item Updated Successfully');
         } else {
-            return redirect('updatefoodcategory/'. $id)->with('errUpdateStockInMsg', 'Food Category not Updated');
+            return redirect('updatefooditem/'. $id)->with('errUpdateStockInMsg', 'Food Item not Updated');
         }
     }
 
     public function deleteFoodItem($id)
     {
-        $data = DB::delete('delete from food_category where id = ?', [$id]);
+        $data = DB::delete('delete from food_item where id = ?', [$id]);
 
         if ($data != false) {
-            return redirect('/foodcategory')->with('deleteStockInMsg', 'Food Category Deleted Successfully');
+            return redirect('/fooditem')->with('deleteStockInMsg', 'Food Item Deleted Successfully');
         } else {
-            return redirect('/foodcategory')->with('errDeleteStockInMsg', 'Food Category not Deleted');
+            return redirect('/fooditem')->with('errDeleteStockInMsg', 'Food Item not Deleted');
         }
 
     }
