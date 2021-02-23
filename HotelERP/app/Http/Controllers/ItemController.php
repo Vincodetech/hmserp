@@ -53,11 +53,11 @@ class ItemController extends Controller
         if($request->hasFile('item_image'))
         {
             $filename = $request->item_image->getClientOriginalName();
-            if($request->item_image)
+            if(DB::table('food_item')->item_image)
             {
-                \Storage::delete('/public/img/'.$request->item_image);
+                \Storage::delete('/public/images/'.DB::table('food_item')->item_image);
             }
-            $request->item_image->storeAs('img',$filename,'public');
+            $request->item_image->storeAs('images',$filename,'public');
             DB::table('food_item')->update(['item_image'=>$filename]);
             session()->put('message','Image Uploaded...');
         }
