@@ -78,9 +78,9 @@ class CategoryController extends Controller
         category_quantity = ?, active = ? where id = ?', [$cat_name, $category_type, $category_quantity, $active, $id]);
 
         if ($result != false) {
-            return redirect('foodcategory')->with('updateStockInMsg', 'Food Category Updated Successfully');
+            return redirect('foodcategory')->with('updateCategoryInMsg', 'Food Category Updated Successfully');
         } else {
-            return redirect('updatefoodcategory/'. $id)->with('errUpdateStockInMsg', 'Food Category not Updated');
+            return redirect('updatefoodcategory/'. $id)->with('errUpdateCategoryInMsg', 'Food Category not Updated');
         }
     }
 
@@ -89,9 +89,9 @@ class CategoryController extends Controller
         $data = DB::delete('delete from food_category where id = ?', [$id]);
 
         if ($data != false) {
-            return redirect('/foodcategory')->with('deleteStockInMsg', 'Food Category Deleted Successfully');
+            return redirect('/foodcategory')->with('deleteCategoryInMsg', 'Food Category Deleted Successfully');
         } else {
-            return redirect('/foodcategory')->with('errDeleteStockInMsg', 'Food Category not Deleted');
+            return redirect('/foodcategory')->with('errDeleteCategoryInMsg', 'Food Category not Deleted');
         }
 
     }

@@ -32,12 +32,15 @@
                                      alt="" width="50"/>
                                 </td>
                                 <td>{{ $data->name }}</td>
-                                <td>{{ $data->category_id }}</td>
+                                <td>@php
+                                      $result = DB::table('food_category')->where('id',$data->category_id)->first();
+                                       echo $result;
+                                     @endphp </td>
                                 <td>{{ $data->item_type }}</td>
                                 <td>{{ $data->active }}</td>
-                                <td class="text-center"><a href="{{ url('updatefooditem/'.$data->id) }}">
+                                <td class="text-center"><a href="{{ url('viewfooditem/'.$data->id) }}">
                                  <i class="fa fa-eye" aria-hidden="true"></i></a> 
-                                 <a href="{{ url('viewfooditem/'.$data->id) }}">
+                                 <a href="{{ url('updatefooditem/'.$data->id) }}">
                                  <i class="fa fa-edit" aria-hidden="true"></i></a>
                                  <a href="{{ url('deletefooditem/'.$data->id) }}" 
                                   onclick="if (!confirm('Are you sure to delete this item?'))

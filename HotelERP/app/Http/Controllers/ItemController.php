@@ -31,6 +31,7 @@ class ItemController extends Controller
         $result = DB::table('food_item')->paginate(5);
         return view('restaurent.fooditemlist',['result' => $result]);
     }
+   
 
     public function addFoodItem()
     {
@@ -66,16 +67,16 @@ class ItemController extends Controller
             $request->item_image->storeAs('images',$filename,'public');    
             
             
-            DB::table('food_item')->update(['item_image'=>$filename]);
+            //DB::table('food_item')->update(['item_image'=>$filename]);
             session()->put('message','Image Uploaded...');
         }
-       // if( $request->hasFile( 'item_image' ) ) 
-        // {
-        //     $destinationPath = storage_path( 'app/public/images' );
-        //     $file = $request->item_image;
-        //     $fileName = time() . '.'.$file->clientExtension();
-        //     $file->move( $destinationPath, $fileName );
-        // }
+    //    if( $request->hasFile( 'item_image' ) ) 
+    //     {
+    //         $destinationPath = storage_path( 'app/public/images' );
+    //         $file = $request->item_image;
+    //         $fileName = time() . '.'.$file->clientExtension();
+    //         $file->move( $destinationPath, $fileName );
+    //     }
 
         // $request->validate([
         //     'item_image' => 'required|item_image|mimes:jpeg,png,jpg,gif,svg|max:1024',
@@ -109,7 +110,9 @@ class ItemController extends Controller
     public function updateFoodItem($id)
     {
         $singlefooditem = DB::table('food_item')->where('id', $id)->first();
-        return view('restaurent.updatefooditem',['singlefooditem' => $singlefooditem]);
+        $allcategory = DB::select('select * from food_category');
+        return view('restaurent.updatefooditem',['singlefooditem' => $singlefooditem,
+         'allcategory' => $allcategory]);
     }   
     
     public function updatePostFoodItem(Request $request, $id)
@@ -139,9 +142,9 @@ class ItemController extends Controller
          $description, $unit, $price, $quantity, $item_type, $active, $id]);
 
         if ($result != false) {
-            return redirect('fooditem')->with('updateStockInMsg', 'Food Item Updated Successfully');
+            return redirect('fooditem')->with('updateItemInMsg', 'Food Item Updated Successfully');
         } else {
-            return redirect('updatefooditem/'. $id)->with('errUpdateStockInMsg', 'Food Item not Updated');
+            return redirect('updatefooditem/'. $id)->with('errUpdateItemInMsg', 'Food Item not Updated');
         }
     }
 
@@ -150,9 +153,9 @@ class ItemController extends Controller
         $data = DB::delete('delete from food_item where id = ?', [$id]);
 
         if ($data != false) {
-            return redirect('/fooditem')->with('deleteStockInMsg', 'Food Item Deleted Successfully');
+            return redirect('/fooditem')->with('deleteItemInMsg', 'Food Item Deleted Successfully');
         } else {
-            return redirect('/fooditem')->with('errDeleteStockInMsg', 'Food Item not Deleted');
+            return redirect('/fooditem')->with('errDeleteItemInMsg', 'Food Item not Deleted');
         }
 
     }

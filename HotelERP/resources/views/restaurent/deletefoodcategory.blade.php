@@ -1,14 +1,14 @@
 @include('admin.header')
 
-        @if (Session::get('deleteStockInMsg'))
+        @if (Session::get('deleteCategoryInMsg'))
             <div class="alert alert-success">
-                {{ Session::get('deleteStockInMsg') }}
+                {{ Session::get('deleteCategoryInMsg') }}
             </div>
         @endif
 
-        @if (Session::get('errDeleteStockInMsg'))
+        @if (Session::get('errDeleteCategoryInMsg'))
             <div class="alert alert-danger">
-                {{ Session::get('errDeleteStockInMsg') }}
+                {{ Session::get('errDeleteCategoryInMsg') }}
             </div>
         @endif
         <form role="form" action="{{ url('deletefoodcategory') }}" method="post">

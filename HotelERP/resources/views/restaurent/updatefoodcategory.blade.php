@@ -8,15 +8,15 @@
                 <div class="d-sm-flex align-items-center justify-content-between mb-5">
                    Update Food Category Information
                 </div>
-                @if (Session::get('updateStockInMsg'))
+                @if (Session::get('updateCategoryInMsg'))
                     <div class="alert alert-success">
-                        {{ Session::get('updateStockInMsg') }}
+                        {{ Session::get('updateCategoryInMsg') }}
                     </div>
                 @endif
 
-                @if (Session::get('errUpdateStockInMsg'))
+                @if (Session::get('errUpdateCategoryInMsg'))
                     <div class="alert alert-danger">
-                        {{ Session::get('errUpdateStockInMsg') }}
+                        {{ Session::get('errUpdateCategoryInMsg') }}
                     </div>
                 @endif
                 <div class="panel-body">
@@ -47,9 +47,12 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Active</label>
-                                
-                                    <input type="checkbox" name="active" value="{{ $singlefoodcategory->active }}">
-                                    
+                                    @if($singlefoodcategory->active == '1')
+                                        <input type="checkbox" name="active" value="{{ $singlefoodcategory->active }}" 
+                                        checked>
+                                    @else
+                                        <input type="checkbox" name="active" value="{{ $singlefoodcategory->active }}">
+                                    @endif
                                 </div>
 
                                 <button type="submit" class="btn btn-primary"> Update Category</button>

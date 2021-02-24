@@ -7,6 +7,7 @@
                 <div class="panel-heading">
                 <div class="d-sm-flex align-items-center justify-content-between mb-5">
                    Add Food Category Information
+                   <a href="{{ url('foodcategory') }}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fa fa-arrow-circle-left fa-sm text-white-50"></i> Go Back </a>
                 </div>
                 
                 {{--{{Session::get('roleMsg')}}--}}
@@ -23,7 +24,7 @@
                 @endif
                 <div class="panel-body">
                     <div class="row">
-                        <div class="col-lg-6 col-lg-offset-3">
+                        <div class="col-lg-12 col-lg-offset-3">
                             <form role="form" action="{{ url('postfoodcategory') }}" method="post">
                                 {{ csrf_field() }}
                                 <div class="form-group">
