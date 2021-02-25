@@ -26,6 +26,7 @@ class ItemController extends Controller
     //     return redirect()->back();
     // }
     
+
     public function foodItemList()
     {
         $result = DB::table('food_item')->paginate(5);
@@ -52,6 +53,18 @@ class ItemController extends Controller
         $item_type = $request->item_type;
         $active = $request->active;
         
+       $filename = "";
+       // if($request->hasFile('item_image'))
+       //  {
+       //      $file = $request->file('item_image');
+       //      $extension = $file->getClientOriginalExtension();
+       //      $filename = time() . '.' . $extension;
+       //      $file->move('/storage/images/', $filename);
+       //      $request->item_image = $filename;
+       //      $file->store($filename);
+       // // $path->save(); 
+       //  }
+
         // $data = DB::table('food_item');  
         // if($files=$request->file('item_image'))
         // {  
@@ -63,12 +76,15 @@ class ItemController extends Controller
         if($request->hasFile('item_image'))
         {
             $filename = $request->item_image->getClientOriginalName();
+
+            if($request->item_image)
+            {
+                $request->item_image->storeAs('images',$filename,'public');
+            }
             
-            $request->item_image->storeAs('images',$filename,'public');    
-            
-            
-            //DB::table('food_item')->update(['item_image'=>$filename]);
-            session()->put('message','Image Uploaded...');
+           // $path->save();
+           // $request->item_image->update(['item_image'=>$filename]);
+           // session()->put('message','Image Uploaded...');
         }
     //    if( $request->hasFile( 'item_image' ) ) 
     //     {
@@ -96,7 +112,7 @@ class ItemController extends Controller
         }
         $results = DB::insert('insert into food_item(name,slug,item_image,category_id,description,
         unit,price,quantity,item_type,active) 
-        values (?,?,?,?,?,?,?,?,?,?)', [$item_name,$slug,$item_image,$food_category,
+        values (?,?,?,?,?,?,?,?,?,?)', [$item_name,$slug,$filename,$food_category,
         $description,$unit,$price,$quantity,$item_type,$active]);
 
         if ($results != false) {
@@ -128,6 +144,8 @@ class ItemController extends Controller
         $item_type = $request->item_type;
         $active = $request->active;
  
+        $filename = "";
+
         if($active != 1)
         {
             $active = 0;
@@ -138,7 +156,7 @@ class ItemController extends Controller
         }
         $result = DB::update('update food_item set name = ?, slug = ?, item_image = ?,
         category_id = ?, description = ?, unit = ?, price = ?, quantity = ?,
-        item_type = ?, active = ? where id = ?', [$item_name, $slug, $item_image, $food_category,
+        item_type = ?, active = ? where id = ?', [$item_name, $slug, $filename, $food_category,
          $description, $unit, $price, $quantity, $item_type, $active, $id]);
 
         if ($result != false) {

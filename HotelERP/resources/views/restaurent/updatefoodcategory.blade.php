@@ -7,6 +7,7 @@
                 <div class="panel-heading">
                 <div class="d-sm-flex align-items-center justify-content-between mb-5">
                    Update Food Category Information
+                   <a href="{{ url('foodcategory') }}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fa fa-arrow-circle-left fa-sm text-white-50"></i> Go Back </a>
                 </div>
                 @if (Session::get('updateCategoryInMsg'))
                     <div class="alert alert-success">
@@ -23,7 +24,7 @@
                     <div class="row">
                         <div class="col-lg-6 col-lg-offset-3">
                             <form role="form" action="{{ url('postupdatefoodcategory/'.$singlefoodcategory->id) }}" method="post">
-                                {{ csrf_field() }}
+                            @csrf
                                 <div class="form-group">
                                     <label>Category Name</label>
                                     <input class="form-control" type="text" name="name" value="{{ $singlefoodcategory->name }}" placeholder="Enter Category Name"

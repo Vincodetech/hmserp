@@ -27,7 +27,7 @@
                         <div class="col-lg-12 col-lg-offset-3">
                             <form role="form" action="{{ url('postfooditem') }}" method="post" 
                             enctype="multipart/form-data">
-                                {{ csrf_field() }}
+                            @csrf
                                 <script>
                                     function copyText2() {
                                         var finalval = "";

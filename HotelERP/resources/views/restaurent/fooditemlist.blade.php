@@ -29,13 +29,13 @@
                                 <td>{{ ++$count }}</td>
                                 <td>
                                     <img src="{{ asset('/storage/images/'.$data->item_image) }}"
-                                     alt="" width="50"/>
+                                     alt="Image" width="50"/>
                                 </td>
                                 <td>{{ $data->name }}</td>
-                                <td>@php
-                                      $result = DB::table('food_category')->where('id',$data->category_id)->first();
-                                       echo $result;
-                                     @endphp </td>
+                                <td><?php
+                                      $sql = DB::table('food_category')->where('id',$data->category_id)->first();
+                                      echo $sql->name;
+                                    ?> </td>
                                 <td>{{ $data->item_type }}</td>
                                 <td>{{ $data->active }}</td>
                                 <td class="text-center"><a href="{{ url('viewfooditem/'.$data->id) }}">

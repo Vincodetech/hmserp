@@ -26,7 +26,7 @@
                     <div class="row">
                         <div class="col-lg-12 col-lg-offset-3">
                             <form role="form" action="{{ url('postfoodcategory') }}" method="post">
-                                {{ csrf_field() }}
+                            @csrf
                                 <div class="form-group">
                                     <label>Category Name</label>
                                     <input class="form-control" type="text" name="name" placeholder="Enter Category Name"
