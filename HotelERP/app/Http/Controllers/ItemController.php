@@ -146,6 +146,20 @@ class ItemController extends Controller
  
         $filename = "";
 
+        if($request->hasFile('item_image'))
+        {
+            $filename = $request->item_image->getClientOriginalName();
+
+            if($request->item_image)
+            {
+                $request->item_image->storeAs('images',$filename,'public');
+            }
+            
+           // $path->save();
+           // $request->item_image->update(['item_image'=>$filename]);
+           // session()->put('message','Image Uploaded...');
+        }
+
         if($active != 1)
         {
             $active = 0;
