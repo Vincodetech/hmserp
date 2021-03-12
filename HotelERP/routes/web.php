@@ -6,6 +6,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ItemController;
 use App\Http\Controllers\Session;
+use App\Http\Controllers\ApiController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -43,5 +44,5 @@ Route::get('/updatefooditem/{id}',[ItemController::class,'updateFoodItem']);
 Route::post('/postupdatefooditem/{id}',[ItemController::class,'updatePostFoodItem']);
 Route::get('/deletefooditem/{id}',[ItemController::class,'deleteFoodItem']);
 
-
+Route::get('users',[ApiController::class,'getUsers']);
 // Route::post('/upload',[ItemController::class,'upload']);
