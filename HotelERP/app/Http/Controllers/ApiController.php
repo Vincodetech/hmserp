@@ -71,7 +71,7 @@ class ApiController extends Controller
         $uname = $request->user_name;
         $pass =  $request->password;
 
-        $results= DB::select("select id, email, user_name from users where user_name = '$uname'
+        $results= DB::select("select id, email, user_name from users where email = '$email'
         and password = '$pass'");
         
         if($results) 
