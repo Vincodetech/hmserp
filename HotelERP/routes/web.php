@@ -5,6 +5,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ItemController;
+use App\Http\Controllers\TableController;
 use App\Http\Controllers\Session;
 use App\Http\Controllers\ApiController;
 /*
@@ -46,3 +47,7 @@ Route::get('/deletefooditem/{id}',[ItemController::class,'deleteFoodItem']);
 
 Route::get('users',[ApiController::class,'getUsers']);
 // Route::post('/upload',[ItemController::class,'upload']);
+
+Route::get('/tables',[TableController::class,'tablesList']);
+Route::get('/addtables',[TableController::class,'addTables']);
+Route::post('/posttables',[TableController::class,'addPostTables']);
