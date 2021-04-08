@@ -23,6 +23,29 @@ class ApiController extends Controller
             return response()->json($results, 400);
         }
     }
+
+    public function getUser(Request $request, $id)
+    {
+        $user_name = $request->user_name;
+        $email = $request->email;
+        $phone = $request->phone;
+        $street1 = $request->street1;
+        $street2 = $request->street2;
+        $city = $request->city;
+        $state = $request->state;
+        $country = $request->country;
+        $pincode = $request->pincode;
+
+        $user= DB::select("select user_name,email,phone,street1,street2,city,state,country,pincode from users where id = '$id'");
+        if ($user) 
+        {
+            return response()->json($user, 200);
+        } 
+        else 
+        {
+            return response()->json($user, 400);
+        }
+    }
     
     public function addUsers(Request $request)
     {
@@ -99,13 +122,21 @@ class ApiController extends Controller
         $phone = $request->phone;
         $uname = $request->user_name;
         $pass =  $request->password;
+        $street1 = $request->street1;
+        $street2 = $request->street2;
+        $city = $request->city;
+        $state = $request->state;
+        $country = $request->country;
+        $pincode = $request->pincode;
         $active = $request->active;
         $joined_date = $request->joined_date;
         $user_role = $request->user_role;
 
         $results = DB::update('update users set first_name = ?, last_name = ?, email = ?,
-            phone = ?, user_name = ?, password = ?, active = ?, joined_date = ?, user_role = ?
-            where id = ?', [$fname, $lname, $email, $phone, $uname, $pass, $active,
+            phone = ?, user_name = ?, password = ?, street1 = ?, street2 = ?, city = ?, state = ?,
+            country = ?, pincode = ?, active = ?, joined_date = ?, user_role = ?
+            where id = ?', [$fname, $lname, $email, $phone, $uname, $pass, $street1, $street2,
+            $city, $state, $country, $pincode, $active,
             $joined_date, $user_role, $id]);
         
             if($results) 
