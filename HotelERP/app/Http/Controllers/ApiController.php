@@ -26,6 +26,7 @@ class ApiController extends Controller
 
     public function getUser(Request $request, $id)
     {
+        $id = $request->id;
         $user_name = $request->user_name;
         $email = $request->email;
         $phone = $request->phone;
@@ -36,7 +37,7 @@ class ApiController extends Controller
         $country = $request->country;
         $pincode = $request->pincode;
 
-        $user= DB::select("select user_name,email,phone,street1,street2,city,state,country,pincode from users where id = '$id'");
+        $user= DB::table('users')->where('id', $id)->first();
         if ($user) 
         {
             return response()->json($user, 200);
@@ -99,9 +100,14 @@ class ApiController extends Controller
         
         if($results) 
             {
-                $response['users']=$results;
-                $response['error']="200";
-  	            $response['message']="Login Successful!";
+                foreach($results as $data)
+                {
+                    $response['id']=$data->id;
+                    $response['email']=$data->email;
+                    $response['user_name']=$data->user_name;
+                    $response['error']="200";
+                    $response['message']="Login Successful!";
+                }
                 return response()->json($response);
                 
             } 
