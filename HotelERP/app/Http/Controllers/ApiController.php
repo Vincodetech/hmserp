@@ -127,7 +127,7 @@ class ApiController extends Controller
         $email = $request->email;
         $phone = $request->phone;
         $uname = $request->user_name;
-        $pass =  $request->password;
+        
         $street1 = $request->street1;
         $street2 = $request->street2;
         $city = $request->city;
@@ -139,22 +139,22 @@ class ApiController extends Controller
         $user_role = $request->user_role;
 
         $results = DB::update('update users set first_name = ?, last_name = ?, email = ?,
-            phone = ?, user_name = ?, password = ?, street1 = ?, street2 = ?, city = ?, state = ?,
+            phone = ?, user_name = ?, street1 = ?, street2 = ?, city = ?, state = ?,
             country = ?, pincode = ?, active = ?, joined_date = ?, user_role = ?
-            where id = ?', [$fname, $lname, $email, $phone, $uname, $pass, $street1, $street2,
+            where id = ?', [$fname, $lname, $email, $phone, $uname, $street1, $street2,
             $city, $state, $country, $pincode, $active,
             $joined_date, $user_role, $id]);
         
             if($results) 
             {
-                $response['users']=$results;
-                $response['error']="000";
+                
+                $response['error']="204";
   	            $response['message']="Update User Successful!";
                 return response()->json($response);
             } 
             else 
             {
-                $response['users']=(object)[];
+                
                 $response['error']="000";
   	            $response['message']="Update User Failed!";
                 return response()->json($response);
