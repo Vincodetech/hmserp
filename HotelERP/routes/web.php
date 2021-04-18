@@ -51,3 +51,10 @@ Route::get('users',[ApiController::class,'getUsers']);
 Route::get('/tables',[TableController::class,'tablesList']);
 Route::get('/addtables',[TableController::class,'addTables']);
 Route::post('/posttables',[TableController::class,'addPostTables']);
+
+Route::get('/userslist',[UserController::class,'usersList']);
+Route::get('/adduserslist',[UserController::class,'addUsersList']);
+Route::post('/postuserslist',[UserController::class,'addPostUsersList']);
+Route::get('/updateuserslist/{id}',[UserController::class,'updateUsersList']);
+Route::post('/postupdateuserslist/{id}',[UserController::class,'postUpdateUsersList']);
+Route::get('/deleteuserslist/{id}',[UserController::class,'deleteUsersList']);
