@@ -8,6 +8,7 @@ use App\Http\Controllers\ItemController;
 use App\Http\Controllers\TableController;
 use App\Http\Controllers\Session;
 use App\Http\Controllers\ApiController;
+use App\Http\Controllers\UserRoleController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -58,3 +59,10 @@ Route::post('/postuserslist',[UserController::class,'addPostUsersList']);
 Route::get('/updateuserslist/{id}',[UserController::class,'updateUsersList']);
 Route::post('/postupdateuserslist/{id}',[UserController::class,'postUpdateUsersList']);
 Route::get('/deleteuserslist/{id}',[UserController::class,'deleteUsersList']);
+
+Route::get('/userrolelist',[UserRoleController::class,'userRoleList']);
+Route::get('/adduserrolelist',[UserRoleController::class,'addUserRoleList']);
+Route::post('/postuserrolelist',[UserRoleController::class,'addPostUserRoleList']);
+Route::get('/updateuserrolelist/{id}',[UserRoleController::class,'updateUserRoleList']);
+Route::post('/postupdateuserrolelist/{id}',[UserRoleController::class,'postUpdateUserRoleList']);
+Route::get('/deleteuserrolelist/{id}',[UserRoleController::class,'deleteUserRoleList']);

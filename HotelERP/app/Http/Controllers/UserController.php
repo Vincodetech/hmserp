@@ -65,7 +65,7 @@ class UserController extends Controller
         } else {
             return redirect('/adduserslist')->with('roleErrMsg', 'User add to failed!!');
         }
-       return view('restaurent.addfoodcategory');
+       return view('users.addusers');
     }
 
     public function updateUsersList($id)
