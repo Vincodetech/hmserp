@@ -14,6 +14,7 @@
                   <thead>
                     <tr>  
                       <th>No.</th>
+                      <th>Category Image</th>
                       <th>Category Name</th>
                       <th>Category Type</th>
                       <th>Category Quantity</th>
@@ -26,6 +27,10 @@
                         @foreach($result as $data)
                             <tr>
                                 <td>{{ ++$count }}</td>
+                                <td>
+                                    <img src="{{ asset('/storage/images/'.$data->category_image) }}"
+                                     alt="Image" width="50"/>
+                                </td>
                                 <td>{{ $data->name }}</td>
                                 <td>{{ $data->category_type }}</td>
                                 <td>{{ $data->category_quantity }}</td>

@@ -31,8 +31,25 @@ class CategoryController extends Controller
     {
         $cat_name = $request->name;
         $category_type = $request->category_type;
+        $cat_image = $request->category_image;
         $category_quantity = $request->category_quantity;
         $active = $request->active;
+
+        $filename = "";
+
+        if($request->hasFile('category_image'))
+        {
+            $filename = $request->item_image->getClientOriginalName();
+
+            if($request->item_image)
+            {
+                $request->item_image->storeAs('images',$filename,'public');
+            }
+            
+           // $path->save();
+           // $request->item_image->update(['item_image'=>$filename]);
+           // session()->put('message','Image Uploaded...');
+        }
         
         if($active != 1)
         {
@@ -42,8 +59,8 @@ class CategoryController extends Controller
         {
             $active = 1;
         }
-        $results = DB::insert('insert into food_category(name,category_type,category_quantity,active) 
-        values (?,?,?,?)', [$cat_name,$category_type,$category_quantity,$active]);
+        $results = DB::insert('insert into food_category(name,category_type,category_image,category_quantity,active) 
+        values (?,?,?,?,?)', [$cat_name,$category_type,$filename,$category_quantity,$active]);
 
         if ($results != false) {
             return redirect('/addfoodcategory')->with('roleSccssMsg', 'Food Category Added Successfully.');
@@ -63,8 +80,25 @@ class CategoryController extends Controller
     {
         $cat_name = $request->name;
         $category_type = $request->category_type;
+        $cat_image = $request->category_image;
         $category_quantity = $request->category_quantity;
         $active = $request->active;
+
+        $filename = "";
+
+        if($request->hasFile('category_image'))
+        {
+            $filename = $request->item_image->getClientOriginalName();
+
+            if($request->item_image)
+            {
+                $request->item_image->storeAs('images',$filename,'public');
+            }
+            
+           // $path->save();
+           // $request->item_image->update(['item_image'=>$filename]);
+           // session()->put('message','Image Uploaded...');
+        }
         
         if($active != 1)
         {
@@ -74,8 +108,8 @@ class CategoryController extends Controller
         {
             $active = 1;
         }
-        $result = DB::update('update food_category set name = ?, category_type = ?, 
-        category_quantity = ?, active = ? where id = ?', [$cat_name, $category_type, $category_quantity, $active, $id]);
+        $result = DB::update('update food_category set name = ?, category_type = ?, category_image = ?, 
+        category_quantity = ?, active = ? where id = ?', [$cat_name, $category_type, $filename, $category_quantity, $active, $id]);
 
         if ($result != false) {
             return redirect('foodcategory')->with('updateCategoryInMsg', 'Food Category Updated Successfully');

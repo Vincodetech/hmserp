@@ -22,14 +22,20 @@
                 @endif
                 <div class="panel-body">
                     <div class="row">
-                        <div class="col-lg-6 col-lg-offset-3">
-                            <form role="form" action="{{ url('postupdatefoodcategory/'.$singlefoodcategory->id) }}" method="post">
+                        <div class="col-lg-12 col-lg-offset-3">
+                            <form role="form" action="{{ url('postupdatefoodcategory/'.$singlefoodcategory->id) }}" method="post"
+                            enctype="multipart/form-data">
                             @csrf
                                 <div class="form-group">
                                     <label>Category Name</label>
                                     <input class="form-control" type="text" name="name" value="{{ $singlefoodcategory->name }}" placeholder="Enter Category Name"
                                            autofocus
                                            required>
+                                </div>
+                                <div class="form-group">
+                                    <label>Category Image</label>
+                                    <input type="file" name="category_image" 
+                                    value="{{ $singlefoodcategory->category_image }}">
                                 </div>
                                 <div class="form-group">
                                     <label>Category Type</label>
