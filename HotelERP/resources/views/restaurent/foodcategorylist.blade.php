@@ -35,7 +35,9 @@
                                 <td>{{ $data->category_type }}</td>
                                 <td>{{ $data->category_quantity }}</td>
                                 <td>{{ $data->active }}</td>
-                                <td class="text-center"><a href="{{ url('updatefoodcategory/'.$data->id) }}">
+                                <td class="text-center"><a href="{{ url('viewfoodcategory/'.$data->id) }}">
+                                 <i class="fa fa-eye" aria-hidden="true"></i></a>
+                                <a href="{{ url('updatefoodcategory/'.$data->id) }}">
                                  <i class="fa fa-edit" aria-hidden="true"></i></a> 
                                  <a href="{{ url('deletefoodcategory/'.$data->id) }}" 
                                   onclick="if (!confirm('Are you sure to delete this item?'))

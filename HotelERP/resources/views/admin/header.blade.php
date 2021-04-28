@@ -193,7 +193,8 @@
               $message = Session::get('admin_name');
               echo $message;
               ?></span>
-          <img class="img-profile rounded-circle" src="https://icons.iconarchive.com/icons/diversity-avatars/avatars/1024/barack-obama-icon.png">
+          <img class="img-profile rounded-circle" src="{{ asset('/images/programmer.png') }}" 
+            alt="Image" width="50"/>
         </a>
         <!-- Dropdown - User Information -->
         <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
