@@ -9,6 +9,8 @@ use App\Http\Controllers\TableController;
 use App\Http\Controllers\Session;
 use App\Http\Controllers\ApiController;
 use App\Http\Controllers\UserRoleController;
+use App\Http\Controllers\OrderController;
+use App\Http\Controllers\SettingsController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -66,3 +68,13 @@ Route::post('/postuserrolelist',[UserRoleController::class,'addPostUserRoleList'
 Route::get('/updateuserrolelist/{id}',[UserRoleController::class,'updateUserRoleList']);
 Route::post('/postupdateuserrolelist/{id}',[UserRoleController::class,'postUpdateUserRoleList']);
 Route::get('/deleteuserrolelist/{id}',[UserRoleController::class,'deleteUserRoleList']);
+
+Route::get('/orderlist',[OrderController::class,'orderList']);
+
+Route::get('/sliderlist',[UserController::class,'sliderList']);
+Route::get('/addslider',[UserController::class,'addSlider']);
+Route::post('/postslider',[UserController::class,'addPostSlider']);
+Route::get('/updateslider/{id}',[UserController::class,'updateSlider']);
+Route::post('/postupdateslider/{id}',[UserController::class,'postUpdateSlider']);
+Route::get('/deleteslider/{id}',[UserController::class,'deleteSlider']);
+

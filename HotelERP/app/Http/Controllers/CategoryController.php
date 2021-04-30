@@ -39,11 +39,11 @@ class CategoryController extends Controller
 
         if($request->hasFile('category_image'))
         {
-            $filename = $request->item_image->getClientOriginalName();
+            $filename = $request->category_image->getClientOriginalName();
 
-            if($request->item_image)
+            if($request->category_image)
             {
-                $request->item_image->storeAs('images',$filename,'public');
+                $request->category_image->storeAs('images',$filename,'public');
             }
             
            // $path->save();

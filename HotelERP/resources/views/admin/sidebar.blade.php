@@ -93,7 +93,7 @@
 
       <!-- Nav Item - Tables -->
       <li class="nav-item">
-        <a class="nav-link" href="tables.html">
+        <a class="nav-link" href="{{ url('orderlist') }}">
           <i class="fa fa-shopping-basket"></i>
           <span>Orders</span></a>
       </li>
