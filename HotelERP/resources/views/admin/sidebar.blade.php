@@ -107,7 +107,7 @@
           <div class="bg-white py-2 collapse-inner rounded">
             <a class="collapse-item" href="login.html">Manage Notifications</a>
             <a class="collapse-item" href="register.html">Payment Methods</a>
-            <a class="collapse-item" href="register.html">App Settings</a>
+            <a class="collapse-item" href="{{ url('sliderlist') }}">App Settings</a>
           </div>
         </div>
       </li>

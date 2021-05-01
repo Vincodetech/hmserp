@@ -43,7 +43,7 @@ class CategoryController extends Controller
 
             if($request->category_image)
             {
-                $request->category_image->storeAs('images',$filename,'public');
+                $request->category_image->storeAs('images1',$filename,'public');
             }
             
            // $path->save();
@@ -92,7 +92,7 @@ class CategoryController extends Controller
 
             if($request->item_image)
             {
-                $request->item_image->storeAs('images',$filename,'public');
+                $request->item_image->storeAs('images1',$filename,'public');
             }
             
            // $path->save();

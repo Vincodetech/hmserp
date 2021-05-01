@@ -71,10 +71,10 @@ Route::get('/deleteuserrolelist/{id}',[UserRoleController::class,'deleteUserRole
 
 Route::get('/orderlist',[OrderController::class,'orderList']);
 
-Route::get('/sliderlist',[UserController::class,'sliderList']);
-Route::get('/addslider',[UserController::class,'addSlider']);
-Route::post('/postslider',[UserController::class,'addPostSlider']);
-Route::get('/updateslider/{id}',[UserController::class,'updateSlider']);
-Route::post('/postupdateslider/{id}',[UserController::class,'postUpdateSlider']);
-Route::get('/deleteslider/{id}',[UserController::class,'deleteSlider']);
+Route::get('/sliderlist',[SettingsController::class,'sliderList']);
+Route::get('/addslider',[SettingsController::class,'addSlider']);
+Route::post('/postslider',[SettingsController::class,'addPostSlider']);
+Route::get('/updateslider/{id}',[SettingsController::class,'updateSlider']);
+Route::post('/postupdateslider/{id}',[SettingsController::class,'postUpdateSlider']);
+Route::get('/deleteslider/{id}',[SettingsController::class,'deleteSlider']);
 

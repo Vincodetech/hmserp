@@ -28,7 +28,7 @@
                             <tr>
                                 <td>{{ ++$count }}</td>
                                 <td>
-                                    <img src="{{ asset('/storage/images/'.$data->category_image) }}"
+                                    <img src="{{ asset('/storage/images1/'.$data->category_image) }}"
                                      alt="Image" width="50"/>
                                 </td>
                                 <td>{{ $data->name }}</td>

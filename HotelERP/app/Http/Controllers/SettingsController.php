@@ -33,7 +33,7 @@ class SettingsController extends Controller
 
             if($request->slider_image)
             {
-                $request->slider_image->storeAs('images',$filename,'public');
+                $request->slider_image->storeAs('images2',$filename,'public');
             }
             
            // $path->save();
@@ -64,7 +64,7 @@ class SettingsController extends Controller
     public function updateSlider($id)
     {
         $singleimage = DB::table('sliders')->where('id', $id)->first();
-        return view('settings.slider.updateslider');
+        return view('settings.slider.updateslider',['singleimage' => $singleimage]);
     }   
     
     public function postUpdateSlider(Request $request, $id)
@@ -80,7 +80,7 @@ class SettingsController extends Controller
 
             if($request->slider_image)
             {
-                $request->slider_image->storeAs('images',$filename,'public');
+                $request->slider_image->storeAs('images2',$filename,'public');
             }
             
            // $path->save();
@@ -99,9 +99,9 @@ class SettingsController extends Controller
         $result = DB::update('update sliders set slider_image = ?, active = ? where id = ?', [$filename, $active, $id]);
 
         if ($result != false) {
-            return redirect('settings.slider.sliderlist')->with('updateCategoryInMsg', 'Slider Image Updated Successfully');
+            return redirect('/sliderlist')->with('updateCategoryInMsg', 'Slider Image Updated Successfully');
         } else {
-            return redirect('settings.slider.updateslider/'. $id)->with('errUpdateCategoryInMsg', 'Slider Image not Updated');
+            return redirect('updateslider/'. $id)->with('errUpdateCategoryInMsg', 'Slider Image not Updated');
         }
     }
 
@@ -110,9 +110,9 @@ class SettingsController extends Controller
         $data = DB::delete('delete from sliders where id = ?', [$id]);
 
         if ($data != false) {
-            return redirect('/settings.slider.sliderlist')->with('deleteCategoryInMsg', 'Slider Image Deleted Successfully');
+            return redirect('/sliderlist')->with('deleteCategoryInMsg', 'Slider Image Deleted Successfully');
         } else {
-            return redirect('/settings.slider.sliderlist')->with('errDeleteCategoryInMsg', 'Slider Image not Deleted');
+            return redirect('/sliderlist')->with('errDeleteCategoryInMsg', 'Slider Image not Deleted');
         }
 
     }
