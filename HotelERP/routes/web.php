@@ -11,6 +11,7 @@ use App\Http\Controllers\ApiController;
 use App\Http\Controllers\UserRoleController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\SettingsController;
+use App\Http\Controllers\MyController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -78,3 +79,5 @@ Route::get('/updateslider/{id}',[SettingsController::class,'updateSlider']);
 Route::post('/postupdateslider/{id}',[SettingsController::class,'postUpdateSlider']);
 Route::get('/deleteslider/{id}',[SettingsController::class,'deleteSlider']);
 
+
+Route::get('export', [MyController::class, 'export']);

@@ -6,7 +6,26 @@
      </div>   
         <div class="card shadow mb-4">
             <div class="card-header py-3">
-              <h6 class="m-0 font-weight-bold text-primary">Food Item List</h6>
+              <h6 class="m-0 font-weight-bold text-primary">Food Item List</h6> 
+                <div class="col-lg-12 col-lg-offset-3">
+                  <label>Filter:</label> &nbsp;
+                  <input id ="search" type="text" name="search"
+                                     placeholder="Search Here..."> &nbsp;
+                  <label>Food Category:</label>   &nbsp;                
+                  <select name="dropdown">  &nbsp;
+                    <option value="">Select</option>
+                    @foreach($allcategory as $data)
+                    <option value="{{ $data->id }}">{{ $data->name }}</option>
+                    @endforeach 
+                  </select> &nbsp;
+                  <label>Item Type:</label> &nbsp;
+                  <select name="dropdown1"> &nbsp;
+                    <option value="">Select</option>
+                    <option value="restaurant">Restaurant</option>
+                    <option value="cafe">Cafe</option> 
+                  </select>  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                  <a class="btn btn-success" href="{{ url('export') }}">Export</a>                 
+                </div>                           
             </div>
             <div class="card-body">
               <div class="table-responsive">

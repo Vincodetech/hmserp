@@ -30,7 +30,8 @@ class ItemController extends Controller
     public function foodItemList()
     {
         $result = DB::table('food_item')->paginate(5);
-        return view('restaurent.fooditemlist',['result' => $result]);
+        $allcategory = DB::select('select * from food_category');
+        return view('restaurent.fooditemlist',['result' => $result, 'allcategory' => $allcategory]);
     }
    
 
