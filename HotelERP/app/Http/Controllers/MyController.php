@@ -14,7 +14,8 @@ class MyController extends Controller
     
     public function export() 
     {
-        return Excel::download(new UsersExport, 'food_item.xlsx');
+        $fname = "food_item-".date('Y-m-d').".xlsx";
+        return Excel::download(new UsersExport, $fname);
     }
      
     

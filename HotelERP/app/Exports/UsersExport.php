@@ -13,7 +13,7 @@ class UsersExport implements FromCollection
     */
     public function collection()
     {
-        return DB::table('food_item')->paginate(5);
+        return DB::table('food_item')->select("*")->get();
        
     
     }
