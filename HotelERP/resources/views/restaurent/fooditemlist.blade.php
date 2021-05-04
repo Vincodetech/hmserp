@@ -12,14 +12,14 @@
                   <input id ="search" type="text" name="search"
                                      placeholder="Search Here..."> &nbsp;
                   <label>Food Category:</label>   &nbsp;                
-                  <select name="dropdown">  &nbsp;
+                  <select name="dropdown" id="food_category">  &nbsp;
                     <option value="">Select</option>
                     @foreach($allcategory as $data)
                     <option value="{{ $data->id }}">{{ $data->name }}</option>
                     @endforeach 
                   </select> &nbsp;
                   <label>Item Type:</label> &nbsp;
-                  <select name="dropdown1"> &nbsp;
+                  <select name="dropdown1" id="item_type"> &nbsp;
                     <option value="">Select</option>
                     <option value="restaurant">Restaurant</option>
                     <option value="cafe">Cafe</option> 

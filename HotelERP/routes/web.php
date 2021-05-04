@@ -12,6 +12,7 @@ use App\Http\Controllers\UserRoleController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\MyController;
+use App\http\Controllers\ItemDataTableController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -81,3 +82,5 @@ Route::get('/deleteslider/{id}',[SettingsController::class,'deleteSlider']);
 
 
 Route::get('export', [MyController::class, 'export']);
+
+

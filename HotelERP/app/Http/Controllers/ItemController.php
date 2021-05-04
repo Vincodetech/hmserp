@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Http\Controllers\Storage;
 use File;
+use DataTables;
+use Illuminate\Support\Str;
 
 class ItemController extends Controller
 {
@@ -27,11 +29,15 @@ class ItemController extends Controller
     // }
     
 
-    public function foodItemList()
+    public function foodItemList(Requsest $request)
     {
-        $result = DB::table('food_item')->paginate(5);
-        $allcategory = DB::select('select * from food_category');
-        return view('restaurent.fooditemlist',['result' => $result, 'allcategory' => $allcategory]);
+        $item_name = DB::table('food_item')
+                        ->select('name')
+                        ->groupBy('name')
+                        ->orderBy('name', 'ASC')
+                        ->get();
+        $allcategory = DB::select('select * from food_category');                
+        return view('restaurent.fooditemlist', compact('item_name'),['allcategory' => $allcategory]);
     }
    
 
@@ -192,4 +198,7 @@ class ItemController extends Controller
         }
 
     }
+
+   
+        
 }
