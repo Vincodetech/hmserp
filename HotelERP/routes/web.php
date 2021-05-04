@@ -43,7 +43,7 @@ Route::post('/postupdatefoodcategory/{id}',[CategoryController::class,'updatePos
 Route::get('/deletefoodcategory/{id}',[CategoryController::class,'deleteFoodCategory']);
 
 
-Route::get('/fooditem',[ItemController::class,'foodItemList']);
+Route::get('/fooditem',[ItemController::class,'foodItemList'])->name('food.item');
 Route::get('/addfooditem',[ItemController::class,'addFoodItem']);
 Route::post('/postfooditem',[ItemController::class,'addPostFoodItem']);
 Route::get('/updatefooditem/{id}',[ItemController::class,'updateFoodItem']);

@@ -12,80 +12,107 @@
                   <input id ="search" type="text" name="search"
                                      placeholder="Search Here..."> &nbsp;
                   <label>Food Category:</label>   &nbsp;                
-                  <select name="dropdown" id="food_category">  &nbsp;
+                  <select name="dropdown" id="filter_food_category">  &nbsp;
                     <option value="">Select</option>
                     @foreach($allcategory as $data)
                     <option value="{{ $data->id }}">{{ $data->name }}</option>
                     @endforeach 
                   </select> &nbsp;
                   <label>Item Type:</label> &nbsp;
-                  <select name="dropdown1" id="item_type"> &nbsp;
+                  <select name="dropdown1" id="filter_item_type"> &nbsp;
                     <option value="">Select</option>
                     <option value="restaurant">Restaurant</option>
                     <option value="cafe">Cafe</option> 
-                  </select>  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;
+                  </select> 
+                  <button type="button" name="filter" id="filter" class="btn btn-info">Filter</button>
+                  <button type="button" name="reset" id="reset" class="btn btn-default">Reset</button>
                   <a class="btn btn-success" href="{{ url('export') }}">Export</a>                 
                 </div>                           
             </div>
             <div class="card-body">
               <div class="table-responsive">
-                <table class="table table-striped table-bordered table-hover" id="dataTables-example" width="100%" cellspacing="0">
+                <table class="table table-striped table-bordered table-hover" id="fooditem_data" width="100%" cellspacing="0">
                   <thead>
                     <tr>
-                      <th>No.</th>
                       <th>Item Image</th>
                       <th>Item Name</th>
                       <th>Category</th>
                       <th>Item Type</th>
                       <th>Active</th>
-                      <th>Action</th>
                     </tr>
                   </thead>
                   <tbody>
-                        <?php $count = ($result->currentpage()-1) * $result->perpage(); ?>
-                        @foreach($result as $data)
-                            <tr>
-                                <td>{{ ++$count }}</td>
-                                <td>
-                                    <img src="{{ asset('/storage/images/'.$data->item_image) }}"
-                                     alt="Image" width="50"/>
-                                </td>
-                                <td>{{ $data->name }}</td>
-                                <td><?php
-                                      $sql = DB::table('food_category')->where('id',$data->category_id)->first();
-                                      echo $sql->name;
-                                    ?> </td>
-                                <td>{{ $data->item_type }}</td>
-                                <td>{{ $data->active }}</td>
-                                <td class="text-center"><a href="{{ url('viewfooditem/'.$data->id) }}">
+                                <!-- <td class="text-center"><a href="{{ url('viewfooditem/'.$data->id) }}">
                                  <i class="fa fa-eye" aria-hidden="true"></i></a> 
                                  <a href="{{ url('updatefooditem/'.$data->id) }}">
                                  <i class="fa fa-edit" aria-hidden="true"></i></a>
                                  <a href="{{ url('deletefooditem/'.$data->id) }}" 
                                   onclick="if (!confirm('Are you sure to delete this item?'))
-                                  { return false }"><i class="fa fa-trash" aria-hidden="true"></i></a> </td>
+                                  { return false }"><i class="fa fa-trash" aria-hidden="true"></i></a> </td> -->
                                 
                             </tr>
-                        @endforeach
+                        
                         </tbody>
                  </table>
-            </div>     
-            <div class="card-footer" style="overflow">
-              {{ $result->links() }}
-            </div>     
-<!-- <nav aria-label="...">
-  <ul class="pagination">
-    <li class="page-item disabled">
-      <a class="page-link" href="" tabindex="-1">Previous</a>
-    </li>
-    <li class="page-item active"><a class="page-link" href="">1 <span class="sr-only">(current)</span></a></li>
-    <li class="page-item">
-      <a class="page-link" href="">2 </a>
-    </li>
-    <li class="page-item"><a class="page-link" href="">3</a></li>
-    <li class="page-item">
-      <a class="page-link" href="">Next</a>
-    </li>
-  </ul>
-</nav> -->
+            </div>
+                
+      <script type="text/javascript">
+        $(document).ready(function(){
+
+          fill_datatable();
+            function fill_datatable(filter_food_category = '', filter_item_type = '')
+            {
+              var dataTable = $('#fooditem_data').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax:{
+                  url:"{{ route('food.item') }}",
+                  data:{filter_food_category:filter_food_category, filter_item_type:filter_item_type}
+                  },
+                  columns: [
+                    {
+                      data:'Item Image',
+                      name:'item_image'
+                    },
+                    {
+                      data:'Item Name',
+                      name:'name'
+                    },
+                    {
+                      data:'Category',
+                      name:'category_id'
+                    },
+                    {
+                      data:'Item Type',
+                      name:'item_type'
+                    },
+                    {
+                      data:'Active',
+                      name:'active'
+                    }
+                  ]
+              });
+            }
+            $('#filter').click(function(){
+              var filter_food_category = $('#filter_food_category').val();
+              var filter_item_type = $('#filter_item_type').val();
+
+              if(filter_food_category != '' && filter_item_type != '')
+              {
+                  $('#fooditem_data').DataTable().destroy();
+                  fill_datatable(filter_food_category, filter_item_type);
+              }
+              else
+              {
+                  alert('Select Both Filter Option');
+              }
+            });
+            $('#reset').click(function(){
+              $('#filter_food_category').val('');
+              $('#filter_item_type').val('');
+              $('#fooditem_data').DataTable().destroy();
+              fill_datatable();
+            });
+        });
+      </script>      
 @include('admin.footer')

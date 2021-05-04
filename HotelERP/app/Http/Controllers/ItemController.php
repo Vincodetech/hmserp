@@ -29,15 +29,33 @@ class ItemController extends Controller
     // }
     
 
-    public function foodItemList(Requsest $request)
+    public function foodItemList(Request $request)
     {
+        if(request()->ajax())
+        {
+            if(!empty($request->filter_food_category))
+            {
+                $data = DB::table('food_item')
+                        ->select('item_image', 'name', 'category_id', 'item_type', 'active')
+                        ->where('category_id', $request->filter_food_category)
+                        ->where('item_type', $request->filter_item_type)
+                        ->get();
+            }
+            else
+            {
+                $data = DB::table('food_item')
+                        ->select('item_image', 'name', 'category_id', 'item_type', 'active')
+                        ->get();
+            }
+            return datatables()->of($data)->make(true);
+        }
         $item_name = DB::table('food_item')
                         ->select('name')
                         ->groupBy('name')
                         ->orderBy('name', 'ASC')
                         ->get();
         $allcategory = DB::select('select * from food_category');                
-        return view('restaurent.fooditemlist', compact('item_name'),['allcategory' => $allcategory]);
+        return view('restaurent.fooditemlist', compact('item_name'), ['allcategory' => $allcategory]);
     }
    
 
