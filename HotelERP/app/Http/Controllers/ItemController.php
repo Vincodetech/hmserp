@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Http\Controllers\Storage;
 use File;
-use DataTables;
+use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Support\Str;
 
 class ItemController extends Controller
@@ -36,7 +36,7 @@ class ItemController extends Controller
             if(!empty($request->filter_food_category))
             {
                 $data = DB::table('food_item')
-                        ->select('item_image', 'name', 'category_id', 'item_type', 'active')
+                        ->select('id','item_image', 'name', 'category_id', 'item_type', 'active')
                         ->where('category_id', $request->filter_food_category)
                         ->where('item_type', $request->filter_item_type)
                         ->get();
@@ -44,18 +44,29 @@ class ItemController extends Controller
             else
             {
                 $data = DB::table('food_item')
-                        ->select('item_image', 'name', 'category_id', 'item_type', 'active')
+                        ->select('id','item_image', 'name', 'category_id', 'item_type', 'active')
                         ->get();
             }
-            return datatables()->of($data)->make(true);
+            return datatables()->of($data)
+            ->addIndexColumn()
+            ->addColumn('Action', function($row){
+     
+                           $btn = '<a href="javascript:void(0)" class="edit btn btn-primary btn-sm">Edit</a>
+                           <a href="javascript:void(0)" class="delete btn btn-danger btn-sm">Delete</a>';
+                           
+                            return $btn;
+                           
+                    })
+            ->rawColumns(['Action'])->make(true);
         }
         $item_name = DB::table('food_item')
                         ->select('name')
                         ->groupBy('name')
                         ->orderBy('name', 'ASC')
                         ->get();
+        $result = DB::table('food_item')->select("*")->get();                
         $allcategory = DB::select('select * from food_category');                
-        return view('restaurent.fooditemlist', compact('item_name'), ['allcategory' => $allcategory]);
+        return view('restaurent.fooditemlist', compact('item_name'), ['allcategory' => $allcategory], ['result' => $result]);
     }
    
 

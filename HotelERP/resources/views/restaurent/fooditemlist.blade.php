@@ -8,9 +8,7 @@
             <div class="card-header py-3">
               <h6 class="m-0 font-weight-bold text-primary">Food Item List</h6> 
                 <div class="col-lg-12 col-lg-offset-3">
-                  <label>Filter:</label> &nbsp;
-                  <input id ="search" type="text" name="search"
-                                     placeholder="Search Here..."> &nbsp;
+                 
                   <label>Food Category:</label>   &nbsp;                
                   <select name="dropdown" id="filter_food_category">  &nbsp;
                     <option value="">Select</option>
@@ -23,10 +21,10 @@
                     <option value="">Select</option>
                     <option value="restaurant">Restaurant</option>
                     <option value="cafe">Cafe</option> 
-                  </select> 
-                  <button type="button" name="filter" id="filter" class="btn btn-info">Filter</button>
-                  <button type="button" name="reset" id="reset" class="btn btn-default">Reset</button>
-                  <a class="btn btn-success" href="{{ url('export') }}">Export</a>                 
+                  </select> &nbsp; &nbsp; &nbsp;
+                  <button type="button" name="filter" id="filter" class="btn btn-info">Filter</button> &nbsp; &nbsp; &nbsp;
+                  <button type="button" name="reset" id="reset" class="btn btn-danger">Reset</button>
+                  <a class="btn btn-success" href="{{ url('export') }}" style="float: right;">Export</a>                 
                 </div>                           
             </div>
             <div class="card-body">
@@ -34,14 +32,17 @@
                 <table class="table table-striped table-bordered table-hover" id="fooditem_data" width="100%" cellspacing="0">
                   <thead>
                     <tr>
+                      <th>No.</th>
                       <th>Item Image</th>
                       <th>Item Name</th>
                       <th>Category</th>
                       <th>Item Type</th>
                       <th>Active</th>
+                      <th>Action</th>
                     </tr>
                   </thead>
                   <tbody>
+                      
                                 <!-- <td class="text-center"><a href="{{ url('viewfooditem/'.$data->id) }}">
                                  <i class="fa fa-eye" aria-hidden="true"></i></a> 
                                  <a href="{{ url('updatefooditem/'.$data->id) }}">
@@ -50,7 +51,7 @@
                                   onclick="if (!confirm('Are you sure to delete this item?'))
                                   { return false }"><i class="fa fa-trash" aria-hidden="true"></i></a> </td> -->
                                 
-                            </tr>
+                            </tr> 
                         
                         </tbody>
                  </table>
@@ -66,29 +67,37 @@
                 processing: true,
                 serverSide: true,
                 ajax:{
-                  url:"{{ route('food.item') }}",
+                  url: "{{ url('fooditem') }}",
                   data:{filter_food_category:filter_food_category, filter_item_type:filter_item_type}
                   },
                   columns: [
                     {
-                      data:'Item Image',
+                      data:'id',
+                      name:'id'
+                    },
+                    {
+                      data:'item_image',
                       name:'item_image'
                     },
                     {
-                      data:'Item Name',
+                      data:'name',
                       name:'name'
                     },
                     {
-                      data:'Category',
+                      data:'category_id',
                       name:'category_id'
                     },
                     {
-                      data:'Item Type',
+                      data:'item_type',
                       name:'item_type'
                     },
                     {
-                      data:'Active',
+                      data:'active',
                       name:'active'
+                    },
+                    {
+                      data:'Action',
+                      name:'Action'
                     }
                   ]
               });
@@ -104,7 +113,7 @@
               }
               else
               {
-                  alert('Select Both Filter Option');
+                  alert('Please Select Both Filter Option');
               }
             });
             $('#reset').click(function(){
