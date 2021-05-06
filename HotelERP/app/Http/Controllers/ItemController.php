@@ -65,7 +65,7 @@ class ItemController extends Controller
                 }
                 else
                 {
-                    $btn1 = '<span class="badge badge-danger">Not Active</span>';
+                    $btn1 = '<span class="badge badge-danger">DeActive</span>';
                 }
                  return $btn1;
                 
