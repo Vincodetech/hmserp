@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Session;
+use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Support\Str;
+
 class UserController extends Controller
 {
     public function isAuthenticate(Request $request)
@@ -31,8 +34,49 @@ class UserController extends Controller
 
     public function usersList()
     {
-        $result = DB::table('users')->paginate(5);
-        return view('users.userslist',['result' => $result]);
+        if(request()->ajax())
+        {
+                $data = DB::table('users')
+                        ->select('id','user_name', 'email', 'phone', 'user_role', 'active')
+                        ->get();
+            
+            return datatables()->of($data)
+            ->addIndexColumn()
+            ->addColumn('user_role', function ($data) { 
+                $sql = DB::table('users_roles')->where('id',$data->user_role)->first();
+                echo $sql->role;
+
+            })
+            ->addColumn('active', function($row){
+                if($row == true)
+                {
+                    $btn1 = '<span class="badge badge-success">Active</span>';
+                }
+                else
+                {
+                    $btn1 = '<span class="badge badge-danger">DeActive</span>';
+                }
+                 return $btn1;
+                
+         })
+            ->addColumn('Action', function($data){
+     
+                           $btn = '<a href="'.url('updateuserslist/'.$data->id).'" class="edit btn btn-primary btn-sm">Edit</a>
+                           <a href="'.url('deleteuserslist/'.$data->id).'" class="delete btn btn-danger btn-sm">Delete</a>';
+                           
+                            return $btn;
+                           
+                    })
+            ->rawColumns(['user_role','active','Action'])->make(true);
+        }
+        $item_name = DB::table('users')
+                        ->select('user_name')
+                        ->groupBy('user_name')
+                        ->orderBy('user_name', 'ASC')
+                        ->get();
+        $result = DB::table('users')->select("*")->get();                
+        return view('users.userslist', compact('item_name'), ['result' => $result]);
+
     }
 
     public function addUsersList()
@@ -100,6 +144,7 @@ class UserController extends Controller
         } else {
             return redirect('updateuserslist/'. $id)->with('errUpdateCategoryInMsg', 'User not Updated');
         }
+        return view('users.updateusers');
     }
 
     public function deleteUsersList($id)
@@ -111,6 +156,6 @@ class UserController extends Controller
         } else {
             return redirect('/userslist')->with('errDeleteCategoryInMsg', 'User not Deleted');
         }
-
+        return view('users.userslist');
     }
 }

@@ -5,21 +5,55 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Session;
 use Illuminate\Http\Request;
 use App\Models\User;
+use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Support\Str;
 
 class CategoryController extends Controller
 {
     
-    // public function index()
-    // {
-    //     return view('restaurent.foodcategorylist', [
-    //         'food_category' => DB::table('food_category')->paginate(5)
-    //     ]);
-    // }
-
     public function foodCategoryList()
     {
-        $result = DB::table('food_category')->paginate(5);
-        return view('restaurent.foodcategorylist',['result' => $result]);
+        if(request()->ajax())
+        {
+                $data = DB::table('food_category')
+                        ->select('id','category_image', 'name', 'category_type', 'category_quantity', 'active')
+                        ->get();
+            
+            return datatables()->of($data)
+            ->addIndexColumn()
+            ->addColumn('category_image', function ($data) { 
+                $url= asset('/storage/images1/'.$data->category_image);
+                return '<img src="'.$url.'" border="0" width="50" class="img-rounded" align="center" />';
+            })
+            ->addColumn('active', function($row){
+                if($row == true)
+                {
+                    $btn1 = '<span class="badge badge-success">Active</span>';
+                }
+                else
+                {
+                    $btn1 = '<span class="badge badge-danger">DeActive</span>';
+                }
+                 return $btn1;
+                
+         })
+            ->addColumn('Action', function($data){
+     
+                           $btn = '<a href="'.url('updatefoodcategory/'.$data->id).'" class="edit btn btn-primary btn-sm">Edit</a>
+                           <a href="'.url('deletefoodcategory/'.$data->id).'" class="delete btn btn-danger btn-sm">Delete</a>';
+                           
+                            return $btn;
+                           
+                    })
+            ->rawColumns(['category_image','active','Action'])->make(true);
+        }
+        $category_name = DB::table('food_category')
+                        ->select('name')
+                        ->groupBy('name')
+                        ->orderBy('name', 'ASC')
+                        ->get();
+        $result = DB::table('food_category')->select("*")->get();                
+        return view('restaurent.foodcategorylist', compact('category_name'), ['result' => $result]);
     }
 
     public function addFoodCategory()
@@ -116,6 +150,7 @@ class CategoryController extends Controller
         } else {
             return redirect('updatefoodcategory/'. $id)->with('errUpdateCategoryInMsg', 'Food Category not Updated');
         }
+        return view('restaurent.updatefoodcategory');
     }
 
     public function deleteFoodCategory($id)
@@ -127,6 +162,6 @@ class CategoryController extends Controller
         } else {
             return redirect('/foodcategory')->with('errDeleteCategoryInMsg', 'Food Category not Deleted');
         }
-
+        return view('restaurent.foodcategorylist');
     }
 }

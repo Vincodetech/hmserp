@@ -42,19 +42,8 @@
                     </tr>
                   </thead>
                   <tbody>
-                      
-                                <!-- <td class="text-center"><a href="{{ url('viewfooditem/'.$data->id) }}">
-                                 <i class="fa fa-eye" aria-hidden="true"></i></a> 
-                                 <a href="{{ url('updatefooditem/'.$data->id) }}">
-                                 <i class="fa fa-edit" aria-hidden="true"></i></a>
-                                 <a href="{{ url('deletefooditem/'.$data->id) }}" 
-                                  onclick="if (!confirm('Are you sure to delete this item?'))
-                                  { return false }"><i class="fa fa-trash" aria-hidden="true"></i></a> </td> -->
-                                
-                            </tr> 
-                        
-                        </tbody>
-                 </table>
+                  </tbody>
+                </table>
             </div>
                 
       <script type="text/javascript">
