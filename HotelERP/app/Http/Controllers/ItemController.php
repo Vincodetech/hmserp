@@ -49,15 +49,36 @@ class ItemController extends Controller
             }
             return datatables()->of($data)
             ->addIndexColumn()
-            ->addColumn('Action', function($row){
+            ->addColumn('item_image', function ($data) { 
+                $url= asset('/storage/images/'.$data->item_image);
+                return '<img src="'.$url.'" border="0" width="50" class="img-rounded" align="center" />';
+            })
+            ->addColumn('category_id', function ($data) { 
+            
+                    $sql = DB::table('food_category')->where('id',$data->category_id)->first();
+                    return $sql->name;
+            })
+            ->addColumn('active', function($row){
+                if($row == true)
+                {
+                    $btn1 = '<span class="badge badge-success">Active</span>';
+                }
+                else
+                {
+                    $btn1 = '<span class="badge badge-danger">Not Active</span>';
+                }
+                 return $btn1;
+                
+         })
+            ->addColumn('Action', function($data){
      
-                           $btn = '<a href="javascript:void(0)" class="edit btn btn-primary btn-sm">Edit</a>
-                           <a href="javascript:void(0)" class="delete btn btn-danger btn-sm">Delete</a>';
+                           $btn = '<a href="'.url('updatefooditem/'.$data->id).'" class="edit btn btn-primary btn-sm">Edit</a>
+                           <a href="'.url('deletefooditem/'.$data->id).'" class="delete btn btn-danger btn-sm">Delete</a>';
                            
                             return $btn;
                            
                     })
-            ->rawColumns(['Action'])->make(true);
+            ->rawColumns(['item_image','category_id','active','Action'])->make(true);
         }
         $item_name = DB::table('food_item')
                         ->select('name')
@@ -214,6 +235,7 @@ class ItemController extends Controller
         } else {
             return redirect('updatefooditem/'. $id)->with('errUpdateItemInMsg', 'Food Item not Updated');
         }
+        return view('restaurent.updatefooditem');
     }
 
     public function deleteFoodItem($id)
@@ -225,7 +247,7 @@ class ItemController extends Controller
         } else {
             return redirect('/fooditem')->with('errDeleteItemInMsg', 'Food Item not Deleted');
         }
-
+        return view('restaurent.fooditemlist');
     }
 
    

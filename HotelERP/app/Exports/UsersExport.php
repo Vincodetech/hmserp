@@ -20,7 +20,7 @@ class UsersExport implements FromCollection, WithHeadings
 
     public function headings(): array
     {
-        return ["ID", "Item Name", "Slug", "Category ID", "Item Image", "Unit", "price",
+        return ["ID", "Item Name", "Slug", "Category ID", "Item Image", "Unit", "Price",
                     "Description", "Quantity", "Item Type", "Active"];
     }
 }
