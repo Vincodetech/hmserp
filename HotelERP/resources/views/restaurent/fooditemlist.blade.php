@@ -37,7 +37,7 @@
                       <th>Item Name</th>
                       <th>Category</th>
                       <th>Item Type</th>
-                      <th>Active</th>
+                      <th>Status</th>
                       <th>Action</th>
                     </tr>
                   </thead>
