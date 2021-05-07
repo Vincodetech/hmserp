@@ -36,16 +36,14 @@ class UserController extends Controller
     {
         if(request()->ajax())
         {
-                $data = DB::table('users')
-                        ->select('id','user_name', 'email', 'phone', 'user_role', 'active')
-                        ->get();
-            
+            $data = DB::table('users')
+                    ->select('id','user_name', 'email', 'phone', 'user_role', 'active')
+                    ->get();
             return datatables()->of($data)
             ->addIndexColumn()
             ->addColumn('user_role', function ($data) { 
                 $sql = DB::table('users_roles')->where('id',$data->user_role)->first();
-                echo $sql->role;
-
+                return $sql->role;
             })
             ->addColumn('active', function($row){
                 if($row == true)
@@ -57,9 +55,8 @@ class UserController extends Controller
                     $btn1 = '<span class="badge badge-danger">DeActive</span>';
                 }
                  return $btn1;
-                
-         })
-            ->addColumn('Action', function($data){
+            })
+        ->addColumn('Action', function($data){
      
                            $btn = '<a href="'.url('updateuserslist/'.$data->id).'" class="edit btn btn-primary btn-sm">Edit</a>
                            <a href="'.url('deleteuserslist/'.$data->id).'" class="delete btn btn-danger btn-sm">Delete</a>';
@@ -69,13 +66,15 @@ class UserController extends Controller
                     })
             ->rawColumns(['user_role','active','Action'])->make(true);
         }
-        $item_name = DB::table('users')
+        $name = DB::table('users')
                         ->select('user_name')
                         ->groupBy('user_name')
                         ->orderBy('user_name', 'ASC')
                         ->get();
-        $result = DB::table('users')->select("*")->get();                
-        return view('users.userslist', compact('item_name'), ['result' => $result]);
+                        
+        $result = DB::table('users')->select("*")->get(); 
+                       
+        return view('users.userslist', compact('name'), ['result' => $result]);
 
     }
 

@@ -10,13 +10,14 @@
             </div>
             <div class="card-body">
               <div class="table-responsive">
-                <table class="table table-striped table-bordered table-hover" id="users_data" width="100%" cellspacing="0">
+                <table class="table table-striped table-bordered table-hover" id="users_data" width="100%" 
+                cellspacing="0">
                   <thead>
                     <tr>  
                       <th>No.</th>
-                      <th>Name</th>
-                      <th>Email</th>
-                      <th>Phone No.</th>
+                      <th>User Name</th>
+                      <th>User Email</th>
+                      <th>User Phone No.</th>
                       <th>User Role</th>
                       <th>Active</th>
                       <th>Action</th>
