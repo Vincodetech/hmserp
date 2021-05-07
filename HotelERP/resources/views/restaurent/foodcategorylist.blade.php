@@ -5,8 +5,9 @@
         <a href="{{ url('addfoodcategory') }}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fa fa-plus fa-sm text-white-50"></i> Add Food Category</a>
      </div>   
         <div class="card shadow mb-4">
-            <div class="card-header py-3">
+            <div class="card-header py-2">
               <h6 class="m-0 font-weight-bold text-primary">Food Category List</h6>
+              <a class="btn btn-success" href="{{ url('foodcategoryexport') }}" style="float: right;">Export</a>
             </div>
             <div class="card-body">
               <div class="table-responsive">

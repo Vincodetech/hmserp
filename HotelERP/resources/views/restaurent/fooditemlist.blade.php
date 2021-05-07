@@ -24,7 +24,7 @@
                   </select> &nbsp; &nbsp; &nbsp;
                   <button type="button" name="filter" id="filter" class="btn btn-info">Filter</button> &nbsp; &nbsp; &nbsp;
                   <button type="button" name="reset" id="reset" class="btn btn-danger">Reset</button>
-                  <a class="btn btn-success" href="{{ url('export') }}" style="float: right;">Export</a>                 
+                  <a class="btn btn-success" href="{{ url('fooditemexport') }}" style="float: right;">Export</a>                 
                 </div>                           
             </div>
             <div class="card-body">

@@ -81,6 +81,6 @@ Route::post('/postupdateslider/{id}',[SettingsController::class,'postUpdateSlide
 Route::get('/deleteslider/{id}',[SettingsController::class,'deleteSlider']);
 
 
-Route::get('export', [MyController::class, 'export']);
-
-
+Route::get('fooditemexport', [MyController::class, 'foodItemExport']);
+Route::get('foodcategoryexport', [MyController::class, 'foodCategoryExport']);
+Route::get('usersexport', [MyController::class, 'usersExport']);

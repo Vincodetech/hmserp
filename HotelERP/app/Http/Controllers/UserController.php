@@ -58,8 +58,12 @@ class UserController extends Controller
             })
         ->addColumn('Action', function($data){
      
-                           $btn = '<a href="'.url('updateuserslist/'.$data->id).'" class="edit btn btn-primary btn-sm">Edit</a>
-                           <a href="'.url('deleteuserslist/'.$data->id).'" class="delete btn btn-danger btn-sm">Delete</a>';
+                           $btn = '<a href="'.url('updateuserslist/'.$data->id).'">
+                           <i class="fa fa-edit" aria-hidden="true"></i></a>
+                           <a href="'.url('deleteuserslist/'.$data->id).'"
+                           onclick="if (!confirm("Are you sure to delete this item?"))
+                                  { return false }">
+                           <i class="fa fa-trash" aria-hidden="true"></i></a>';
                            
                             return $btn;
                            

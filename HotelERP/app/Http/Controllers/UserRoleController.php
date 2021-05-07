@@ -11,8 +11,48 @@ class UserRoleController extends Controller
 {
     public function userRoleList()
     {
-        $result = DB::table('users_roles')->paginate(2);
-        return view('userrole.userrolelist',['result' => $result]);
+        if(request()->ajax())
+        {
+            $data = DB::table('users_roles')
+                    ->select('id','role','active')
+                    ->get();
+            return datatables()->of($data)
+            ->addIndexColumn()
+            ->addColumn('active', function($row){
+                if($row == true)
+                {
+                    $btn1 = '<span class="badge badge-success">Active</span>';
+                }
+                else
+                {
+                    $btn1 = '<span class="badge badge-danger">DeActive</span>';
+                }
+                 return $btn1;
+            })
+        ->addColumn('Action', function($data){
+     
+                           $btn = '<a href="'.url('updateuserrolelist/'.$data->id).'">
+                           <i class="fa fa-edit" aria-hidden="true"></i></a>
+                           <a href="'.url('deleteuserrolelist/'.$data->id).'"
+                           onclick="if (!confirm("Are you sure to delete this item?"))
+                                  { return false }">
+                           <i class="fa fa-trash" aria-hidden="true"></i></a>';
+                           
+                            return $btn;
+                           
+                    })
+            ->rawColumns(['active','Action'])->make(true);
+        }
+        $name = DB::table('users_roles')
+                        ->select('role')
+                        ->groupBy('role')
+                        ->orderBy('role', 'ASC')
+                        ->get();
+                        
+        $result = DB::table('users_roles')->select("*")->get(); 
+                       
+        return view('userrole.userrolelist', compact('name'), ['result' => $result]);
+
     }
 
     public function addUserRoleList()
@@ -70,6 +110,7 @@ class UserRoleController extends Controller
         } else {
             return redirect('updateuserrolelist/'. $id)->with('errUpdateCategoryInMsg', 'User Role not Updated');
         }
+        return view('userrole.updateuserrole');
     }
 
     public function deleteUserRoleList($id)
@@ -81,6 +122,6 @@ class UserRoleController extends Controller
         } else {
             return redirect('/userrolelist')->with('errDeleteCategoryInMsg', 'User Role not Deleted');
         }
-
+        return view('userrole.userrolelist');
     }
 }

@@ -11,8 +11,52 @@ class SettingsController extends Controller
 {
     public function sliderList()
     {
-        $result = DB::table('sliders')->paginate(5);
-        return view('settings.slider.sliderlist',['result' => $result]);
+        if(request()->ajax())
+        {
+            $data = DB::table('sliders')
+                    ->select('id','slider_image','active')
+                    ->get();
+            return datatables()->of($data)
+            ->addIndexColumn()
+            ->addColumn('slider_image', function ($data) { 
+                $url= asset('/storage/images2/'.$data->slider_image);
+                return '<img src="'.$url.'" border="0" width="50" class="img-rounded" align="center" />';
+            })
+            ->addColumn('active', function($row){
+                if($row == true)
+                {
+                    $btn1 = '<span class="badge badge-success">Active</span>';
+                }
+                else
+                {
+                    $btn1 = '<span class="badge badge-danger">DeActive</span>';
+                }
+                 return $btn1;
+            })
+        ->addColumn('Action', function($data){
+     
+                           $btn = '<a href="'.url('updateslider/'.$data->id).'">
+                           <i class="fa fa-edit" aria-hidden="true"></i></a>
+                           <a href="'.url('deleteslider/'.$data->id).'"
+                           onclick="if (!confirm("Are you sure to delete this item?"))
+                                  { return false }">
+                           <i class="fa fa-trash" aria-hidden="true"></i></a>';
+                           
+                            return $btn;
+                           
+                    })
+            ->rawColumns(['slider_image','active','Action'])->make(true);
+        }
+        $image = DB::table('sliders')
+                        ->select('slider_image')
+                        ->groupBy('slider_image')
+                        ->orderBy('slider_image', 'ASC')
+                        ->get();
+                        
+        $result = DB::table('sliders')->select("*")->get(); 
+                       
+        return view('settings.slider.sliderlist', compact('image'), ['result' => $result]);
+
     }
 
     public function addSlider()
@@ -103,6 +147,7 @@ class SettingsController extends Controller
         } else {
             return redirect('updateslider/'. $id)->with('errUpdateCategoryInMsg', 'Slider Image not Updated');
         }
+        return view('settings.slider.updateslider');
     }
 
     public function deleteSlider($id)
@@ -114,6 +159,6 @@ class SettingsController extends Controller
         } else {
             return redirect('/sliderlist')->with('errDeleteCategoryInMsg', 'Slider Image not Deleted');
         }
-
+        return view('settings.slider.sliderlist');
     }
 }
