@@ -37,9 +37,7 @@ class SettingsController extends Controller
      
                            $btn = '<a href="'.url('updateslider/'.$data->id).'">
                            <i class="fa fa-edit" aria-hidden="true"></i></a>
-                           <a href="'.url('deleteslider/'.$data->id).'"
-                           onclick="if (!confirm("Are you sure to delete this item?"))
-                                  { return false }">
+                           <a href="'.url('deleteslider/'.$data->id).'" class="delete">
                            <i class="fa fa-trash" aria-hidden="true"></i></a>';
                            
                             return $btn;
@@ -143,7 +141,7 @@ class SettingsController extends Controller
         $result = DB::update('update sliders set slider_image = ?, active = ? where id = ?', [$filename, $active, $id]);
 
         if ($result != false) {
-            return redirect('/sliderlist')->with('updateCategoryInMsg', 'Slider Image Updated Successfully');
+            return redirect('updateslider/'. $id)->with('updateCategoryInMsg', 'Slider Image Updated Successfully');
         } else {
             return redirect('updateslider/'. $id)->with('errUpdateCategoryInMsg', 'Slider Image not Updated');
         }

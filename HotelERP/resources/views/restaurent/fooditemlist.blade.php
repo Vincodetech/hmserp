@@ -3,7 +3,18 @@
      <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-2 text-gray-800">Food Item List</h1>   
         <a href="{{ url('addfooditem') }}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fa fa-plus fa-sm text-white-50"></i> Add Food Item</a>
-     </div>   
+     </div> 
+     @if (Session::get('deleteItemInMsg'))
+            <div class="alert alert-success">
+                {{ Session::get('deleteItemInMsg') }}
+            </div>
+        @endif
+
+        @if (Session::get('errDeleteItemInMsg'))
+            <div class="alert alert-danger">
+                {{ Session::get('errDeleteItemInMsg') }}
+            </div>
+        @endif  
         <div class="card shadow mb-4">
             <div class="card-header py-3">
               <h6 class="m-0 font-weight-bold text-primary">Food Item List</h6> 
@@ -113,4 +124,15 @@
             });
         });
       </script>      
+      <script type="text/javascript">
+      $(document).on('click','.delete',function(){
+        var url = $(this).attr('url');
+        if(confirm("Are you sure you want to delete this item?")){
+          window.location.href = url
+        }
+        else{
+          return false;
+        }
+      });
+    </script>
 @include('admin.footer')

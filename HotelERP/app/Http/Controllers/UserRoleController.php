@@ -33,9 +33,7 @@ class UserRoleController extends Controller
      
                            $btn = '<a href="'.url('updateuserrolelist/'.$data->id).'">
                            <i class="fa fa-edit" aria-hidden="true"></i></a>
-                           <a href="'.url('deleteuserrolelist/'.$data->id).'"
-                           onclick="if (!confirm("Are you sure to delete this item?"))
-                                  { return false }">
+                           <a href="'.url('deleteuserrolelist/'.$data->id).'" class="delete">
                            <i class="fa fa-trash" aria-hidden="true"></i></a>';
                            
                             return $btn;
@@ -106,7 +104,7 @@ class UserRoleController extends Controller
         $result = DB::update('update users_roles set role = ?, active = ? where id = ?', [$userrole, $active, $id]);
 
         if ($result != false) {
-            return redirect('userrolelist')->with('updateCategoryInMsg', 'User Role Updated Successfully');
+            return redirect('updateuserrolelist/'. $id)->with('updateCategoryInMsg', 'User Role Updated Successfully');
         } else {
             return redirect('updateuserrolelist/'. $id)->with('errUpdateCategoryInMsg', 'User Role not Updated');
         }

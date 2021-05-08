@@ -73,11 +73,9 @@ class ItemController extends Controller
             ->addColumn('Action', function($data){
                 
                     $btn = '<a href="'.url('updatefooditem/'.$data->id).'">
-                           <i class="fa fa-edit" aria-hidden="true"></i></a>
-                           <a href="'.url('deletefooditem/'.$data->id).'"
-                           onclick="if (!confirm("Are you sure to delete this item?"))
-                                  { return false }"> 
-                           <i class="fa fa-trash" aria-hidden="true"></i></a>';
+                           <i class="fa fa-edit"></i></a>
+                           <a href="'.url('deletefooditem/'.$data->id).'" class="delete">
+                            <i class="fa fa-trash"></i></a>';
                            
                             return $btn;
                            
@@ -235,7 +233,7 @@ class ItemController extends Controller
          $description, $unit, $price, $quantity, $item_type, $active, $id]);
 
         if ($result != false) {
-            return redirect('fooditem')->with('updateItemInMsg', 'Food Item Updated Successfully');
+            return redirect('updatefooditem/'. $id)->with('updateItemInMsg', 'Food Item Updated Successfully');
         } else {
             return redirect('updatefooditem/'. $id)->with('errUpdateItemInMsg', 'Food Item not Updated');
         }

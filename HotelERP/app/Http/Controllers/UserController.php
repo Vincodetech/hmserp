@@ -60,9 +60,7 @@ class UserController extends Controller
      
                            $btn = '<a href="'.url('updateuserslist/'.$data->id).'">
                            <i class="fa fa-edit" aria-hidden="true"></i></a>
-                           <a href="'.url('deleteuserslist/'.$data->id).'"
-                           onclick="if (!confirm("Are you sure to delete this item?"))
-                                  { return false }">
+                           <a href="'.url('deleteuserslist/'.$data->id).'" class="delete">
                            <i class="fa fa-trash" aria-hidden="true"></i></a>';
                            
                             return $btn;
@@ -143,7 +141,7 @@ class UserController extends Controller
         phone = ?, user_role = ?, active = ? where id = ?', [$uname, $uemail, $uphone, $userrole, $active, $id]);
 
         if ($result != false) {
-            return redirect('userslist')->with('updateCategoryInMsg', 'User Updated Successfully');
+            return redirect('updateuserslist/'. $id)->with('updateCategoryInMsg', 'User Updated Successfully');
         } else {
             return redirect('updateuserslist/'. $id)->with('errUpdateCategoryInMsg', 'User not Updated');
         }

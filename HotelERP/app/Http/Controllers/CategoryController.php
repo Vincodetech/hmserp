@@ -41,9 +41,7 @@ class CategoryController extends Controller
      
                            $btn = '<a href="'.url('updatefoodcategory/'.$data->id).'"> 
                            <i class="fa fa-edit" aria-hidden="true"></i></a>
-                           <a href="'.url('deletefoodcategory/'.$data->id).'"
-                           onclick="if (!confirm("Are you sure to delete this item?"))
-                                  { return false }">
+                           <a href="'.url('deletefoodcategory/'.$data->id).'" class="delete">
                            <i class="fa fa-trash" aria-hidden="true"></i></a>';
                            
                             return $btn;
@@ -150,7 +148,7 @@ class CategoryController extends Controller
         category_quantity = ?, active = ? where id = ?', [$cat_name, $category_type, $filename, $category_quantity, $active, $id]);
 
         if ($result != false) {
-            return redirect('foodcategory')->with('updateCategoryInMsg', 'Food Category Updated Successfully');
+            return redirect('updatefoodcategory/'. $id)->with('updateCategoryInMsg', 'Food Category Updated Successfully');
         } else {
             return redirect('updatefoodcategory/'. $id)->with('errUpdateCategoryInMsg', 'Food Category not Updated');
         }
