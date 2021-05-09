@@ -33,11 +33,11 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Active</label>
-                                    @if($singleimage->active == '1')
-                                        <input type="checkbox" name="active" value="{{ $singleimage->active }}" 
+                                    @if($singleimage->active)
+                                        <input type="checkbox" name="active" value="1" 
                                         checked>
                                     @else
-                                        <input type="checkbox" name="active" value="{{ $singleimage->active }}">
+                                        <input type="checkbox" name="active" value="1">
                                     @endif
                                 </div>
 

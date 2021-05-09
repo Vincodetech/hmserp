@@ -59,11 +59,11 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Active</label>
-                                    @if($singlefooditem->active == '1')
-                                        <input type="checkbox" name="active" value="{{ $singlefooditem->active }}" 
+                                    @if($singlefooditem->active)
+                                        <input type="checkbox" name="active" value="1" 
                                         checked>
                                     @else
-                                        <input type="checkbox" name="active" value="{{ $singlefooditem->active }}">
+                                        <input type="checkbox" name="active" value="1">
                                     @endif
                                 </div>
 

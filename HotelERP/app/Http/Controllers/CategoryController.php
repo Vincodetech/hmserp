@@ -87,7 +87,7 @@ class CategoryController extends Controller
            // session()->put('message','Image Uploaded...');
         }
         
-        if($active != 1)
+        if($active != '1')
         {
             $active = 0;
         }
@@ -114,13 +114,14 @@ class CategoryController extends Controller
     
     public function updatePostFoodCategory(Request $request, $id)
     {
+        $data = DB::table('food_category')->where('id', $id)->first();
         $cat_name = $request->name;
         $category_type = $request->category_type;
         $cat_image = $request->category_image;
         $category_quantity = $request->category_quantity;
         $active = $request->active;
 
-        $filename = "";
+        $filename = $data->category_image;
 
         if($request->hasFile('category_image'))
         {
@@ -136,7 +137,7 @@ class CategoryController extends Controller
            // session()->put('message','Image Uploaded...');
         }
         
-        if($active != 1)
+        if($active != '1')
         {
             $active = 0;
         }

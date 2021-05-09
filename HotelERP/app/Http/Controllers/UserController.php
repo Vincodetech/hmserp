@@ -94,7 +94,7 @@ class UserController extends Controller
         $userrole = $request->user_role;
         $active = $request->active;
         
-        if($active != 1)
+        if($active != '1')
         {
             $active = 0;
         }
@@ -129,7 +129,7 @@ class UserController extends Controller
         $userrole = $request->user_role;
         $active = $request->active;
         
-        if($active != 1)
+        if($active != '1')
         {
             $active = 0;
         }

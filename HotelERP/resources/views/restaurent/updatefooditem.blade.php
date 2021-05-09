@@ -107,12 +107,12 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Active</label>
-                                    @if($singlefooditem->active == '1')
+                                    @if($singlefooditem->active)
                                         <input type="checkbox" name="active" 
-                                        value="{{ $singlefooditem->active }}" checked>
+                                        value="1" checked>
                                     @else
                                         <input type="checkbox" name="active" 
-                                        value="{{ $singlefooditem->active }}">    
+                                        value="1">    
                                     @endif    
                                 </div>
                                 <button type="submit" class="btn btn-primary"> Update Food Item</button>

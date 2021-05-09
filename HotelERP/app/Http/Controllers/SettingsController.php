@@ -84,7 +84,7 @@ class SettingsController extends Controller
         }
 
 
-        if($active != 1)
+        if($active != '1')
         {
             $active = 0;
         }
@@ -111,10 +111,11 @@ class SettingsController extends Controller
     
     public function postUpdateSlider(Request $request, $id)
     {
+        $data = DB::table('sliders')->where('id', $id)->first();
         $slider_image = $request->slider_image;
         $active = $request->active;
         
-        $filename = "";
+        $filename = $data->slider_image;
 
         if($request->hasFile('slider_image'))
         {
@@ -130,7 +131,7 @@ class SettingsController extends Controller
            // session()->put('message','Image Uploaded...');
         }    
 
-        if($active != 1)
+        if($active != '1')
         {
             $active = 0;
         }

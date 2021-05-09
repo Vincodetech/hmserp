@@ -58,14 +58,14 @@ class ItemController extends Controller
                     $sql = DB::table('food_category')->where('id',$data->category_id)->first();
                     return $sql->name;
             })
-            ->addColumn('active', function($row){
-                if($row == true)
+            ->addColumn('active', function($data){
+                if($data->active == '1')
                 {
                     $btn1 = '<span class="badge badge-success">Active</span>';
                 }
                 else
                 {
-                    $btn1 = '<span class="badge badge-danger">DeActive</span>';
+                    $btn1 = '<span class="badge badge-danger">InActive</span>';
                 }
                  return $btn1;
                 
@@ -161,7 +161,7 @@ class ItemController extends Controller
      
         // $request->item_image->move(public_path('images'), $imageName);
   
-        if($active != 1)
+        if($active != '1')
         {
             $active = 0;
         }
@@ -192,6 +192,7 @@ class ItemController extends Controller
     
     public function updatePostFoodItem(Request $request, $id)
     {
+        $data = DB::table('food_item')->where('id', $id)->first();
         $item_name = $request->name;
         $slug = $request->slug;
         $item_image = $request->item_image;
@@ -201,9 +202,9 @@ class ItemController extends Controller
         $price = $request->price;
         $quantity = $request->quantity;
         $item_type = $request->item_type;
-        $active = $request->active;
+        $active = $request->active == '1' ? '1' : '0';
  
-        $filename = "";
+        $filename = $data->item_image;
 
         if($request->hasFile('item_image'))
         {
@@ -219,14 +220,14 @@ class ItemController extends Controller
            // session()->put('message','Image Uploaded...');
         }
 
-        if($active != 1)
-        {
-            $active = 0;
-        }
-        else
-        {
-            $active = 1;
-        }
+        // if($active != '1')
+        // {
+        //     $active = 0;
+        // }
+        // else
+        // {
+        //     $active = 1;
+        // }
         $result = DB::update('update food_item set name = ?, slug = ?, item_image = ?,
         category_id = ?, description = ?, unit = ?, price = ?, quantity = ?,
         item_type = ?, active = ? where id = ?', [$item_name, $slug, $filename, $food_category,
