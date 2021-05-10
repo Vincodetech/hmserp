@@ -59,15 +59,15 @@ class ItemController extends Controller
                     return $sql->name;
             })
             ->addColumn('active', function($data){
-                if($data->active == '1')
-                {
-                    $btn1 = '<span class="badge badge-success">Active</span>';
-                }
-                else
-                {
-                    $btn1 = '<span class="badge badge-danger">InActive</span>';
-                }
-                 return $btn1;
+                // if($data->active == '1')
+                // {
+                //     $btn1 = '<span class="badge badge-success">Active</span>';
+                // }
+                // else
+                // {
+                //     $btn1 = '<span class="badge badge-danger">InActive</span>';
+                // }
+                //  return $btn1;
                // $singlefooditem = DB::table('food_item')->where('id', $id)->first();
             //    $btn1 = "<input data-id='{{$data->id}}' class='toggle-class' type='checkbox' 
             //    data-onstyle='success' data-offstyle='danger' 
@@ -75,6 +75,10 @@ class ItemController extends Controller
             //    {{ $data->active ? 'checked' : '' }}>";
 
             //     return $btn1;
+            $btn1 = '<input id="toggle-demo" type="checkbox" checked data-toggle="toggle" 
+            data-on="Active" data-off="InActive" data-onstyle="success" data-offstyle="danger">';
+
+            return $btn1;
          })
             ->addColumn('Action', function($data){
                 

@@ -159,21 +159,10 @@
         });
     });
   </script> -->
-  <!-- <script>
+  <script>
+    
   $(function() {
-    $('.toggle-class').change(function() {
-        var active = $(this).prop('checked') == true ? 1 : 0; 
-        var id = $(this).data('id'); 
-         
-        $.ajax({
-            type: "POST",
-            url: "{{ url('postupdatefooditem/{id}') }}",
-            data: {'active': active, 'id': id},
-            success: function(data){
-              console.log(data.success)
-            }
-        });
-    })
+    $('#toggle-demo').bootstrapToggle();
   });
-  </script> -->
+  </script>
 @include('admin.footer')
