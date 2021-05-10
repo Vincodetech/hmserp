@@ -18,14 +18,14 @@ class UserRoleController extends Controller
                     ->get();
             return datatables()->of($data)
             ->addIndexColumn()
-            ->addColumn('active', function($row){
-                if($row == true)
+            ->addColumn('active', function($data){
+                if($data->active == '1')
                 {
                     $btn1 = '<span class="badge badge-success">Active</span>';
                 }
                 else
                 {
-                    $btn1 = '<span class="badge badge-danger">DeActive</span>';
+                    $btn1 = '<span class="badge badge-danger">InActive</span>';
                 }
                  return $btn1;
             })

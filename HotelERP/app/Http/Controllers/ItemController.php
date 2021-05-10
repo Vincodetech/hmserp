@@ -68,7 +68,13 @@ class ItemController extends Controller
                     $btn1 = '<span class="badge badge-danger">InActive</span>';
                 }
                  return $btn1;
-                
+               // $singlefooditem = DB::table('food_item')->where('id', $id)->first();
+            //    $btn1 = "<input data-id='{{$data->id}}' class='toggle-class' type='checkbox' 
+            //    data-onstyle='success' data-offstyle='danger' 
+            //    data-toggle='toggle' data-on='Active' data-off='InActive'
+            //    {{ $data->active ? 'checked' : '' }}>";
+
+            //     return $btn1;
          })
             ->addColumn('Action', function($data){
                 

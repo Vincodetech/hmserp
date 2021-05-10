@@ -135,4 +135,45 @@
         }
       });
     </script>
+    <!-- <script type="text/javascript">
+    $(document).ajaxStop(function () {
+        $('.toggle_status').on('click', function (e) {
+            var is_checked = false
+            if ($(this).is(':checked')) {
+                is_checked = true;
+            }
+            $.ajax({
+                type: 'GET',
+                url: "{{ url('fooditem') }}", // use proper route to system-functions here
+                async: true,
+                data: {
+                    is_checked: is_checked,
+                    id: {{ $data->id }}
+                },
+                success: function (result) {
+                    alert('Toggle successfull'); // use proper alert message here
+                    e.stopImmediatePropagation();
+                    return false;
+                }
+            });
+        });
+    });
+  </script> -->
+  <!-- <script>
+  $(function() {
+    $('.toggle-class').change(function() {
+        var active = $(this).prop('checked') == true ? 1 : 0; 
+        var id = $(this).data('id'); 
+         
+        $.ajax({
+            type: "POST",
+            url: "{{ url('postupdatefooditem/{id}') }}",
+            data: {'active': active, 'id': id},
+            success: function(data){
+              console.log(data.success)
+            }
+        });
+    })
+  });
+  </script> -->
 @include('admin.footer')

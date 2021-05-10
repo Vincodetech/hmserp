@@ -22,14 +22,14 @@ class SettingsController extends Controller
                 $url= asset('/storage/images2/'.$data->slider_image);
                 return '<img src="'.$url.'" border="0" width="50" class="img-rounded" align="center" />';
             })
-            ->addColumn('active', function($row){
-                if($row == true)
+            ->addColumn('active', function($data){
+                if($data->active == '1')
                 {
                     $btn1 = '<span class="badge badge-success">Active</span>';
                 }
                 else
                 {
-                    $btn1 = '<span class="badge badge-danger">DeActive</span>';
+                    $btn1 = '<span class="badge badge-danger">InActive</span>';
                 }
                  return $btn1;
             })
