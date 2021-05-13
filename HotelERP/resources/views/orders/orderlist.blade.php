@@ -10,7 +10,7 @@
             </div>
             <div class="card-body">
               <div class="table-responsive">
-                <table class="table table-striped table-bordered table-hover" id="dataTables-example" width="100%" cellspacing="0">
+                <table class="table table-striped table-bordered table-hover" id="orders_data" width="100%" cellspacing="0">
                   <thead>
                     <tr>  
                       <th>No.</th>
@@ -19,52 +19,63 @@
                       <th>Table</th>
                       <th>Order ID</th>
                       <th>Order Status</th>
-                      <th>Payable Amount</th>
-                      <th>Grand Total</th>
                       <th>Active</th>
                       <th>Action</th>
                     </tr>
                   </thead>
                   <tbody>
-                        <?php $count = ($result->currentpage()-1) * $result->perpage(); ?>
-                        @foreach($result as $data)
-                            <tr>
-                                <td>{{ ++$count }}</td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td></td>
-                                <td class="text-center"><a href="{{ url('#') }}">
-                                 <i class="fa fa-edit" aria-hidden="true"></i></a> 
-                                 <a href="{{ url('#') }}" 
-                                  onclick="if (!confirm('Are you sure to delete this item?'))
-                                  { return false }"><i class="fa fa-trash" aria-hidden="true"></i></a> </td>
-                                
-                            </tr>
-                        @endforeach
+                        
                         </tbody>
                  </table>
             </div>     
-            <div class="card-footer" style="overflow">
-              {{ $result->links() }}
-            </div>     
-<!-- <nav aria-label="...">
-  <ul class="pagination">
-    <li class="page-item disabled">
-      <a class="page-link" href="" tabindex="-1">Previous</a>
-    </li>
-    <li class="page-item active"><a class="page-link" href="">1 <span class="sr-only">(current)</span></a></li>
-    <li class="page-item">
-      <a class="page-link" href="">2 </a>
-    </li>
-    <li class="page-item"><a class="page-link" href="">3</a></li>
-    <li class="page-item">
-      <a class="page-link" href="">Next</a>
-    </li>
-  </ul>
-</nav> -->
+            <script type="text/javascript">
+        $(document).ready(function(){
+
+          fill_datatable();
+            function fill_datatable()
+            {
+              var dataTable = $('#orders_data').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax:{
+                  url: "{{ url('orderlist') }}",
+                  },
+                  columns: [
+                    {
+                      data: 'DT_RowIndex',
+                      name: 'DT_RowIndex'
+                    },
+                    {
+                      data:'item_id',
+                      name:'item_id'
+                    },
+                    {
+                      data:'order_type',
+                      name:'order_type'
+                    },
+                    {
+                      data:'table_id',
+                      name:'table_id'
+                    },
+                    {
+                      data:'order_id',
+                      name:'order_id'
+                    },
+                    {
+                      data:'order_status',
+                      name:'order_status'
+                    },
+                    {
+                      data:'active',
+                      name:'active'
+                    },
+                    {
+                      data:'Action',
+                      name:'Action'
+                    }
+                  ]
+              });
+            }
+          });
+      </script>
 @include('admin.footer')

@@ -14,12 +14,12 @@ class BillingController extends Controller
     {
         if(request()->ajax())
         {
-            
             $data = DB::table('billing')
-                    ->join('orders', 'billing.id', '=', 'orders.item_id')
-                    ->join('orders', 'billing.id', '=', 'orders.user_id')
-                    ->select('billing.id','billing.bill_no', 'billing.bill_date','orders.user_name',
-                    'orders.phone','orders.item_name', 'billing.grand_total','billing.active')
+                    ->join('orders', 'orders.id', '=', 'billing.order_id')
+                    ->join('users','users.id', '=', 'orders.user_id')
+                    ->join('food_item','food_item.id', '=', 'orders.item_id')
+                    ->select('billing.id','billing.bill_no', 'billing.bill_date','users.user_name',
+                    'users.phone','food_item.item_name','food_item.price', 'billing.grand_total','billing.active')
                     ->get();
             return datatables()->of($data)
             ->addIndexColumn()
@@ -81,8 +81,8 @@ class BillingController extends Controller
         {
             $active = 1;
         }
-        $results = DB::insert('insert into billing(bill_no,bill_date,phone,user_role,active) 
-        values (?,?,?,?,?)', [$uname,$uemail,$uphone,$userrole,$active]);
+        $results = DB::insert('insert into billing(bill_no,bill_date,order_id,grand_total,active) 
+        values (?,?,?,?,?)', [$bno,$bdate,$oid,$gtotal,$active]);
 
         if ($results != false) {
             return redirect('/addbilling')->with('roleSccssMsg', 'Bill Added Successfully.');
@@ -100,11 +100,12 @@ class BillingController extends Controller
     
     public function postUpdateBilling(Request $request, $id)
     {
-        $uname = $request->user_name;
-        $uemail = $request->email;
-        $uphone = $request->phone;
-        $userrole = $request->user_role;
+        $bno = $request->bill_no;
+        $bdate = $request->bill_date;
+        $oid = $request->order_id;
+        $gtotal = $request->grand_total;
         $active = $request->active;
+        
         
         if($active != '1')
         {
@@ -114,8 +115,8 @@ class BillingController extends Controller
         {
             $active = 1;
         }
-        $result = DB::update('update users set user_name = ?, email = ?, 
-        phone = ?, user_role = ?, active = ? where id = ?', [$uname, $uemail, $uphone, $userrole, $active, $id]);
+        $result = DB::update('update users set bill_no = ?, bill_date = ?, 
+        order_id = ?, grand_total = ?, active = ? where id = ?', [$bno, $bdate, $oid, $gtotal, $active, $id]);
 
         if ($result != false) {
             return redirect('updatebilling/'. $id)->with('updateCategoryInMsg', 'Bill Updated Successfully');
