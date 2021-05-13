@@ -13,6 +13,7 @@ use App\Http\Controllers\OrderController;
 use App\Http\Controllers\SettingsController;
 use App\Http\Controllers\MyController;
 use App\http\Controllers\ItemDataTableController;
+use App\Http\Controllers\BillingController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -84,3 +85,11 @@ Route::get('/deleteslider/{id}',[SettingsController::class,'deleteSlider']);
 Route::get('fooditemexport', [MyController::class, 'foodItemExport']);
 Route::get('foodcategoryexport', [MyController::class, 'foodCategoryExport']);
 Route::get('usersexport', [MyController::class, 'usersExport']);
+
+
+Route::get('/billinglist',[BillingController::class,'billingList']);
+Route::get('/addbilling',[BillingController::class,'addBilling']);
+Route::post('/postbilling',[BillingController::class,'addPostBilling']);
+Route::get('/updatebilling/{id}',[BillingController::class,'updateBilling']);
+Route::post('/postupdatebilling/{id}',[BillingController::class,'postUpdateBilling']);
+Route::get('/deletebilling/{id}',[BillingController::class,'deleteBilling']);
