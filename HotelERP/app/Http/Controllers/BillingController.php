@@ -19,7 +19,7 @@ class BillingController extends Controller
                     ->join('users','users.id', '=', 'orders.user_id')
                     ->join('food_item','food_item.id', '=', 'orders.item_id')
                     ->select('billing.id','billing.bill_no', 'billing.bill_date','users.user_name',
-                    'users.phone','food_item.item_name','food_item.price', 'billing.grand_total','billing.active')
+                    'users.phone','food_item.name','food_item.price', 'billing.grand_total','billing.active')
                     ->get();
             return datatables()->of($data)
             ->addIndexColumn()
@@ -36,7 +36,8 @@ class BillingController extends Controller
             })
         ->addColumn('Action', function($data){
      
-                           $btn = '<i class="fa fa-eye" aria-hidden="true"></i>
+                           $btn = '<a href="'.url('viewbilling/'.$data->id).'">
+                           <i class="fa fa-eye" aria-hidden="true"></i></a>
                            <a href="'.url('updatebilling/'.$data->id).'">
                            <i class="fa fa-edit" aria-hidden="true"></i></a>
                            <a href="'.url('deletebilling/'.$data->id).'" class="delete">
@@ -61,7 +62,13 @@ class BillingController extends Controller
 
     public function addBilling()
     {
-        $allbill = DB::select('select * from billing');
+        $allbill = DB::table('billing')
+                    ->join('orders', 'orders.id', '=', 'billing.order_id')
+                    ->join('users','users.id', '=', 'orders.user_id')
+                    ->join('food_item','food_item.id', '=', 'orders.item_id')
+                    ->select('billing.*','orders.orderid','users.user_name')
+                    ->get();
+        // $allbill = DB::select('select * from billing');
         return view('billing.addbilling',['allbill' => $allbill]);
     }
 

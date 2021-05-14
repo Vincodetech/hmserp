@@ -54,8 +54,8 @@
                       name:'phone'
                     },
                     {
-                      data:'item_name',
-                      name:'item_name'
+                      data:'name',
+                      name:'name'
                     },
                     {
                       data:'bill_no',

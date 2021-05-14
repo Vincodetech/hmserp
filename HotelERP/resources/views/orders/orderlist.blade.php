@@ -58,8 +58,8 @@
                       name:'table_id'
                     },
                     {
-                      data:'order_id',
-                      name:'order_id'
+                      data:'orderid',
+                      name:'orderid'
                     },
                     {
                       data:'order_status',

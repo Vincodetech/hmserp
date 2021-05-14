@@ -17,7 +17,7 @@ class OrderController extends Controller
         if(request()->ajax())
         {
                 $data = DB::table('orders')
-                        ->select('id','item_id', 'order_type', 'table_id', 'order_id', 'order_status',
+                        ->select('id','item_id', 'order_type', 'table_id', 'orderid', 'order_status',
                          'active')
                         ->get();
             
@@ -55,9 +55,9 @@ class OrderController extends Controller
             ->rawColumns(['item_id','table_id','active','Action'])->make(true);
         }
         $order = DB::table('orders')
-                        ->select('order_id')
-                        ->groupBy('order_id')
-                        ->orderBy('order_id', 'ASC')
+                        ->select('orderid')
+                        ->groupBy('orderid')
+                        ->orderBy('orderid', 'ASC')
                         ->get();
         $result = DB::table('orders')->select("*")->get();                            
         return view('orders.orderlist', compact('order'), ['result' => $result]);

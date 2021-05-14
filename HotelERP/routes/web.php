@@ -93,3 +93,4 @@ Route::post('/postbilling',[BillingController::class,'addPostBilling']);
 Route::get('/updatebilling/{id}',[BillingController::class,'updateBilling']);
 Route::post('/postupdatebilling/{id}',[BillingController::class,'postUpdateBilling']);
 Route::get('/deletebilling/{id}',[BillingController::class,'deleteBilling']);
+Route::get('/viewbilling/{id}',[BillingController::class,'viewBilling']);
