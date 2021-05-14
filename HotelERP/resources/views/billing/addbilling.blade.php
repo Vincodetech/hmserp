@@ -34,7 +34,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Bill Date</label>
-                                    <input class="form-control" type="text" name="bill_date" placeholder="Enter Bill Date"
+                                    <input class="form-control" type="date" name="bill_date" placeholder="Enter Bill Date"
                                            autofocus>
                                 </div>
                                 <div class="form-group">
