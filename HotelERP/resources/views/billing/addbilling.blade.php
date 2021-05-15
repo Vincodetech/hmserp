@@ -1,66 +1,32 @@
-@include('admin.header')
-<div class="container-fluid">
-    <div class="row">
-
-        <div class="col-lg-12">
-            <div class="panel panel-default">
-                <div class="panel-heading">
-                <div class="d-sm-flex align-items-center justify-content-between mb-5">
-                   Create Bill Information
-                   <a href="{{ url('billinglist') }}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fa fa-arrow-circle-left fa-sm text-white-50"></i> Go Back </a>
-                </div>
-                
-                {{--{{Session::get('roleMsg')}}--}}
-                @if (Session::get('roleSccssMsg'))
-                    <div class="alert alert-success">
-                        {{ Session::get('roleSccssMsg') }}
-                    </div>
-                @endif
-
-                @if (Session::get('roleErrMsg'))
-                    <div class="alert alert-danger">
-                        {{ Session::get('roleErrMsg') }}
-                    </div>
-                @endif
-                <div class="panel-body">
-                    <div class="row">
-                        <div class="col-lg-12 col-lg-offset-3">
-                            <form role="form" action="{{ url('postbilling') }}" method="post">
-                            @csrf
-                                <div class="form-group">
-                                    <label>Bill No.</label>
-                                    <input class="form-control" type="text" name="bill_no" placeholder="Enter Bill No."
-                                           autofocus required>
-                                </div>
-                                <div class="form-group">
-                                    <label>Bill Date</label>
-                                    <input class="form-control" type="date" name="bill_date" placeholder="Enter Bill Date"
-                                           autofocus>
-                                </div>
-                                <div class="form-group">
-                                    <label>Order ID With Name</label>
-                                    <select class="form-control" name="orderid" id="orderid">
-                                    <option value="orderid">Select</option>
-                                        @foreach($allbill as $data)
-                                        <option value="{{ $data->order_id }}">{{ $data->orderid }}-{{ $data->user_name }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
+item['name']item['name']item['name'](item, index) {
+                                                    // itemName.push(item['name']);
+                                                    console.log(item['name']);
+                                                    $('#item').val():
+                                                }
+                                                
+                                            }
+                                        }); 
+                                        
+                                    }
+                                    // console.log(selectedValue);
+                                    // $("#name").val($(this).find("option:selected").attr("value"))
+                                    });
+                                </script>
                                 <div class="form-group">
                                     <label>Item Name</label>
-                                    <input class="form-control" type="text" id="name" name="name" 
-                                    placeholder="Enter Item Name" disabled
-                                           autofocus required>
+                                    <ul id="item">
+                                        
+                                    </ul>
                                 </div>
                                 <div class="form-group">
                                     <label>Order Type</label>
-                                    <input class="form-control" type="text" name="order_type" placeholder="Enter Order Type"
-                                           autofocus>
+                                    <input class="form-control" type="text" id="order_type" name="order_type" placeholder="Enter Order Type"
+                                    readonly="readonly">
                                 </div>
                                 <div class="form-group">
                                     <label>Price</label>
-                                    <input class="form-control" type="text" name="price" placeholder="Enter Price"
-                                           autofocus>
+                                    <input class="form-control" type="text" id="price" name="price" placeholder="Enter Price"
+                                    readonly="readonly">
                                 </div>
                                 <div class="form-group">
                                     <label>Discount</label>

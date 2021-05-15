@@ -66,7 +66,7 @@ class BillingController extends Controller
                     ->join('orders', 'orders.id', '=', 'billing.order_id')
                     ->join('users','users.id', '=', 'orders.user_id')
                     ->join('food_item','food_item.id', '=', 'orders.item_id')
-                    ->select('billing.*','orders.orderid','users.user_name')
+                    ->select('billing.*','orders.orderid','users.user_name','food_item.name')
                     ->get();
         // $allbill = DB::select('select * from billing');
         return view('billing.addbilling',['allbill' => $allbill]);
@@ -143,5 +143,20 @@ class BillingController extends Controller
             return redirect('/billinglist')->with('errDeleteCategoryInMsg', 'Bill not Deleted');
         }
         return view('billing.billinglist');
+    }
+
+    public function getOrderByOrderId(Request $request)
+    {
+        $orderid = $request->orderid;
+        $orders = DB::table('orders')->where('orderid', $orderid)->get();    
+        return $orders;            
+    }
+
+    public function getItemNameById(Request $request)
+    {
+        $item_array = array();
+        $item_id = $request->item_id;
+        $items = DB::table('food_item')->where('id', $item_id)->get();   
+        return $items;            
     }
 }
