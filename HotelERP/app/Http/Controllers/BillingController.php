@@ -154,9 +154,11 @@ class BillingController extends Controller
 
     public function getItemNameById(Request $request)
     {
-        $item_array = array();
+        $output = "";
         $item_id = $request->item_id;
-        $items = DB::table('food_item')->where('id', $item_id)->get();   
+        $items = DB::table('food_item')
+                ->select('name')->where('id', $item_id)->get();
+    
         return $items;            
     }
 }
