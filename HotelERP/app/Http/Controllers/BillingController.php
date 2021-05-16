@@ -66,7 +66,7 @@ class BillingController extends Controller
                     ->join('orders', 'orders.id', '=', 'billing.order_id')
                     ->join('users','users.id', '=', 'orders.user_id')
                     ->join('food_item','food_item.id', '=', 'orders.item_id')
-                    ->select('billing.*','orders.orderid','users.user_name','food_item.name')
+                    ->select('billing.*','orders.orderid','users.user_name','food_item.name','orders.order_type','food_item.price')
                     ->get();
         // $allbill = DB::select('select * from billing');
         return view('billing.addbilling',['allbill' => $allbill]);
@@ -160,5 +160,20 @@ class BillingController extends Controller
                 ->select('name')->where('id', $item_id)->get();
     
         return $items;            
+    }
+
+    public function getOrderTypeById(Request $request)
+    {
+        $ordertype = $request->order_type;
+        $orders = DB::table('orders')->where('order_type', $ordertype)->get();    
+        return $orders;            
+    }
+
+    public function getItemPriceById(Request $request)
+    {
+        $price = $request->item_id;
+        $orders = DB::table('food_item')
+                ->select('price')->where('id', $price)->get();    
+        return $orders;            
     }
 }

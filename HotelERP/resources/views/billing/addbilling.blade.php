@@ -61,8 +61,35 @@
                                             getItemName(item['item_id']);
                                           // console.log(item);   
                                         }
+                                        result.forEach(myfunction1);
+                                        function myfunction1(item,index){
+                                            getOrderType(item['order_type']);
+                                          // console.log(item);   
+                                        }
+                                        result.forEach(myfunction2);
+                                        function myfunction2(item,index){
+                                            getItemPrice(item['item_id']);
+                                          // console.log(item);   
+                                        }
                                      }
                                  });
+                                         var number_of_rows = 3;
+                                        var number_of_cols = 3;
+                                        var table_body = '<table border="1">';
+                                        for(var i=0;i<number_of_rows;i++){
+                                            table_body+='<tr>';
+                                            for(var j=0;j<number_of_cols;j++){
+                                                table_body +='<td>';
+                                                table_body += getItemName();
+                                                table_body +='</td>';
+                                               
+
+
+                                            }
+                                            table_body+='</tr>';
+                                        }
+                                            table_body+='</table>';
+                                        $('#item').html(table_body);
 
                                 });
                                 
@@ -79,7 +106,81 @@
                                       //console.log(text[0].name);
                                       for(x in text){
                                         console.log(text[x].name);
-                                        document.getElementById("item").innerHTML = text[x].name;
+                                        //console.log(text[x].order_type);
+                                        //console.log(text[x].price);
+                                       // document.getElementById("item").innerHTML = text[x].name;
+                                      }
+                                     // document.getElementById("item").innerHTML = ;
+                                    //    for(i=0; i<result.length; i++)
+                                    //    {
+                                    //        console.log(result[i]);
+                                    //    }
+                                       // $('#item').html(result);
+                                        // result.forEach(myfunction);
+                                        // function myfunction(item,index){
+                                        // //    for(x in item){
+                                        // //        console.log(x);
+                                        // //      // text += item[x] + ",";
+                                        // //    }
+                                        // console.log(item.name);
+                                        // }
+                                        //console.log(text);
+                                     }
+
+                                    });
+                                 }
+                                 function getOrderType(order_type)
+                                 {
+                                    $.ajax({
+                                    url: "{{ url('getordertype') }}",
+                                    type:"GET",
+                                    dataType:"json",
+                                    data:{'order_type':order_type},
+                                    success: function(result){
+                                        var text = Object.values(result);
+                                        var text1 = text.join();
+                                      //console.log(text[0].name);
+                                      for(x in text){
+                                        //console.log(text[x].name);
+                                        console.log(text[x].order_type);
+                                       // console.log(text[x].price);
+                                       // document.getElementById("item").innerHTML = text[x].name;
+                                      }
+                                     // document.getElementById("item").innerHTML = ;
+                                    //    for(i=0; i<result.length; i++)
+                                    //    {
+                                    //        console.log(result[i]);
+                                    //    }
+                                       // $('#item').html(result);
+                                        // result.forEach(myfunction);
+                                        // function myfunction(item,index){
+                                        // //    for(x in item){
+                                        // //        console.log(x);
+                                        // //      // text += item[x] + ",";
+                                        // //    }
+                                        // console.log(item.name);
+                                        // }
+                                        //console.log(text);
+                                     }
+
+                                    });
+                                 }
+                                 function getItemPrice(item_id)
+                                 {
+                                    $.ajax({
+                                    url: "{{ url('getitemprice') }}",
+                                    type:"GET",
+                                    dataType:"json",
+                                    data:{'item_id':item_id},
+                                    success: function(result){
+                                        var text = Object.values(result);
+                                        var text1 = text.join();
+                                      //console.log(text[0].name);
+                                      for(x in text){
+                                        //console.log(text[x].name);
+                                        //console.log(text[x].order_type);
+                                        console.log(text[x].price);
+                                       // document.getElementById("item").innerHTML = text[x].name;
                                       }
                                      // document.getElementById("item").innerHTML = ;
                                     //    for(i=0; i<result.length; i++)
@@ -101,6 +202,7 @@
                                     });
                                  }
                                 </script>
+                                
                                  <div class="form-group">
                                     <label>Item Name</label>
                                     <div id="item">
