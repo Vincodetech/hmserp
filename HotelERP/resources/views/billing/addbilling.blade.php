@@ -72,16 +72,22 @@
                                           // console.log(item);   
                                         }
                                         
-                                    var table = document.getElementById("item");
-                                
-                                    var rowCount = table.rows.length;
-                                    var row = table.insertRow(rowCount);
-                                
-                                    row.insertCell(0).innerHTML = rowCount;
-                                    row.insertCell(1).innerHTML= "myfunction()";
-                                    row.insertCell(2).innerHTML= "myfunction1()";
-                                    row.insertCell(3).innerHTML= "myfunction2()";
-                                     }
+                                        var number_of_rows = result.length;
+                                        var number_of_cols = result.length;
+                                        var table_body = '<table border="1">';
+                                        for(var i=0;i<number_of_rows;i++){
+                                            table_body+='<tr>';
+                                            for(var j=0;j<number_of_cols;j++){
+                                                table_body +='<td>';
+                                                table_body += 'Table data';
+                                                table_body +='</td>';
+                                            }
+                                            table_body+='</tr>';
+                                        }
+                                            table_body+='</table>';
+                                        $('#item').html(table_body);
+                                     
+                                    }
                                  });
                                  });
 
@@ -199,14 +205,14 @@
                                  <div class="form-group">
                                     <label>Item Name</label>
                                     <div id="item">
-                                    <table id="myTableData"  border="1" cellpadding="2">
+                                    <!-- <table id="myTableData"  border="1" cellpadding="2">
                                         <tr>
                                             <td><b>No.</b></td>
                                             <td><b>Item Name</b></td>
                                             <td><b>Order Type</b></td>
                                             <td><b>Item Price</b></td>
                                         </tr>
-                                    </table>    
+                                    </table>     -->
                                     </div>
                                 </div>
                                 <div class="form-group">
