@@ -72,6 +72,15 @@
                                           // console.log(item);   
                                         }
                                         
+                                    var table = document.getElementById("item");
+                                
+                                    var rowCount = table.rows.length;
+                                    var row = table.insertRow(rowCount);
+                                
+                                    row.insertCell(0).innerHTML = rowCount;
+                                    row.insertCell(1).innerHTML= "myfunction()";
+                                    row.insertCell(2).innerHTML= "myfunction1()";
+                                    row.insertCell(3).innerHTML= "myfunction2()";
                                      }
                                  });
                                  });
@@ -186,7 +195,7 @@
                                     });
                                  }
                                 </script>
-                                
+
                                  <div class="form-group">
                                     <label>Item Name</label>
                                     <div id="item">
