@@ -96,5 +96,3 @@ Route::get('/deletebilling/{id}',[BillingController::class,'deleteBilling']);
 Route::get('/viewbilling/{id}',[BillingController::class,'viewBilling']);
 Route::get('/getorder',[BillingController::class,'getOrderByOrderId']);
 Route::get('/getitemname',[BillingController::class,'getItemNameById']);
-Route::get('/getordertype',[BillingController::class,'getOrderTypeById']);
-Route::get('/getitemprice',[BillingController::class,'getItemPriceById']);

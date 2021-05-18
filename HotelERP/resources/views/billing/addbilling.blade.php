@@ -61,31 +61,6 @@
                                             getItemName(item['item_id']);
                                           // console.log(item);   
                                         }
-                                        result.forEach(myfunction1);
-                                        function myfunction1(item,index){
-                                            getOrderType(item['order_type']);
-                                          // console.log(item);   
-                                        }
-                                        result.forEach(myfunction2);
-                                        function myfunction2(item,index){
-                                            getItemPrice(item['item_id']);
-                                          // console.log(item);   
-                                        }
-                                        
-                                        var number_of_rows = result.length;
-                                        var number_of_cols = result.length;
-                                        var table_body = '<table border="1">';
-                                        for(var i=0;i<number_of_rows;i++){
-                                            table_body+='<tr>';
-                                            for(var j=0;j<number_of_cols;j++){
-                                                table_body +='<td>';
-                                                table_body += 'Table data';
-                                                table_body +='</td>';
-                                            }
-                                            table_body+='</tr>';
-                                        }
-                                            table_body+='</table>';
-                                        $('#item').html(table_body);
                                      
                                     }
                                  });
@@ -100,119 +75,30 @@
                                     dataType:"json",
                                     data:{'item_id':item_id},
                                     success: function(result){
-                                        var text = Object.values(result);
-                                        var text1 = text.join();
-                                      //console.log(text[0].name);
-                                      for(x in text){
-                                        console.log(text[x].name);
-                                        //console.log(text[x].order_type);
-                                        //console.log(text[x].price);
-                                       // document.getElementById("item").innerHTML = text[x].name;
-                                      }
-                                     // document.getElementById("item").innerHTML = ;
-                                    //    for(i=0; i<result.length; i++)
-                                    //    {
-                                    //        console.log(result[i]);
-                                    //    }
-                                       // $('#item').html(result);
-                                        // result.forEach(myfunction);
-                                        // function myfunction(item,index){
-                                        // //    for(x in item){
-                                        // //        console.log(x);
-                                        // //      // text += item[x] + ",";
-                                        // //    }
-                                        // console.log(item.name);
-                                        // }
-                                        //console.log(text);
+                                        // var text = Object.values(result);
+                                        // var text1 = text.join();
+                                      console.log(result);
+                                    //   for(x in text){
+                                    //     console.log(text[x].name);
+                                    //   }
                                      }
 
                                     });
                                  }
-                                 function getOrderType(order_type)
-                                 {
-                                    $.ajax({
-                                    url: "{{ url('getordertype') }}",
-                                    type:"GET",
-                                    dataType:"json",
-                                    data:{'order_type':order_type},
-                                    success: function(result){
-                                        var text = Object.values(result);
-                                        var text1 = text.join();
-                                      //console.log(text[0].name);
-                                      for(x in text){
-                                        //console.log(text[x].name);
-                                        console.log(text[x].order_type);
-                                       // console.log(text[x].price);
-                                       // document.getElementById("item").innerHTML = text[x].name;
-                                      }
-                                     // document.getElementById("item").innerHTML = ;
-                                    //    for(i=0; i<result.length; i++)
-                                    //    {
-                                    //        console.log(result[i]);
-                                    //    }
-                                       // $('#item').html(result);
-                                        // result.forEach(myfunction);
-                                        // function myfunction(item,index){
-                                        // //    for(x in item){
-                                        // //        console.log(x);
-                                        // //      // text += item[x] + ",";
-                                        // //    }
-                                        // console.log(item.name);
-                                        // }
-                                        //console.log(text);
-                                     }
-
-                                    });
-                                 }
-                                 function getItemPrice(item_id)
-                                 {
-                                    $.ajax({
-                                    url: "{{ url('getitemprice') }}",
-                                    type:"GET",
-                                    dataType:"json",
-                                    data:{'item_id':item_id},
-                                    success: function(result){
-                                        var text = Object.values(result);
-                                        var text1 = text.join();
-                                      //console.log(text[0].name);
-                                      for(x in text){
-                                        //console.log(text[x].name);
-                                        //console.log(text[x].order_type);
-                                        console.log(text[x].price);
-                                       // document.getElementById("item").innerHTML = text[x].name;
-                                      }
-                                     // document.getElementById("item").innerHTML = ;
-                                    //    for(i=0; i<result.length; i++)
-                                    //    {
-                                    //        console.log(result[i]);
-                                    //    }
-                                       // $('#item').html(result);
-                                        // result.forEach(myfunction);
-                                        // function myfunction(item,index){
-                                        // //    for(x in item){
-                                        // //        console.log(x);
-                                        // //      // text += item[x] + ",";
-                                        // //    }
-                                        // console.log(item.name);
-                                        // }
-                                        //console.log(text);
-                                     }
-
-                                    });
-                                 }
+                                 
                                 </script>
 
                                  <div class="form-group">
                                     <label>Item Name</label>
-                                    <div id="item">
-                                    <!-- <table id="myTableData"  border="1" cellpadding="2">
+                                    <div>
+                                    <table border="1" cellpadding="2">
                                         <tr>
                                             <td><b>No.</b></td>
                                             <td><b>Item Name</b></td>
                                             <td><b>Order Type</b></td>
                                             <td><b>Item Price</b></td>
                                         </tr>
-                                    </table>     -->
+                                    </table>    
                                     </div>
                                 </div>
                                 <div class="form-group">

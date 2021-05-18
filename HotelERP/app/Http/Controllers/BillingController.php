@@ -154,26 +154,13 @@ class BillingController extends Controller
 
     public function getItemNameById(Request $request)
     {
-        $output = "";
         $item_id = $request->item_id;
-        $items = DB::table('food_item')
-                ->select('name')->where('id', $item_id)->get();
+        $items = DB::table('orders')
+                ->join('food_item', 'food_item.id', '=', 'orders.item_id')
+                ->select('food_item.name','food_item.price', 'orders.order_type')
+                
+                ->get();
     
         return $items;            
-    }
-
-    public function getOrderTypeById(Request $request)
-    {
-        $ordertype = $request->order_type;
-        $orders = DB::table('orders')->where('order_type', $ordertype)->get();    
-        return $orders;            
-    }
-
-    public function getItemPriceById(Request $request)
-    {
-        $price = $request->item_id;
-        $orders = DB::table('food_item')
-                ->select('price')->where('id', $price)->get();    
-        return $orders;            
     }
 }
