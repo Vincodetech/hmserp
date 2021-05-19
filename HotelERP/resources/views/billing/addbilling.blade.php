@@ -47,7 +47,7 @@
                                     <script>
                                         $('#orderid').change(function() {
                                             var orderid = $(this).val();
-                                            var input = document.getElementById('price');
+                                            
                                             $.ajax({
                                                 url: "{{ url('getorder') }}",
                                                 type: "GET",
@@ -60,17 +60,12 @@
                                                     function myfunction(item, index) {
                                                         getItemName(item['item_id']);
                                                         getItemPrice(item['item_id']);
+                                                        getGST(item['item_id']);
+                                                        getCGST(item['item_id']);
+                                                        getSGST(item['item_id']);
+                                                        getQuantity(item['item_id']);
                                                         // console.log(item);   
                                                     }
-                                                   
-
-                                                    
-                                                        
-                                                        // console.log(item);   
-                                                    
-                                                    // orderid.onchange = function() {
-                                                    //     input.value = getItemPrice();
-                                                    // }
                                                 }
                                             });
                                         });
@@ -109,7 +104,10 @@
                                                     'item_id': item_id
                                                 },
                                                 success: function(result) {
-                                                    console.log(result);
+                                                  //  console.log(result);
+                                                  $('#price').val(result);
+                                                  $('#grand_total').val(result);
+                                                  
                                                 }
 
                                             });
@@ -134,41 +132,127 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label>Price</label>
+                                        <label>Total Price(Rs.)</label>
                                         <input class="form-control" type="text" id="price" name="price"
-                                         readonly="readonly">
+                                         placeholder = "Enter Price" readonly="readonly">
                                     </div>
                                     <div class="form-group">
-                                        <label>Discount</label>
-                                        <input class="form-control" type="text" name="discount" placeholder="Enter Discount" autofocus>
+                                        <label>Discount(%)</label>
+                                        <input class="form-control" type="text" id="discount" 
+                                        name="discount" placeholder="Enter Discount" onkeyup="getDiscount(this)">
                                     </div>
+                                    <script>
+                                         function getDiscount(dataVal) {
+                                           $discount  = dataVal.value.trim();
+                                           $.ajax({
+                                                url: "{{ url('getdiscount') }}",
+                                                type: "GET",
+                                                success: function(result) {
+                                                  //  console.log(result);
+                                                  $('#taxable_amount').val(result);
+                                                 
+                                                }
+
+                                            });
+                                        }
+                                       </script>
                                     <div class="form-group">
-                                        <label>CGST</label>
-                                        <input class="form-control" type="text" name="cgst" placeholder="Enter CGST" autofocus>
+                                        <label>CGST(2.5%)</label>
+                                        <input class="form-control" type="text" id = "cgst" name="cgst" 
+                                        readonly="readonly" placeholder="Enter CGST" autofocus>
                                     </div>
+                                    <script>
+                                        function getGST(item_id) {
+                                            $.ajax({
+                                                url: "{{ url('getcgstandsgst') }}",
+                                                type: "GET",
+                                                data:{
+                                                    'item_id':item_id
+                                                },
+                                                success: function(result) {
+                                                  //  console.log(result);
+                                                  $('#taxable_amount').val(result);
+                                                 
+                                                }
+
+                                            });
+                                        }
+                                        function getCGST(item_id) {
+                                            $.ajax({
+                                                url: "{{ url('getcgst') }}",
+                                                type: "GET",
+                                                data:{
+                                                    'item_id':item_id
+                                                },
+                                                success: function(result) {
+                                                  //  console.log(result);
+                                                  $('#cgst').val(result);
+                                                  
+                                                }
+
+                                            });
+                                        }
+                                        function getSGST(item_id) {
+                                            $.ajax({
+                                                url: "{{ url('getsgst') }}",
+                                                type: "GET",
+                                                data:{
+                                                    'item_id':item_id
+                                                },
+                                                success: function(result) {
+                                                  //  console.log(result);
+                                                  $('#sgst').val(result);
+                                                  
+                                                }
+
+                                            });
+                                        }
+
+                                        </script>
                                     <div class="form-group">
-                                        <label>SGST</label>
-                                        <input class="form-control" type="text" name="sgst" placeholder="Enter SGST" autofocus>
+                                        <label>SGST(2.5%)</label>
+                                        <input class="form-control" type="text" id="sgst" name="sgst" 
+                                        readonly="readonly" placeholder="Enter SGST" autofocus>
                                     </div>
+                                    <script>
+                                        function getQuantity(item_id) {
+                                            $.ajax({
+                                                url: "{{ url('getquantity') }}",
+                                                type: "GET",
+                                                data:{
+                                                    'item_id':item_id
+                                                },
+                                                success: function(result) {
+                                                  //  console.log(result);
+                                                  $('#quantity').val( result +  "Item(s)");
+                                                 
+                                                }
+
+                                            });
+                                        }
+                                    </script>
                                     <div class="form-group">
                                         <label>Quantity</label>
-                                        <input class="form-control" type="text" name="quantity" placeholder="Enter Quantity" autofocus>
+                                        <input class="form-control" type="text" id="quantity" name="quantity" 
+                                        readonly="readonly" placeholder="Enter Quantity" autofocus>
                                     </div>
                                     <div class="form-group">
-                                        <label>Taxable Amount</label>
-                                        <input class="form-control" type="text" name="taxable_amount" placeholder="Enter Taxable Amount" autofocus>
+                                        <label>Taxable Amount(Rs.)</label>
+                                        <input class="form-control" type="text" id="taxable_amount" 
+                                        name="taxable_amount" placeholder="Enter Taxable Amount" readonly="readonly" autofocus>
                                     </div>
                                     <div class="form-group">
-                                        <label>Payable Amount</label>
-                                        <input class="form-control" type="text" name="payable_amount" placeholder="Enter Payable Amount" autofocus>
+                                        <label>Pay Amount(Rs.)</label>
+                                        <input class="form-control" type="text" id="payable_amount" name="payable_amount" placeholder="Enter Payable Amount" autofocus>
                                     </div>
                                     <div class="form-group">
-                                        <label>Change Amount</label>
-                                        <input class="form-control" type="text" name="change_amount" placeholder="Enter Change Amount" autofocus>
+                                        <label>Change Amount(Rs.)</label>
+                                        <input class="form-control" type="text" id="change_amount" name="change_amount" placeholder="Enter Change Amount" autofocus>
                                     </div>
                                     <div class="form-group">
-                                        <label>Grand Total</label>
-                                        <input class="form-control" type="text" name="grand_total" placeholder="Enter Grand Total" autofocus>
+                                        <label>Grand Total(Rs.)</label>
+                                        <input class="form-control" type="text" id = "grand_total" name="grand_total"
+                                         placeholder="Enter Grand Total" readonly="readonly">
                                     </div>
                                     <div class="form-group">
                                         <label>Active</label>

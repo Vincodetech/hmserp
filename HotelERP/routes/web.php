@@ -97,3 +97,8 @@ Route::get('/viewbilling/{id}',[BillingController::class,'viewBilling']);
 Route::get('/getorder',[BillingController::class,'getOrderByOrderId']);
 Route::get('/getitemname',[BillingController::class,'getItemNameById']);
 Route::get('/getitemprice',[BillingController::class,'getItemPriceById']);
+Route::get('/getcgstandsgst',[BillingController::class,'getCGSTandSGST']);
+Route::get('/getcgst',[BillingController::class,'getCGST']);
+Route::get('/getsgst',[BillingController::class,'getSGST']);
+Route::get('/getdiscount',[BillingController::class,'getDiscount']);
+Route::get('/getquantity',[BillingController::class,'getQuantity']);

@@ -169,10 +169,71 @@ class BillingController extends Controller
         $item_id = $request->item_id;
         $items = DB::table('orders')
                 ->join('food_item', 'food_item.id', '=', 'orders.item_id')
-                ->where(['item_id'=>$item_id])
                 ->sum('food_item.price');
     
         return $items;            
     }
 
+    public function getCGSTandSGST(Request $request)
+    {
+        $item_id = $request->item_id;
+        $total = DB::table('orders')
+                ->join('food_item', 'food_item.id', '=', 'orders.item_id')
+                ->sum('food_item.price');
+        $cgst = ($total*2.5)/100;
+        $sgst = ($total*2.5)/100;
+        $gst =  $cgst + $sgst;
+        $total1 = $total + $gst;
+        return $total1;            
+    }
+
+    public function getCGST(Request $request)
+    {
+        $item_id = $request->item_id;
+        $total = DB::table('orders')
+                ->join('food_item', 'food_item.id', '=', 'orders.item_id')
+                ->sum('food_item.price');
+        $cgst = ($total*2.5)/100;
+        
+        return $cgst;            
+    }
+
+    public function getSGST(Request $request)
+    {
+        $item_id = $request->item_id;
+        $total = DB::table('orders')
+                ->join('food_item', 'food_item.id', '=', 'orders.item_id')
+                ->sum('food_item.price');
+        
+        $sgst = ($total*2.5)/100;
+       
+        return $sgst;            
+    }
+
+    public function getDiscount(Request $request)
+    {
+        $discount = $request->discount;
+        $total = DB::table('orders')
+                ->join('food_item', 'food_item.id', '=', 'orders.item_id')
+                ->sum('food_item.price');
+        $cgst = ($total*2.5)/100;
+        $sgst = ($total*2.5)/100;
+        $gst =  $cgst + $sgst;
+        $total1 = $total + $gst;
+        $total2 = ($total1 - $discount)/100;
+        $total3 = $total1 - $total2;
+        return $total3;            
+    }
+
+    public function getQuantity(Request $request)
+    {
+        $item_id = $request->item_id;
+        $items =  DB::table('orders')
+            ->join('food_item', 'food_item.id', '=', 'orders.item_id')
+            ->count();
+        
+        return $items;           
+        
+    }
+    
 }
