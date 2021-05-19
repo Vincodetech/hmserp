@@ -158,9 +158,21 @@ class BillingController extends Controller
         $items = DB::table('orders')
                 ->join('food_item', 'food_item.id', '=', 'orders.item_id')
                 ->select('food_item.name','food_item.price', 'orders.order_type')
-                
+                ->where(['item_id'=>$item_id])
                 ->get();
     
         return $items;            
     }
+
+    public function getItemPriceById(Request $request)
+    {
+        $item_id = $request->item_id;
+        $items = DB::table('orders')
+                ->join('food_item', 'food_item.id', '=', 'orders.item_id')
+                ->where(['item_id'=>$item_id])
+                ->sum('food_item.price');
+    
+        return $items;            
+    }
+
 }
