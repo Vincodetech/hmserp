@@ -102,3 +102,4 @@ Route::get('/getcgst',[BillingController::class,'getCGST']);
 Route::get('/getsgst',[BillingController::class,'getSGST']);
 Route::get('/getdiscount',[BillingController::class,'getDiscount']);
 Route::get('/getquantity',[BillingController::class,'getQuantity']);
+Route::get('/getbillno',[BillingController::class,'getBillNo']);

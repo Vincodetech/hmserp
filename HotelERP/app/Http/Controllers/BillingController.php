@@ -15,7 +15,7 @@ class BillingController extends Controller
         if(request()->ajax())
         {
             $data = DB::table('billing')
-                    ->join('orders', 'orders.id', '=', 'billing.order_id')
+                    ->join('orders', 'orders.id', '=', 'billing.orderid')
                     ->join('users','users.id', '=', 'orders.user_id')
                     ->join('food_item','food_item.id', '=', 'orders.item_id')
                     ->select('billing.id','billing.bill_no', 'billing.bill_date','users.user_name',
@@ -63,10 +63,10 @@ class BillingController extends Controller
     public function addBilling()
     {
         $allbill = DB::table('billing')
-                    ->join('orders', 'orders.id', '=', 'billing.order_id')
+                    ->join('orders', 'orders.id', '=', 'billing.orderid')
                     ->join('users','users.id', '=', 'orders.user_id')
                     ->join('food_item','food_item.id', '=', 'orders.item_id')
-                    ->select('billing.*','orders.orderid','users.user_name','food_item.name','orders.order_type','food_item.price')
+                    ->select('billing.*','orders.orderid','users.user_name','food_item.name','orders.order_type','food_item.price','orders.id')
                     ->get();
         // $allbill = DB::select('select * from billing');
         return view('billing.addbilling',['allbill' => $allbill]);
@@ -76,7 +76,14 @@ class BillingController extends Controller
     {
         $bno = $request->bill_no;
         $bdate = $request->bill_date;
-        $oid = $request->order_id;
+        $oid = $request->orderid;
+        $discount = $request->discount;
+        $quantity = $request->quantity;
+        $cgst = $request->cgst;
+        $sgst = $request->sgst;
+        $tax_amount = $request->taxable_amount;
+        $pay_amount = $request->payable_amount;
+        $ch_amount = $request->change_amount;
         $gtotal = $request->grand_total;
         $active = $request->active;
         
@@ -88,13 +95,23 @@ class BillingController extends Controller
         {
             $active = 1;
         }
-        $results = DB::insert('insert into billing(bill_no,bill_date,order_id,grand_total,active) 
-        values (?,?,?,?,?)', [$bno,$bdate,$oid,$gtotal,$active]);
+        $results = DB::insert('insert into billing(bill_no,bill_date,orderid,discount,quantity,
+        cgst,sgst,taxable_amount,payable_amount,change_amount,grand_total,active) 
+        values (?,?,?,?,?,?,?,?,?,?,?,?)', [$bno,$bdate,$oid,$discount,$quantity,$cgst,$sgst,
+        $tax_amount,$pay_amount,$ch_amount,$gtotal,$active]);
 
-        if ($results != false) {
-            return redirect('/addbilling')->with('roleSccssMsg', 'Bill Added Successfully.');
+        if ($pay_amount < $gtotal && $pay_amount > 0) {
+            return redirect('/addbilling')->with('roleErrMsg', 'Pay Amount Must be Greater than Grand Total');
         } else {
-            return redirect('/addbilling')->with('roleErrMsg', 'Bill add to failed!!');
+            if($results != false)
+            {
+                return redirect('/addbilling')->with('roleSccssMsg', 'Bill Added Successfully');
+            }
+            else
+            {
+                return redirect('/addbilling')->with('roleErrMsg', 'Bill add to failed!!');
+            }
+            
         }
        return view('billing.addbilling');
     }
@@ -212,17 +229,20 @@ class BillingController extends Controller
 
     public function getDiscount(Request $request)
     {
-        $discount = $request->discount;
-        $total = DB::table('orders')
+        
+        $total = DB::table('billing')
+                ->join('orders', 'orders.id', '=', 'billing.order_id')
                 ->join('food_item', 'food_item.id', '=', 'orders.item_id')
                 ->sum('food_item.price');
+        $discount = $request->discount;        
         $cgst = ($total*2.5)/100;
         $sgst = ($total*2.5)/100;
         $gst =  $cgst + $sgst;
-        $total1 = $total + $gst;
-        $total2 = ($total1 - $discount)/100;
-        $total3 = $total1 - $total2;
-        return $total3;            
+        $tax_amount = $total + $gst;
+        $discount1 = ($discount/100);
+        $tax_amount1 = ($tax_amount - ($total * $discount1));
+       // $total3 = $tax_amount - $total2;
+        return $tax_amount1;            
     }
 
     public function getQuantity(Request $request)
@@ -234,6 +254,13 @@ class BillingController extends Controller
         
         return $items;           
         
+    }
+
+    public function getBillNo()
+    {
+        $bill_data = DB::table('billing')
+        ->select('bill_no')->orderBy('id', 'DESC')->get();            
+        return $bill_data;
     }
     
 }
