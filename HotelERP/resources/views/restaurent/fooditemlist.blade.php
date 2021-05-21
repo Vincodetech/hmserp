@@ -47,6 +47,7 @@
                       <th>Item Image</th>
                       <th>Item Name</th>
                       <th>Category</th>
+                      <th>Item Code</th>
                       <th>Item Type</th>
                       <th>Status</th>
                       <th>Action</th>
@@ -86,6 +87,10 @@
                     {
                       data:'category_id',
                       name:'category_id'
+                    },
+                    {
+                      data:'item_code',
+                      name:'item_code'
                     },
                     {
                       data:'item_type',

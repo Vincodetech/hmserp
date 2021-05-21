@@ -36,7 +36,7 @@ class ItemController extends Controller
             if(!empty($request->filter_food_category))
             {
                 $data = DB::table('food_item')
-                        ->select('id','item_image', 'name', 'category_id', 'item_type', 'active')
+                        ->select('id','item_image', 'name', 'category_id', 'item_code', 'item_type', 'active')
                         ->where('category_id', $request->filter_food_category)
                         ->where('item_type', $request->filter_item_type)
                         ->get();
@@ -44,7 +44,7 @@ class ItemController extends Controller
             else
             {
                 $data = DB::table('food_item')
-                        ->select('id','item_image', 'name', 'category_id', 'item_type', 'active')
+                        ->select('id','item_image', 'name', 'category_id', 'item_code', 'item_type', 'active')
                         ->get();
             }
             return datatables()->of($data)
@@ -115,6 +115,7 @@ class ItemController extends Controller
         $slug = $request->slug;
         $item_image = $request->item_image;
         $food_category = $request->category_id;
+        $item_code = $request->item_code;
         $description = $request->description;
         $unit = $request->unit;
         $price = $request->price;
@@ -179,10 +180,10 @@ class ItemController extends Controller
         {
             $active = 1;
         }
-        $results = DB::insert('insert into food_item(name,slug,item_image,category_id,description,
+        $results = DB::insert('insert into food_item(name,slug,item_image,category_id,item_code,description,
         unit,price,quantity,item_type,active) 
-        values (?,?,?,?,?,?,?,?,?,?)', [$item_name,$slug,$filename,$food_category,
-        $description,$unit,$price,$quantity,$item_type,$active]);
+        values (?,?,?,?,?,?,?,?,?,?,?)', [$item_name,$slug,$filename,$food_category,
+        $item_code,$description,$unit,$price,$quantity,$item_type,$active]);
 
         if ($results != false) {
             return redirect('/addfooditem')->with('roleSccssMsg', 'Food Item Added Successfully.');
@@ -207,6 +208,7 @@ class ItemController extends Controller
         $slug = $request->slug;
         $item_image = $request->item_image;
         $food_category = $request->category_id;
+        $item_code = $request->item_code;
         $description = $request->description;
         $unit = $request->unit;
         $price = $request->price;
@@ -239,9 +241,9 @@ class ItemController extends Controller
         //     $active = 1;
         // }
         $result = DB::update('update food_item set name = ?, slug = ?, item_image = ?,
-        category_id = ?, description = ?, unit = ?, price = ?, quantity = ?,
+        category_id = ?, item_code = ?, description = ?, unit = ?, price = ?, quantity = ?,
         item_type = ?, active = ? where id = ?', [$item_name, $slug, $filename, $food_category,
-         $description, $unit, $price, $quantity, $item_type, $active, $id]);
+         $item_code, $description, $unit, $price, $quantity, $item_type, $active, $id]);
 
         if ($result != false) {
             return redirect('updatefooditem/'. $id)->with('updateItemInMsg', 'Food Item Updated Successfully');

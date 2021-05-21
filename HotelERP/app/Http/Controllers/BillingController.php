@@ -15,11 +15,8 @@ class BillingController extends Controller
         if(request()->ajax())
         {
             $data = DB::table('billing')
-                    ->join('orders', 'orders.id', '=', 'billing.orderid')
-                    ->join('users','users.id', '=', 'orders.user_id')
-                    ->join('food_item','food_item.id', '=', 'orders.item_id')
-                    ->select('billing.id','billing.bill_no', 'billing.bill_date','users.user_name',
-                    'users.phone','food_item.name','food_item.price', 'billing.grand_total','billing.active')
+                     ->select('id','bill_no', 'bill_date','orderid',
+                    'grand_total','active')
                     ->get();
             return datatables()->of($data)
             ->addIndexColumn()
@@ -63,7 +60,7 @@ class BillingController extends Controller
     public function addBilling()
     {
         $allbill = DB::table('billing')
-                    ->join('orders', 'orders.id', '=', 'billing.orderid')
+                    ->join('orders', 'orders.orderid', '=', 'billing.orderid')
                     ->join('users','users.id', '=', 'orders.user_id')
                     ->join('food_item','food_item.id', '=', 'orders.item_id')
                     ->select('billing.*','orders.orderid','users.user_name','food_item.name','orders.order_type','food_item.price','orders.id')
@@ -126,7 +123,14 @@ class BillingController extends Controller
     {
         $bno = $request->bill_no;
         $bdate = $request->bill_date;
-        $oid = $request->order_id;
+        $oid = $request->orderid;
+        $discount = $request->discount;
+        $quantity = $request->quantity;
+        $cgst = $request->cgst;
+        $sgst = $request->sgst;
+        $tax_amount = $request->taxable_amount;
+        $pay_amount = $request->payable_amount;
+        $ch_amount = $request->change_amount;
         $gtotal = $request->grand_total;
         $active = $request->active;
         
@@ -139,13 +143,21 @@ class BillingController extends Controller
         {
             $active = 1;
         }
-        $result = DB::update('update users set bill_no = ?, bill_date = ?, 
-        order_id = ?, grand_total = ?, active = ? where id = ?', [$bno, $bdate, $oid, $gtotal, $active, $id]);
+        $result = DB::update('update billing set bill_no = ?, bill_date = ?, 
+        orderid = ?, discount = ?, quantity = ?, cgst = ?, sgst = ?, taxable_amount = ?, 
+        payable_amount = ?, change_amount = ?, grand_total = ?, active = ? where id = ?', [$bno, $bdate, 
+        $oid, $discount, $quantity, $cgst, $sgst, $tax_amount, $pay_amount, $ch_amount, $gtotal, $active, $id]);
 
-        if ($result != false) {
-            return redirect('updatebilling/'. $id)->with('updateCategoryInMsg', 'Bill Updated Successfully');
-        } else {
-            return redirect('updatebilling/'. $id)->with('errUpdateCategoryInMsg', 'Bill not Updated');
+        if ($pay_amount < $gtotal && $pay_amount > 0) {
+            return redirect('updatebilling/'. $id)->with('errUpdateCategoryInMsg', 'Pay Amount Must be Greater than Grand Total');
+        }
+         else 
+         {
+            if ($result != false) {
+                return redirect('updatebilling/'. $id)->with('updateCategoryInMsg', 'Bill Updated Successfully');
+            } else {
+                 return redirect('updatebilling/'. $id)->with('errUpdateCategoryInMsg', 'Bill not Updated');
+            }
         }
         return view('billing.updatebilling');
     }

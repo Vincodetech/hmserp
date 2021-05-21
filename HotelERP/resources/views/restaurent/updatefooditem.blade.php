@@ -69,6 +69,12 @@
                                     </select>
                                 </div>
                                 <div class="form-group">
+                                    <label>Item Code</label>
+                                    <input class="form-control" type="text" name="item_code"
+                                    value="{{ $singlefooditem->item_code }}" placeholder="Enter Item Code" 
+                                           autofocus>
+                                </div>
+                                <div class="form-group">
                                     <label>Description</label>
                                     <textarea class="form-control" id="description" name="description"
                                      placeholder="Enter Description">
