@@ -51,15 +51,14 @@
                                         <label>Bill Date</label>
                                         <input class="form-control" type="date" name="bill_date" value="<?= date("Y-m-d"); ?>" placeholder="Enter Bill Date" autofocus required>
                                     </div>
-                                    <div class="form-group">
-                                        <label>Order ID With Name</label>
-                                        <select class="form-control" name="orderid" id="orderid">
-                                            <option value="">Select</option>
-                                            @foreach($allbill as $data)
-                                            <option value="{{ $data->orderid }}">{{ $data->orderid }}-{{ $data->user_name }}</option>
-                                            @endforeach
-                                        </select>
-                                        <input type="hidden" id="order_id" name="order_id" value="">
+                                    <div class="input-group col-lg-6">
+                                    <label>Item Code: </label> &nbsp; &nbsp;
+                                        <input class="form-control" type="text" name="item_code" value="" id="item_code" 
+                                        placeholder="Enter Item Code" autofocus required> &nbsp; &nbsp;
+                                        <span class="input-group-btn">
+                                        <button class="btn btn-primary" type="button" id="item_code" click="">
+                                          <i class="fa fa-search fa-sm"></i></button>
+                                        </sapn>  
                                     </div>
                                     <script>
                                         $('#order_id').change(function() {
@@ -88,7 +87,7 @@
                                                     result.forEach(myfunction);
 
                                                     function myfunction(item, index) {
-                                                        getItemName(item['item_id']);
+                                                        //getItemName(item['item_id']);
                                                         getItemPrice(item['item_id']);
                                                         // getGST();
                                                         getCGST(item['item_id']);
@@ -115,8 +114,9 @@
                                                         // console.log(result[item]);
                                                         data += "<tr>";
                                                         data += `<td>${result[item].name}</td>`;
-                                                        data += `<td>${result[item].order_type}</td>`;
                                                         data += `<td>${result[item].price}</td>`;
+                                                        data += `<td>${result[item].quantity}</td>`;
+                                                        data += `<td>${result[item].amount}</td>`;
                                                         data += "</tr>";
                                                     }
                                                     // console.log(data);
@@ -152,8 +152,9 @@
                                                 <thead>
                                                     <tr>
                                                         <th><b>Item Name</b></th>
-                                                        <th><b>Order Type</b></th>
                                                         <th><b>Item Price</b></th>
+                                                        <th><b>Quantity</b></th>
+                                                        <th><b>Amount</b></th>
                                                     </tr>
                                                 </thead>
                                                 <tbody id="data">

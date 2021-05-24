@@ -15,8 +15,9 @@ class BillingController extends Controller
         if(request()->ajax())
         {
             $data = DB::table('billing')
-                     ->select('id','bill_no', 'bill_date','orderid',
-                    'grand_total','active')
+                     ->join('billing','billing.id', '=', 'orders.order_id')
+                     ->select('billing.id','billing.bill_no', 'billing.bill_date','billing.order_no',
+                    'billing.grand_total','billing.active')
                     ->get();
             return datatables()->of($data)
             ->addIndexColumn()
@@ -59,11 +60,9 @@ class BillingController extends Controller
 
     public function addBilling()
     {
-        $allbill = DB::table('billing')
-                    ->join('orders', 'orders.orderid', '=', 'billing.orderid')
-                    ->join('users','users.id', '=', 'orders.user_id')
-                    ->join('food_item','food_item.id', '=', 'orders.item_id')
-                    ->select('billing.*','orders.orderid','users.user_name','food_item.name','orders.order_type','food_item.price','orders.id')
+        $allbill = DB::table('order_detail')
+                    ->join('food_item','food_item.id', '=', 'order_detail.item_id')
+                    ->select('food_item.name','order_detail.quantity','food_item.price','order_detail.amount')
                     ->get();
         // $allbill = DB::select('select * from billing');
         return view('billing.addbilling',['allbill' => $allbill]);
@@ -184,11 +183,11 @@ class BillingController extends Controller
     public function getItemNameById(Request $request)
     {
         $item_id = $request->item_id;
-        $items = DB::table('orders')
-                ->join('food_item', 'food_item.id', '=', 'orders.item_id')
-                ->select('food_item.name','food_item.price', 'orders.order_type')
-                ->where(['item_id'=>$item_id])
-                ->get();
+        $items = DB::table('order_detail')
+                    ->join('food_item','food_item.id', '=', 'order_detail.item_id')
+                    ->select('food_item.name','order_detail.quantity','food_item.price','order_detail.amount')
+                    ->where(['item_id'=>$item_id])
+                    ->get();
     
         return $items;            
     }

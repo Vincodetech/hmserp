@@ -52,8 +52,8 @@
                       name:'bill_date'
                     },
                     {
-                      data:'orderid',
-                      name:'orderid'
+                      data:'order_no',
+                      name:'order_no'
                     },
                     {
                       data:'grand_total',
