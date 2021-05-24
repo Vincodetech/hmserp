@@ -39,8 +39,8 @@
                                                 datatype: "JSON",
                                                 success: function(result) {
                                                     var billno = parseInt(result[0]['bill_no']);
-                                                   // console.log(billno + 1);
-                                                   billno += 1; 
+                                                    // console.log(billno + 1);
+                                                    billno += 1;
                                                     $('#bill_no').val(billno);
                                                 }
                                             });
@@ -52,13 +52,12 @@
                                         <input class="form-control" type="date" name="bill_date" value="<?= date("Y-m-d"); ?>" placeholder="Enter Bill Date" autofocus required>
                                     </div>
                                     <div class="input-group col-lg-6">
-                                    <label>Item Code: </label> &nbsp; &nbsp;
-                                        <input class="form-control" type="text" name="item_code" value="" id="item_code" 
-                                        placeholder="Enter Item Code" autofocus required> &nbsp; &nbsp;
+                                        <label>Item Code: </label> &nbsp; &nbsp;
+                                        <input class="form-control" type="text" name="item_code" value="" id="item_code" placeholder="Enter Item Code" autofocus required> &nbsp; &nbsp;
                                         <span class="input-group-btn">
-                                        <button class="btn btn-primary" type="button" id="item_code" click="">
-                                          <i class="fa fa-search fa-sm"></i></button>
-                                        </sapn>  
+                                            <button class="btn btn-primary" type="button" id="item_code" onclick="getItemsForOrder()">
+                                                <i class="fa fa-search fa-sm"></i></button>
+                                            </sapn>
                                     </div>
                                     <script>
                                         $('#order_id').change(function() {
@@ -74,75 +73,140 @@
                                         });
                                     </script>
                                     <script>
-                                        $('#orderid').change(function() {
-                                            var orderid = $(this).val();
+                                        // $.ajax({
+                                        //     url: "{{ url('getorder') }}",
+                                        //     type: "GET",
+                                        //     data: {
+                                        //         'orderid': orderid
+                                        //     },
+                                        //     success: function(result) {
+                                        //         result.forEach(myfunction);
 
-                                            $.ajax({
-                                                url: "{{ url('getorder') }}",
-                                                type: "GET",
-                                                data: {
-                                                    'orderid': orderid
-                                                },
-                                                success: function(result) {
-                                                    result.forEach(myfunction);
+                                        //         function myfunction(item, index) {
+                                        //             //getItemName(item['item_id']);
+                                        //             getItemPrice(item['item_id']);
+                                        //             // getGST();
+                                        //             getCGST(item['item_id']);
+                                        //             getSGST(item['item_id']);
+                                        //             getQuantity(item['item_id']);
+                                        //             // console.log(item);   
+                                        //         }
+                                        //     }
+                                        // });
 
-                                                    function myfunction(item, index) {
-                                                        //getItemName(item['item_id']);
-                                                        getItemPrice(item['item_id']);
-                                                        // getGST();
-                                                        getCGST(item['item_id']);
-                                                        getSGST(item['item_id']);
-                                                        getQuantity(item['item_id']);
-                                                        // console.log(item);   
-                                                    }
-                                                }
-                                            });
-                                        });
+                                        let i = 0;
+                                        let oldTotalAmt = 0;
+                                        let amt = 0;
+                                        let sum = 0;
+                                        let taxable_amount = 0;
+                                        let grandTotal = 0;
 
-
-                                        function getItemName(item_id) {
+                                        function getItemsForOrder() {
+                                            i++;
+                                            var item_code = document.getElementById("item_code").value.trim();
                                             $.ajax({
                                                 url: "{{ url('getitemname') }}",
                                                 type: "GET",
                                                 data: {
-                                                    'item_id': item_id
+                                                    'item_code': item_code
                                                 },
                                                 success: function(result) {
                                                     var data = "";
-                                                    // console.log(result);
+
+
                                                     for (item in result) {
-                                                        // console.log(result[item]);
                                                         data += "<tr>";
                                                         data += `<td>${result[item].name}</td>`;
-                                                        data += `<td>${result[item].price}</td>`;
-                                                        data += `<td>${result[item].quantity}</td>`;
-                                                        data += `<td>${result[item].amount}</td>`;
+                                                        data += '<td><input type="text" value="' + result[item].price + '" id="rate_' + (i) + '" /></td>';
+                                                        data += '<td><input type="text" value="1" id="quantity" onkeyup="totalAmount(this, ' + (i) + ')" /></td>';
+                                                        data += '<td><input type="text" value="' + result[item].price + '" id="amount_' + (i) + '"/></td>';
                                                         data += "</tr>";
+                                                        // amt = parseInt(document.getElementById("price").value.trim()) * result[item].price;
+                                                        oldTotalAmt = Number(document.getElementById("price").value.trim());
+                                                        amt = result[item].price;
+                                                        console.log("oldTotalAmt: " + oldTotalAmt);
+                                                        console.log(amt);
+
+                                                        if (oldTotalAmt > 0) {
+                                                            sum = oldTotalAmt + amt;
+                                                            console.log(sum)
+                                                            document.getElementById("price").value = sum;
+                                                            // document.getElementById("taxable_amount").value = taxable_amount;
+                                                            $('#taxable_amount').val(taxable_amount);
+                                                            grandTotal = sum;
+                                                            console.log("grandTotal : " + grandTotal);
+                                                            // document.getElementById("grand_total").value = grandTotal;
+                                                            $('#grand_total').val(grandTotal);
+
+                                                            var total = Number(document.getElementById("price"));
+                                                            var cgst = (total * 2.5) / 100;
+                                                            console.log("cgst : " + cgst);
+                                                            var sgst = (total * 2.5) / 100;
+                                                            console.log("sgst : " + sgst);
+                                                            var gst = cgst + sgst;
+                                                            console.log("gst : " + gst);
+                                                            $("#cgst").val(cgst);
+                                                            $("#sgst").val(sgst);
+                                                            taxable_amount = total + gst;
+                                                            grandTotal = taxable_amount;
+                                                            $('#taxable_amount').val(taxable_amount);
+                                                            $('#grand_total').val(grandTotal);
+
+                                                        } else {
+                                                            document.getElementById("price").value = result[item].price;
+                                                            $('#taxable_amount').val(taxable_amount);
+                                                            grandTotal = result[item].price;
+                                                            $('#grand_total').val(grandTotal);
+                                                            var total = Number(document.getElementById("price"));
+                                                            var cgst = (total * 2.5) / 100;
+                                                            console.log("cgst : " + cgst);
+                                                            var sgst = (total * 2.5) / 100;
+                                                            console.log("sgst : " + sgst);
+                                                            var gst = cgst + sgst;
+                                                            console.log("gst : " + gst);
+                                                            $("#cgst").val(cgst);
+                                                            $("#sgst").val(sgst);
+                                                            taxable_amount = total + gst;
+                                                            grandTotal = taxable_amount;
+                                                            $('#taxable_amount').val(taxable_amount);
+                                                            $('#grand_total').val(grandTotal);
+                                                        }
                                                     }
-                                                    // console.log(data);
                                                     $('#data').append(data);
                                                 }
 
                                             });
                                         }
 
-                                        function getItemPrice(item_id) {
-                                            $.ajax({
-                                                url: "{{ url('getitemprice') }}",
-                                                type: "GET",
-                                                data: {
-                                                    'item_id': item_id
-                                                },
-                                                success: function(result) {
-                                                    //  console.log(result);
-                                                    $('#price').val(result);
+                                        function totalAmount(qty, c) {
+                                            var totalAmount = 0;
+                                            var quantity = parseInt(qty.value.trim());
+                                            var rate = parseInt(document.getElementById("rate_" + c).value.trim());
+                                            if (quantity != 0) {
+                                                var oldAmt = Number(document.getElementById("amount_" + c).value.trim());
+                                                var oldTotal = Number(document.getElementById("price").value.trim());
+                                                var nTotal = oldTotal - oldAmt;
 
-                                                    getGST(result);
+                                                totalAmount = rate * quantity;
 
-                                                }
-
-                                            });
+                                                var nnTotal = nTotal + totalAmount;
+                                                // sum = sum + totalAmount
+                                                document.getElementById("amount_" + c).value = totalAmount;
+                                                document.getElementById("price").value = nnTotal;
+                                                $('#taxable_amount').val(taxable_amount);
+                                                grandTotal = nnTotal;
+                                                $('#grand_total').val(grandTotal);
+                                            } else {
+                                                alert("Quantity must be greater than 0");
+                                                qty.autofocus = true;
+                                                qty.value = 1;
+                                            }
                                         }
+
+                                        // function totalSumAmount(cnt)
+                                        // {
+
+                                        // }
                                     </script>
 
                                     <div class="form-group">
@@ -164,12 +228,8 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
-                                        <label>Quantity</label>
-                                        <input class="form-control" type="text" id="quantity" name="quantity" readonly="readonly" placeholder="Enter Quantity" autofocus>
-                                    </div>
-                                    <div class="form-group">
                                         <label>Total Price(Rs.)</label>
-                                        <input class="form-control" type="text" id="price" name="price" placeholder="Enter Price" readonly="readonly" value="">
+                                        <input class="form-control" type="text" id="price" name="price" placeholder="Enter Price" value="">
                                     </div>
                                     <div class="form-group">
                                         <label>Discount(%)</label>
@@ -281,7 +341,7 @@
 
                                     <div class="form-group">
                                         <label>Taxable Amount(Rs.)</label>
-                                        <input class="form-control" type="text" id="taxable_amount" value="" name="taxable_amount" placeholder="Enter Taxable Amount" readonly="readonly" autofocus>
+                                        <input class="form-control" type="text" id="taxable_amount" value="" name="taxable_amount" placeholder="Enter Taxable Amount" disabled autofocus>
                                     </div>
                                     <div class="form-group">
                                         <label>Pay Amount(Rs.)</label>
@@ -308,7 +368,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label>Grand Total(Rs.)</label>
-                                        <input class="form-control" type="text" id="grand_total" name="grand_total" placeholder="Enter Grand Total" value="0.00" readonly="readonly">
+                                        <input class="form-control" type="text" id="grand_total" name="grand_total" placeholder="Enter Grand Total" value="0.00" disabled>
                                     </div>
                                     <div class="form-group">
                                         <label>Active</label>

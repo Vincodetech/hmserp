@@ -182,11 +182,10 @@ class BillingController extends Controller
 
     public function getItemNameById(Request $request)
     {
-        $item_id = $request->item_id;
-        $items = DB::table('order_detail')
-                    ->join('food_item','food_item.id', '=', 'order_detail.item_id')
-                    ->select('food_item.name','order_detail.quantity','food_item.price','order_detail.amount')
-                    ->where(['item_id'=>$item_id])
+        $item_code = $request->item_code;
+        $items = DB::table('food_item')
+                    ->select('*')
+                    ->where(['item_code'=>$item_code])
                     ->get();
     
         return $items;            
