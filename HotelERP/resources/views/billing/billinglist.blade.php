@@ -16,7 +16,7 @@
                       <th>No.</th>
                       <th>Bill No.</th>
                       <th>Bill Date</th>
-                      <th>Order ID</th>
+                      <th>Order No.</th>
                       <th>Grand Total</th>
                       <th>Active</th>
                       <th>Action</th>
@@ -52,8 +52,8 @@
                       name:'bill_date'
                     },
                     {
-                      data:'order_no',
-                      name:'order_no'
+                      data:'order_id',
+                      name:'order_id'
                     },
                     {
                       data:'grand_total',

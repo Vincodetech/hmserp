@@ -73,6 +73,11 @@ Route::post('/postupdateuserrolelist/{id}',[UserRoleController::class,'postUpdat
 Route::get('/deleteuserrolelist/{id}',[UserRoleController::class,'deleteUserRoleList']);
 
 Route::get('/orderlist',[OrderController::class,'orderList']);
+Route::get('/addorder',[OrderController::class,'addOrder']);
+Route::post('/postaddorder',[OrderController::class,'addPostOrder']);
+Route::get('/updateorder/{id}',[OrderController::class,'updateOrder']);
+Route::post('/postupdateorder/{id}',[OrderController::class,'postUpdateOrder']);
+Route::get('/deleteorder/{id}',[OrderController::class,'deleteOrder']);
 
 Route::get('/sliderlist',[SettingsController::class,'sliderList']);
 Route::get('/addslider',[SettingsController::class,'addSlider']);
@@ -88,7 +93,7 @@ Route::get('usersexport', [MyController::class, 'usersExport']);
 
 
 Route::get('/billinglist',[BillingController::class,'billingList']);
-Route::get('/addbilling',[BillingController::class,'addBilling']);
+Route::get('/addbilling/{id}',[BillingController::class,'addBilling']);
 Route::post('/postbilling',[BillingController::class,'addPostBilling']);
 Route::get('/updatebilling/{id}',[BillingController::class,'updateBilling']);
 Route::post('/postupdatebilling/{id}',[BillingController::class,'postUpdateBilling']);
@@ -103,3 +108,4 @@ Route::get('/getsgst',[BillingController::class,'getSGST']);
 Route::get('/getdiscount',[BillingController::class,'getDiscount']);
 Route::get('/getquantity',[BillingController::class,'getQuantity']);
 Route::get('/getbillno',[BillingController::class,'getBillNo']);
+Route::get('/addallitems',[BillingController::class,'addAllItems']);

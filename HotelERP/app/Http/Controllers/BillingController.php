@@ -15,12 +15,16 @@ class BillingController extends Controller
         if(request()->ajax())
         {
             $data = DB::table('billing')
-                     ->join('billing','billing.id', '=', 'orders.order_id')
-                     ->select('billing.id','billing.bill_no', 'billing.bill_date','billing.order_no',
-                    'billing.grand_total','billing.active')
+                     ->select('id','bill_no', 'bill_date','order_id',
+                    'grand_total','active')
                     ->get();
             return datatables()->of($data)
             ->addIndexColumn()
+            ->addColumn('order_id', function ($data) { 
+            
+                $sql = DB::table('orders')->where('id',$data->order_id)->first();
+                return $sql->order_no;
+            })
             ->addColumn('active', function($data){
                 if($data->active == '1')
                 {
@@ -44,7 +48,7 @@ class BillingController extends Controller
                             return $btn;
                            
                     })
-            ->rawColumns(['active','Action'])->make(true);
+            ->rawColumns(['order_id','active','Action'])->make(true);
         }
         $bill = DB::table('billing')
                         ->select('bill_no')
@@ -58,21 +62,22 @@ class BillingController extends Controller
 
     }
 
-    public function addBilling()
+    public function addBilling($id)
     {
+        $singlebill = DB::table('orders')->where('id', $id)->first();
         $allbill = DB::table('order_detail')
                     ->join('food_item','food_item.id', '=', 'order_detail.item_id')
                     ->select('food_item.name','order_detail.quantity','food_item.price','order_detail.amount')
                     ->get();
         // $allbill = DB::select('select * from billing');
-        return view('billing.addbilling',['allbill' => $allbill]);
+        return view('billing.addbilling',['singlebill' => $singlebill, 'allbill' => $allbill]);
     }
 
     public function addPostBilling(Request $request)
     {
         $bno = $request->bill_no;
         $bdate = $request->bill_date;
-        $oid = $request->orderid;
+        $oid = $request->order_id;
         $discount = $request->discount;
         $quantity = $request->quantity;
         $cgst = $request->cgst;
@@ -91,7 +96,7 @@ class BillingController extends Controller
         {
             $active = 1;
         }
-        $results = DB::insert('insert into billing(bill_no,bill_date,orderid,discount,quantity,
+        $results = DB::insert('insert into billing(bill_no,bill_date,order_id,discount,quantity,
         cgst,sgst,taxable_amount,payable_amount,change_amount,grand_total,active) 
         values (?,?,?,?,?,?,?,?,?,?,?,?)', [$bno,$bdate,$oid,$discount,$quantity,$cgst,$sgst,
         $tax_amount,$pay_amount,$ch_amount,$gtotal,$active]);
@@ -175,8 +180,8 @@ class BillingController extends Controller
 
     public function getOrderByOrderId(Request $request)
     {
-        $orderid = $request->orderid;
-        $orders = DB::table('orders')->where('orderid', $orderid)->get();    
+        $orderid = $request->order_id;
+        $orders = DB::table('orders')->where('order_id', $orderid)->get();    
         return $orders;            
     }
 
@@ -271,6 +276,20 @@ class BillingController extends Controller
         $bill_data = DB::table('billing')
         ->select('bill_no')->orderBy('id', 'DESC')->get();            
         return $bill_data;
+    }
+
+    public function addAllItems(Request $request)
+    {
+        $i_id = $request->item_id;
+        $oid = $request->order_id;
+        $qty = $request->quantity;
+        $amt = $request->amount;
+        
+
+        $allitems = DB::table('order_detail')->insert(array(
+            array("item_id"=>$i_id,"order_id"=>$oid,"quantity"=>$qty,
+            "amount"=>$amt)));           
+        return $allitems;
     }
     
 }

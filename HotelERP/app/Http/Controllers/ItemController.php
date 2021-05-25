@@ -12,23 +12,7 @@ use Illuminate\Support\Str;
 
 class ItemController extends Controller
 {
-    // public function upload(Request $request)
-    // {
-    //     if($request->hasFile('item_image'))
-    //     {
-    //         $filename = $request->item_image->getClientOriginalName();
-    //         if($filename1->item_image)
-    //         {
-    //             \Storage::delete('/public/img/'.$filename1->item_image);
-    //         }
-    //         $request->item_image->storeAs('img',$filename,'public');
-    //         $filename1->update(['item_image'=>$filename]);
-    //         session()->put('message','Image Uploaded...');
-    //     }
-    //     return redirect()->back();
-    // }
-    
-
+   
     public function foodItemList(Request $request)
     {
         if(request()->ajax())
@@ -68,17 +52,7 @@ class ItemController extends Controller
                     $btn1 = '<span class="badge badge-danger">InActive</span>';
                 }
                  return $btn1;
-               // $singlefooditem = DB::table('food_item')->where('id', $id)->first();
-            //    $btn1 = "<input data-id='{{$data->id}}' class='toggle-class' type='checkbox' 
-            //    data-onstyle='success' data-offstyle='danger' 
-            //    data-toggle='toggle' data-on='Active' data-off='InActive'
-            //    {{ $data->active ? 'checked' : '' }}>";
-
-            //     return $btn1;
-            // $btn1 = '<input id="toggle-demo" type="checkbox" checked data-toggle="toggle" 
-            // data-on="Active" data-off="InActive" data-onstyle="success" data-offstyle="danger">';
-
-            // return $btn1;
+               
          })
             ->addColumn('Action', function($data){
                 
@@ -124,25 +98,7 @@ class ItemController extends Controller
         $active = $request->active;
         
        $filename = "";
-       // if($request->hasFile('item_image'))
-       //  {
-       //      $file = $request->file('item_image');
-       //      $extension = $file->getClientOriginalExtension();
-       //      $filename = time() . '.' . $extension;
-       //      $file->move('/storage/images/', $filename);
-       //      $request->item_image = $filename;
-       //      $file->store($filename);
-       // // $path->save(); 
-       //  }
-
-        // $data = DB::table('food_item');  
-        // if($files=$request->file('item_image'))
-        // {  
-        //     $name=$files->getClientOriginalName();  
-        //     $files->move('images',$name);  
-        //     $data->item_image=$name;  
-        // }  
-        // $data->DB::table('food_item')->save();  
+        
         if($request->hasFile('item_image'))
         {
             $filename = $request->item_image->getClientOriginalName();
@@ -151,26 +107,8 @@ class ItemController extends Controller
             {
                 $request->item_image->storeAs('images',$filename,'public');
             }
-            
-           // $path->save();
-           // $request->item_image->update(['item_image'=>$filename]);
-           // session()->put('message','Image Uploaded...');
         }
-    //    if( $request->hasFile( 'item_image' ) ) 
-    //     {
-    //         $destinationPath = storage_path( 'app/public/images' );
-    //         $file = $request->item_image;
-    //         $fileName = time() . '.'.$file->clientExtension();
-    //         $file->move( $destinationPath, $fileName );
-    //     }
-
-        // $request->validate([
-        //     'item_image' => 'required|item_image|mimes:jpeg,png,jpg,gif,svg|max:1024',
-        // ]);
-    
-        // $imageName = time().'.'.$request->item_image->extension();
-     
-        // $request->item_image->move(public_path('images'), $imageName);
+   
   
         if($active != '1')
         {
