@@ -100,6 +100,8 @@ Route::post('/postupdatebilling/{id}',[BillingController::class,'postUpdateBilli
 Route::get('/deletebilling/{id}',[BillingController::class,'deleteBilling']);
 Route::get('/viewbilling/{id}',[BillingController::class,'viewBilling']);
 Route::get('/getorder',[BillingController::class,'getOrderByOrderId']);
+Route::get('/getorderid',[BillingController::class,'getOrderId']);
+Route::get('/getitemid',[BillingController::class,'getItemId']);
 Route::get('/getitemname',[BillingController::class,'getItemNameById']);
 Route::get('/getitemprice',[BillingController::class,'getItemPriceById']);
 Route::get('/getcgstandsgst',[BillingController::class,'getCGSTandSGST']);
@@ -108,4 +110,4 @@ Route::get('/getsgst',[BillingController::class,'getSGST']);
 Route::get('/getdiscount',[BillingController::class,'getDiscount']);
 Route::get('/getquantity',[BillingController::class,'getQuantity']);
 Route::get('/getbillno',[BillingController::class,'getBillNo']);
-Route::get('/addallitems',[BillingController::class,'addAllItems']);
+Route::post('/addallitems',[BillingController::class,'addAllItems']);

@@ -17,7 +17,7 @@ class OrderController extends Controller
         if(request()->ajax())
         {
                 $data = DB::table('orders')
-                        ->select('id', 'table_id', 'order_no', 'order_type', 'order_status',
+                        ->select('id', 'table_id', 'order_no', 'order_type', 'order_status', 'payment_status',
                          'active')
                         ->get();
             
@@ -83,6 +83,7 @@ class OrderController extends Controller
         $ono = $request->order_no;
         $otype = $request->order_type;
         $ostatus = $request->order_status;
+        $pstatus = $request->payment_status;
         $active = $request->active;
         
         if($active != '1')
@@ -93,8 +94,9 @@ class OrderController extends Controller
         {
             $active = 1;
         }
-        $results = DB::insert('insert into orders(table_id,order_no,order_type,order_status,active) 
-        values (?,?,?,?,?)', [$tname,$ono,$otype,$ostatus,$active]);
+        $results = DB::insert('insert into orders(table_id,order_no,order_type,order_status,payment_status,
+        active) 
+        values (?,?,?,?,?,?)', [$tname,$ono,$otype,$ostatus,$pstatus,$active]);
 
         if ($results != false) {
             return redirect('/addorder')->with('roleSccssMsg', 'Order Added Successfully.');
@@ -118,6 +120,7 @@ class OrderController extends Controller
         $ono = $request->order_no;
         $otype = $request->order_type;
         $ostatus = $request->order_status;
+        $pstatus = $request->payment_status;
         $active = $request->active;
         
         if($active != '1')
@@ -129,8 +132,8 @@ class OrderController extends Controller
             $active = 1;
         }
         $result = DB::update('update users set table_id = ?, order_no = ?, 
-        order_type = ?, order_status = ?, active = ? where id = ?', [$tname, $ono,
-         $otype, $ostatus, $active, $id]);
+        order_type = ?, order_status = ?,  payment_status = ?, active = ? where id = ?', [$tname, $ono,
+         $otype, $ostatus, $pstatus, $active, $id]);
 
         if ($result != false) {
             return redirect('updateorder/'. $id)->with('updateCategoryInMsg', 'Order Updated Successfully');

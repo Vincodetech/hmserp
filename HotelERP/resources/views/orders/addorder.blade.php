@@ -63,6 +63,13 @@
                                     <label for="Complete">Complete</label>
                                 </div>
                                 <div class="form-group">
+                                    <label>Payment Status</label><br/>
+                                    <input type="radio" id="cash" name="payment_status" value="Cash" checked>
+                                    <label for="Cash">Cash</label><br>
+                                    <input type="radio" id="online" name="payment_status" value="Online">
+                                    <label for="Online">Online</label><br>
+                                </div>
+                                <div class="form-group">
                                     <label>Active</label>
                                     <input type="checkbox" name="active" value="1">
                                 </div>

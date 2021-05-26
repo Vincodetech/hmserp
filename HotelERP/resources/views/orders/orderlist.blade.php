@@ -18,6 +18,7 @@
                       <th>Order No.</th>
                       <th>Order Type</th>
                       <th>Order Status</th>
+                      <th>Payment Status</th>
                       <th>Active</th>
                       <th>Action</th>
                     </tr>
@@ -59,6 +60,10 @@
                     {
                       data:'order_status',
                       name:'order_status'
+                    },
+                    {
+                      data:'payment_status',
+                      name:'payment_status'
                     },
                     {
                       data:'active',

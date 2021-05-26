@@ -71,6 +71,15 @@
                                     <label for="Complete">Complete</label>
                                 </div>
                                 <div class="form-group">
+                                    <label>Payment Status</label><br/>
+                                    <input type="radio" id="cash" name="payment_status" value="Cash" {{ ($singleorder->payment_status) == 'Cash' ?
+                                            'checked' : ''}}>
+                                    <label for="Draft">Cash</label><br>
+                                    <input type="radio" id="online" name="payment_status" value="Online" {{ ($singleorder->payment_status) == 'Online' ?
+                                            'checked' : ''}}>
+                                    <label for="Online">Online</label><br>
+                                </div>
+                                <div class="form-group">
                                     <label>Active</label>
                                     @if($singleorder->active)
                                         <input type="checkbox" name="active" value="1" 

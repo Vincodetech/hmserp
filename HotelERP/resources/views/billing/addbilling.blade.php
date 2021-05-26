@@ -29,8 +29,9 @@
                                     @csrf
                                     <div class="form-group">
                                         <label>Bill No.</label>
-                                        <input class="form-control" type="text" id="bill_no" name="bill_no" placeholder="Enter Bill No." 
-                                        readonly="readonly">
+                                        <input class="form-control" type="text" id="bill_no" name="bill_no" 
+                                        placeholder="Enter Bill No." readonly="readonly">
+                                        <input type="hidden" id="orderId" name="orderId" value="{{$oid}}">
                                     </div>
                                     <script>
                                         function getBillNo() {
@@ -50,29 +51,20 @@
                                     </script>
                                     <div class="form-group">
                                         <label>Bill Date</label>
-                                        <input class="form-control" type="date" name="bill_date" value="<?= date("Y-m-d"); ?>" placeholder="Enter Bill Date" autofocus required>
+                                        <input class="form-control" type="date" name="bill_date" 
+                                        value="<?= date("Y-m-d"); ?>" placeholder="Enter Bill Date" autofocus required>
                                     </div>
                                     <div class="input-group col-lg-6">
                                         <label>Item Code: </label> &nbsp; &nbsp;
-                                        <input class="form-control" type="text" name="item_code" value="" id="item_code" placeholder="Enter Item Code" autofocus required> &nbsp; &nbsp;
+                                        <input class="form-control" type="text" name="item_code" value="" 
+                                        id="item_code" placeholder="Enter Item Code" autofocus required> &nbsp; &nbsp;
                                         <span class="input-group-btn">
-                                            <button class="btn btn-primary" type="button" id="item_code" onclick="getItemsForOrder()">
+                                            <button class="btn btn-primary" type="button" id="item_code" 
+                                            onclick="getItemsForOrder()">
                                                 <i class="fa fa-search fa-sm"></i></button>
                                             </sapn>
-                                    </div>
-                                    <script>
-                                        $('#order_id').change(function() {
-                                            var orderid = $(this).val();
 
-                                            $.ajax({
-                                                url: "{{ url('getorder') }}",
-                                                type: "GET",
-                                                data: {
-                                                    'order_id': order_id
-                                                },
-                                            });
-                                        });
-                                    </script>
+                                    </div>
                                     <script>
                                         let i = 0;
                                         let oldTotalAmt = 0;
@@ -96,11 +88,11 @@
 
                                                     for (item in result) {
                                                         data += "<tr>";
-                                                        data += '<td><input type="checkbox" name="chk" value=""></td>';
-                                                        data += `<td>${result[item].name}</td>`;
+                                                        data += '<td><input type="checkbox" id="chk_' + (i) + '" name="chk" value="" data-toggle="tooltip" title="Save Entry" onclick="myFunction(' + (i) + ')"></td>';
+                                                        data += `<td><input type="hidden" id="itemId_${i}" name="itemId" value="${result[item].id}">${result[item].name}</td>`;
                                                         data += '<td><input type="text" value="' + result[item].price + '" id="rate_' + (i) + '" disabled /></td>';
-                                                        data += '<td><input type="text" value="1" id="quantity" onkeyup="totalAmount(this, ' + (i) + ')" /></td>';
-                                                        data += '<td><input type="text" value="' + result[item].price + '" id="amount_' + (i) + '" disabled/></td>';
+                                                        data += '<td><input type="text" value="1" id="quantity_' + (i) + '" onkeyup="totalAmount(' + (i) + ')" /></td>';
+                                                        data += '<td><input type="text" value="' + result[item].price + '" id="amount_' + (i) + '" disabled/><span id="text_'+(i)+'" style="display:none" class="badge badge-success">Entry Saved</span></td>';
                                                         data += "</tr>";
                                                         // amt = parseInt(document.getElementById("price").value.trim()) * result[item].price;
                                                         oldTotalAmt = Number(document.getElementById("price").value.trim());
@@ -157,9 +149,9 @@
                                             });
                                         }
 
-                                        function totalAmount(qty, c) {
+                                        function totalAmount(c) {
                                             var totalAmount = 0;
-                                            var quantity = parseInt(qty.value.trim());
+                                            var quantity = parseInt(document.getElementById("quantity_" + c).value.trim());
                                             var rate = parseInt(document.getElementById("rate_" + c).value.trim());
                                             if (quantity != 0) {
                                                 var oldAmt = Number(document.getElementById("amount_" + c).value.trim());
@@ -182,43 +174,48 @@
                                             }
                                         }
                                     </script>
-                                    <script type="text/javascript">  
-                                        function selects(){  
-                                            var ele=document.getElementsByName('chk');  
-                                            for(var i=0; i<ele.length; i++){  
-                                                if(ele[i].type=='checkbox')  
-                                                    ele[i].checked=true;  
-                                            }  
-                                        }  
-                                        function deSelect(){  
-                                            var ele=document.getElementsByName('chk');  
-                                            for(var i=0; i<ele.length; i++){  
-                                                if(ele[i].type=='checkbox')  
-                                                    ele[i].checked=false;  
-                                                
+                                    <script type="text/javascript">
+                                        function myFunction(c) {
+                                            // Get the checkbox
+                                            var checkBox = document.getElementById("chk_" + c);
+                                            // Get the output text
+                                            var text = document.getElementById("text_"+ c);
+
+                                            // If the checkbox is checked, display the output text
+                                            if (checkBox.checked == true) {
+                                                // 
+                                                var order_id = document.getElementById("orderId").value.trim();
+                                                var item_id = document.getElementById("itemId_" + c).value.trim();
+                                                var quantity = document.getElementById("quantity_" + c).value.trim();
+                                                var amount = document.getElementById("amount_" + c).value.trim();
+
+                                                $.ajax({
+                                                    url: "{{ url('addallitems') }}",
+                                                    type: "POST",
+                                                    data: {
+                                                        '_token':"{{ csrf_token() }}",
+                                                        'item_id': item_id,
+                                                        'order_id' :order_id,
+                                                        'quantity' :quantity,
+                                                        'amount' :amount,
+                                                        'active' :1
+                                                    },
+                                                    success: function(result) {
+                                                        if(result == 1){
+                                                            text.style.display = "block";
+                                                            var qty = document.getElementById("quantity_" + c);
+                                                            qty.disabled = true;
+                                                            checkBox.setAttribute('class', 'd-none');
+                                                        }
+                                                    }
+                                                });
+                                            } else {
+                                                text.style.display = "none";
                                             }
-                                        }     
-                                        function saveEntry(){  
-                                            // var saveItems =document.getElementsByName('save_entry');  
-                                            // $.ajax({
-                                            //     url: "{{ url('addallitems') }}",
-                                            //     type: "GET",
-                                            //     data: {
-                                            //         'item_id': saveItems
-                                            //     },
-                                            //     success: function(result) {
-                                            //     }
-                                            // });          
-                                        }             
+                                        }
                                     </script>
                                     <div class="form-group">
                                         <label>Order Data</label>
-                                        <button type="button" id="save_entry" class="btn btn-success" value="" 
-                                        style="float: right;" onclick='saveEntry()'>Save Entry</button>
-                                        <button type="button" id="select_all" class="btn btn-primary" 
-                                            onclick='selects()' value="" style="float: right;">Select All</button>  
-                                        <button type="button" id="deselect_all" class="btn btn-danger"
-                                            onclick='deSelect()' value="" style="float: right;">DeSelect All</button>
                                         <div>
                                             <table class="table table-striped" border="1" cellpadding="2">
                                                 <thead>
@@ -238,25 +235,30 @@
                                     </div>
                                     <div class="form-group">
                                         <label>Total Price(Rs.)</label>
-                                        <input class="form-control" type="text" id="price" name="price" placeholder="Enter Price" value="" disabled>
+                                        <input class="form-control" type="text" id="price" name="price" 
+                                        placeholder="Enter Price" value="" readonly="readonly">
                                     </div>
                                     <div class="row">
                                         <div class="col-lg-4 col-md-4 col-sm-4">
                                             <div class="form-group">
                                                 <label>CGST(2.5%)</label>
-                                                <input class="form-control" type="text" id="cgst" name="cgst" value="0.00" readonly="readonly" placeholder="Enter CGST" autofocus>
+                                                <input class="form-control" type="text" id="cgst" name="cgst" value="0.00" 
+                                                readonly="readonly" placeholder="Enter CGST">
                                             </div>
                                         </div>
                                         <div class="col-lg-4 col-md-4 col-sm-4">
                                             <div class="form-group">
                                                 <label>SGST(2.5%)</label>
-                                                <input class="form-control" type="text" id="sgst" name="sgst" value="0.00" readonly="readonly" placeholder="Enter SGST" autofocus>
+                                                <input class="form-control" type="text" id="sgst" name="sgst" value="0.00"
+                                                 readonly="readonly" placeholder="Enter SGST">
                                             </div>
                                         </div>
                                         <div class="col-lg-4 col-md-4 col-sm-4">
                                             <div class="form-group">
                                                 <label>Taxable Amount(Rs.)</label>
-                                                <input class="form-control" type="text" id="taxable_amount" value="" name="taxable_amount" placeholder="Enter Taxable Amount" disabled autofocus>
+                                                <input class="form-control" type="text" id="taxable_amount" 
+                                                value="" name="taxable_amount" placeholder="Enter Taxable Amount"
+                                                 readonly="readonly">
                                             </div>
                                         </div>
                                     </div>
@@ -264,11 +266,13 @@
                                         <div class="row">
                                             <div class="col-lg-6 col-md-6 col-sm-6">
                                                 <label>Discount(%)</label>
-                                                <input class="form-control" type="text" id="discount" value="0" name="discount" placeholder="Enter Discount" onkeyup="calculate_discount(this)">
+                                                <input class="form-control" type="text" id="discount" value="0" 
+                                                name="discount" placeholder="Enter Discount" onkeyup="calculate_discount(this)">
                                             </div>
                                             <div class="col-lg-6 col-md-6 col-sm-6">
                                                 <label>Discount(Rs.)</label>
-                                                <input type="text" class="form-control" name="discVal" id="discVal" value="0" disabled>
+                                                <input type="text" class="form-control" name="discount_value" 
+                                                id="discVal" value="0" readonly="readonly">
                                             </div>
                                         </div>
                                     </div>
@@ -296,7 +300,9 @@
                                         <div class="col-lg-6 col-md-6 col-sm-6">
                                             <div class="form-group">
                                                 <label>Pay Amount(Rs.)</label>
-                                                <input class="form-control" type="text" id="payable_amount" name="payable_amount" value="0.00" onkeyup="get_change_amount(this)" placeholder="Enter Pay Amount" autofocus>
+                                                <input class="form-control" type="text" id="payable_amount" 
+                                                name="payable_amount" value="0.00" onkeyup="get_change_amount(this)" 
+                                                placeholder="Enter Pay Amount">
                                             </div>
                                         </div>
                                         <script>
@@ -314,18 +320,19 @@
                                         <div class="col-lg-6 col-md-6 col-sm-6">
                                             <div class="form-group">
                                                 <label>Change Amount(Rs.)</label>
-                                                <input class="form-control" type="text" id="change_amount" name="change_amount" value="0.00" placeholder="Enter Change Amount" autofocus disabled>
+                                                <input class="form-control" type="text" id="change_amount" name="change_amount"
+                                                 value="0.00" placeholder="Enter Change Amount" readonly="readonly">
                                             </div>
                                         </div>
                                     </div>
                                     <div class="form-group">
                                         <label>Grand Total(Rs.)</label>
-                                        <input class="form-control" type="text" id="grand_total" name="grand_total" placeholder="Enter Grand Total" value="0.00" disabled>
+                                        <input class="form-control" type="text" id="grand_total" name="grand_total" placeholder="Enter Grand Total" value="0.00" readonly="readonly">
                                     </div>
                                     <div class="form-group">
                                         <label>Active</label>
 
-                                        <input type="checkbox" name="active" value="1">
+                                        <input type="checkbox" name="active" value="1" checked>
                                     </div>
 
                                     <button type="submit" class="btn btn-primary"> Create Bill</button>
