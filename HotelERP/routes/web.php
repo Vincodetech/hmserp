@@ -111,3 +111,4 @@ Route::get('/getdiscount',[BillingController::class,'getDiscount']);
 Route::get('/getquantity',[BillingController::class,'getQuantity']);
 Route::get('/getbillno',[BillingController::class,'getBillNo']);
 Route::post('/addallitems',[BillingController::class,'addAllItems']);
+

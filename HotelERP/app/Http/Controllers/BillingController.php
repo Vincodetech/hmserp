@@ -74,7 +74,7 @@ class BillingController extends Controller
         return view('billing.addbilling', ['singlebill' => $singlebill, 'allbill' => $allbill, 'oid' => $id]);
     }
 
-    public function addPostBilling(Request $request,$id)
+    public function addPostBilling(Request $request, $id)
     {
         $bno = $request->bill_no;
         $bdate = $request->bill_date;
@@ -87,6 +87,7 @@ class BillingController extends Controller
         $tax_amount = $request->taxable_amount;
         $pay_amount = $request->payable_amount;
         $ch_amount = $request->change_amount;
+        $total = $request->total;
         $gtotal = $request->grand_total;
         $active = $request->active;
 
@@ -96,10 +97,10 @@ class BillingController extends Controller
             $active = 1;
         }
         $results = DB::insert('insert into billing(bill_no,bill_date,order_id,discount,discount_value,
-        cgst,sgst,taxable_amount,payable_amount,change_amount,grand_total,active) 
-        values (?,?,?,?,?,?,?,?,?,?,?,?)', [
+        cgst,sgst,taxable_amount,payable_amount,change_amount,total,grand_total,active) 
+        values (?,?,?,?,?,?,?,?,?,?,?,?,?)', [
             $bno, $bdate, $oid, $discount, $dis_value, $cgst, $sgst,
-            $tax_amount, $pay_amount, $ch_amount, $gtotal, $active
+            $tax_amount, $pay_amount, $ch_amount, $total, $gtotal, $active
         ]);
 
         if ($pay_amount < $gtotal && $pay_amount > 0) {
@@ -133,6 +134,7 @@ class BillingController extends Controller
         $tax_amount = $request->taxable_amount;
         $pay_amount = $request->payable_amount;
         $ch_amount = $request->change_amount;
+        $total = $request->total;
         $gtotal = $request->grand_total;
         $active = $request->active;
 
@@ -144,9 +146,9 @@ class BillingController extends Controller
         }
         $result = DB::update('update billing set bill_no = ?, bill_date = ?, 
         order_id = ?, discount = ?, discount_value = ?, cgst = ?, sgst = ?, taxable_amount = ?, 
-        payable_amount = ?, change_amount = ?, grand_total = ?, active = ? where id = ?', [
+        payable_amount = ?, change_amount = ?, total = ?, grand_total = ?, active = ? where id = ?', [
             $bno, $bdate,
-            $oid, $discount, $dis_value, $cgst, $sgst, $tax_amount, $pay_amount, $ch_amount, $gtotal, $active, $id
+            $oid, $discount, $dis_value, $cgst, $sgst, $tax_amount, $pay_amount, $ch_amount, $total, $gtotal, $active, $id
         ]);
 
         if ($pay_amount < $gtotal && $pay_amount > 0) {
@@ -298,10 +300,40 @@ class BillingController extends Controller
             $i_id, $oid, $qty, $amt, $active
         ]);
 
-        if($results != false){
+        if ($results != false) {
             return 1;
-        } else{
+        } else {
             return 0;
         }
+    }
+
+    public function viewBilling($id)
+    {
+        $singlebill = DB::table('billing')->where('id', $id)->first();
+        $order = DB::table('orders')->where('id', $singlebill->order_id)->first();
+        $table = DB::table('tables')->where('id', $order->table_id)->first();
+        $bill_data = DB::table('billing')
+            ->join('orders', 'orders.id', '=', 'billing.order_id')
+            ->join('order_detail', 'order_detail.order_id', '=', 'billing.order_id')
+            ->join('food_item', 'food_item.id', '=', 'order_detail.item_id')
+            ->join('tables', 'tables.id', '=', 'orders.table_id')
+            ->select(
+                'tables.name',
+                'billing.bill_no',
+                'billing.bill_date',
+                'billing.discount',
+                'billing.discount_value',
+                'billing.cgst',
+                'billing.sgst',
+                'billing.grand_total',
+                'billing.total',
+                'food_item.name',
+                'food_item.price',
+                'order_detail.quantity',
+                'order_detail.amount'
+            )
+            ->where(['billing.id' => $id])
+            ->get();
+        return view('billing.viewbilling', ['singlebill' => $singlebill, 'bill_data' => $bill_data, 'table' => $table]);
     }
 }

@@ -235,7 +235,7 @@
                                     </div>
                                     <div class="form-group">
                                         <label>Total Price(Rs.)</label>
-                                        <input class="form-control" type="text" id="price" name="price" 
+                                        <input class="form-control" type="text" id="price" name="total" 
                                         placeholder="Enter Price" value="" readonly="readonly">
                                     </div>
                                     <div class="row">
