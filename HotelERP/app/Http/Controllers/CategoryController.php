@@ -147,8 +147,8 @@ class CategoryController extends Controller
         }
         $result = DB::update('update food_category set name = ?, category_type = ?, category_image = ?, 
         category_quantity = ?, active = ? where id = ?', [$cat_name, $category_type, $filename, $category_quantity, $active, $id]);
-
-        if ($result != false) {
+       
+        if ($result == 1) {
             return redirect('updatefoodcategory/'. $id)->with('updateCategoryInMsg', 'Food Category Updated Successfully');
         } else {
             return redirect('updatefoodcategory/'. $id)->with('errUpdateCategoryInMsg', 'Food Category not Updated');
