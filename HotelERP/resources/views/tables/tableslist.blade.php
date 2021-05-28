@@ -27,12 +27,12 @@
                             <tr>
                                 <td>{{ ++$count }}</td>
                                 <td>{{ $data->name }}</td>
-                                <td>{{ $data->category_type }}</td>
-                                <td>{{ $data->category_quantity }}</td>
+                                <td></td>
+                                <td>{{ $data->table_type }}</td>
                                 <td>{{ $data->active }}</td>
-                                <td class="text-center"><a href="{{ url('updatefoodcategory/'.$data->id) }}">
+                                <td class="text-center"><a href="">
                                  <i class="fa fa-edit" aria-hidden="true"></i></a> 
-                                 <a href="{{ url('deletefoodcategory/'.$data->id) }}" 
+                                 <a href="" 
                                   onclick="if (!confirm('Are you sure to delete this item?'))
                                   { return false }"><i class="fa fa-trash" aria-hidden="true"></i></a> </td>
                                 

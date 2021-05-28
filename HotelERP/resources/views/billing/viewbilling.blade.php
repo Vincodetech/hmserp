@@ -30,16 +30,15 @@
         <br />
         <div>
 
-            <table border="1" height="100px" width="500px" align="center">
+            <table border="1" height="auto" width="1000px" align="center">
                 <thead>
                     <tr align="center">
                         <th>
-                            <h3><b>Hotel</b></h3>
-                            <h3><b>The Grand Piano</b></h3>
-                            <h4><b>Vanita Avenue, Sankhari Turning,</b></h4>
-                            <h4><b>Chanasma Highway Road, Patan</b></h4>
-                            <h4><b>Gujarat-384265</b></h4>
-                            <h4><b>Mobile: +91 7046062440 || 9316009307</b></h4>
+                            <h3><b>Hotel The Grand Piano</b></h3>
+                            <h6><b>Vanita Avenue, Sankhari Turning,</b></h6>
+                            <h6><b>Chanasma Highway Road, Patan</b></h6>
+                            <h6><b>Gujarat-384265</b></h6>
+                            <h6><b>Mobile: +91 7046062440 || 9316009307</b></h6>
                         </th>
                     </tr>
                     <tr style="height: 30px;">
@@ -152,7 +151,7 @@
                                     </tr>
                                     <tr class="text-center">
                                         <th colspan="3">
-                                            Grand Total
+                                            Grand Total:
                                         </th>
                                         <td>
                                             Rs. {{ $singlebill->grand_total }}

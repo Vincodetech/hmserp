@@ -25,12 +25,11 @@
                     <div class="panel-body">
                         <div class="row">
                             <div class="col-lg-12 col-lg-offset-3">
-                                <form role="form" action="{{ url('postbilling') }}" method="post" onsubmit="pad();">
+                                <form role="form" action="{{ url('postbilling') }}" method="post">
                                     @csrf
                                     <div class="form-group">
                                         <label>Bill No.</label>
-                                        <input class="form-control" type="text" id="bill_no" name="bill_no" 
-                                        placeholder="Enter Bill No." readonly="readonly">
+                                        <input class="form-control" type="text" id="bill_no" name="bill_no" placeholder="Enter Bill No." readonly="readonly">
                                         <input type="hidden" id="orderId" name="orderId" value="{{$oid}}">
                                     </div>
                                     <script>
@@ -40,9 +39,15 @@
                                                 type: "GET",
                                                 datatype: "JSON",
                                                 success: function(result) {
-                                                    var billno = parseInt(result[0]['bill_no']);
-                                                    // console.log(billno + 1);
-                                                    billno += 1;
+                                                    console.log("result:" + result[0]['bill_no']);
+                                                    let billno = 0;
+                                                    if (result != null) {
+                                                        billno = parseInt(result[0]['bill_no']);
+                                                        console.log("billno:" + billno)
+                                                        billno += 1;
+                                                    } else {
+                                                        billno = 1;
+                                                    }
                                                     $('#bill_no').val(billno);
                                                 }
                                             });
@@ -51,16 +56,13 @@
                                     </script>
                                     <div class="form-group">
                                         <label>Bill Date</label>
-                                        <input class="form-control" type="date" name="bill_date" 
-                                        value="<?= date("Y-m-d"); ?>" placeholder="Enter Bill Date" autofocus required>
+                                        <input class="form-control" type="date" name="bill_date" value="<?= date("Y-m-d"); ?>" placeholder="Enter Bill Date" autofocus required>
                                     </div>
                                     <div class="input-group col-lg-6">
                                         <label>Item Code: </label> &nbsp; &nbsp;
-                                        <input class="form-control" type="text" name="item_code" value="" 
-                                        id="item_code" placeholder="Enter Item Code" autofocus required> &nbsp; &nbsp;
+                                        <input class="form-control" type="text" name="item_code" value="" id="item_code" placeholder="Enter Item Code" autofocus required> &nbsp; &nbsp;
                                         <span class="input-group-btn">
-                                            <button class="btn btn-primary" type="button" id="item_code" 
-                                            onclick="getItemsForOrder()">
+                                            <button class="btn btn-primary" type="button" id="item_code" onclick="getItemsForOrder()">
                                                 <i class="fa fa-search fa-sm"></i></button>
                                             </sapn>
 
@@ -92,7 +94,7 @@
                                                         data += `<td><input type="hidden" id="itemId_${i}" name="itemId" value="${result[item].id}">${result[item].name}</td>`;
                                                         data += '<td><input type="text" value="' + result[item].price + '" id="rate_' + (i) + '" disabled /></td>';
                                                         data += '<td><input type="text" value="1" id="quantity_' + (i) + '" onkeyup="totalAmount(' + (i) + ')" /></td>';
-                                                        data += '<td><input type="text" value="' + result[item].price + '" id="amount_' + (i) + '" disabled/><span id="text_'+(i)+'" style="display:none" class="badge badge-success">Entry Saved</span></td>';
+                                                        data += '<td><input type="text" value="' + result[item].price + '" id="amount_' + (i) + '" disabled/><span id="text_' + (i) + '" style="display:none" class="badge badge-success">Entry Saved</span></td>';
                                                         data += "</tr>";
                                                         // amt = parseInt(document.getElementById("price").value.trim()) * result[item].price;
                                                         oldTotalAmt = Number(document.getElementById("price").value.trim());
@@ -114,7 +116,7 @@
                                                             var total = Number(document.getElementById("price").value.trim());
                                                             var cgst = (total * 2.5) / 100;
                                                             var sgst = (total * 2.5) / 100;
-                                                            var gst = cgst + sgst;
+                                                            var gst = Math.round(cgst) + Math.round(sgst);
                                                             $("#cgst").val(Math.round(cgst));
                                                             $("#sgst").val(Math.round(sgst));
                                                             taxable_amount = total + gst;
@@ -133,7 +135,7 @@
                                                             console.log("cgst : " + cgst);
                                                             var sgst = (total * 2.5) / 100;
                                                             console.log("sgst : " + sgst);
-                                                            var gst = cgst + sgst;
+                                                            var gst = Math.round(cgst) + Math.round(sgst);
                                                             console.log("gst : " + gst);
                                                             $("#cgst").val(Math.round(cgst));
                                                             $("#sgst").val(Math.round(sgst));
@@ -161,11 +163,33 @@
                                                 totalAmount = rate * quantity;
 
                                                 var nnTotal = nTotal + totalAmount;
+                                                console.log("nnTotal: " + nnTotal);
+                                                
+                                                // grandTotal = taxable_amount;
+                                                // console.log("taxable_amount: "+ taxable_amount)
+                                                // console.log("grandTotal: "+ grandTotal)
+                                                // $('#taxable_amount').val(Math.round(taxable_amount));
+                                                // $('#grand_total').val(Math.round(grandTotal));
+
                                                 // sum = sum + totalAmount
                                                 document.getElementById("amount_" + c).value = totalAmount;
                                                 document.getElementById("price").value = nnTotal;
+
+                                                // calculate gst
+                                                var total = Number(document.getElementById("price").value.trim());
+                                                console.log("total : " + total);
+                                                var cgst = (total * 2.5) / 100;
+                                                console.log("cgst : " + cgst);
+                                                var sgst = (total * 2.5) / 100;
+                                                console.log("sgst : " + sgst);
+                                                var gst = Math.round(cgst) + Math.round(sgst);
+                                                console.log("gst : " + gst);
+                                                $("#cgst").val(Math.round(cgst));
+                                                $("#sgst").val(Math.round(sgst));
+                                                taxable_amount = total + gst;
+
                                                 $('#taxable_amount').val(Math.round(taxable_amount));
-                                                grandTotal = nnTotal;
+                                                grandTotal = taxable_amount;
                                                 $('#grand_total').val(Math.round(grandTotal));
                                             } else {
                                                 alert("Quantity must be greater than 0");
@@ -179,7 +203,7 @@
                                             // Get the checkbox
                                             var checkBox = document.getElementById("chk_" + c);
                                             // Get the output text
-                                            var text = document.getElementById("text_"+ c);
+                                            var text = document.getElementById("text_" + c);
 
                                             // If the checkbox is checked, display the output text
                                             if (checkBox.checked == true) {
@@ -193,15 +217,15 @@
                                                     url: "{{ url('addallitems') }}",
                                                     type: "POST",
                                                     data: {
-                                                        '_token':"{{ csrf_token() }}",
+                                                        '_token': "{{ csrf_token() }}",
                                                         'item_id': item_id,
-                                                        'order_id' :order_id,
-                                                        'quantity' :quantity,
-                                                        'amount' :amount,
-                                                        'active' :1
+                                                        'order_id': order_id,
+                                                        'quantity': quantity,
+                                                        'amount': amount,
+                                                        'active': 1
                                                     },
                                                     success: function(result) {
-                                                        if(result == 1){
+                                                        if (result == 1) {
                                                             text.style.display = "block";
                                                             var qty = document.getElementById("quantity_" + c);
                                                             qty.disabled = true;
@@ -235,30 +259,25 @@
                                     </div>
                                     <div class="form-group">
                                         <label>Total Price(Rs.)</label>
-                                        <input class="form-control" type="text" id="price" name="total" 
-                                        placeholder="Enter Price" value="" readonly="readonly">
+                                        <input class="form-control" type="text" id="price" name="total" placeholder="Enter Price" value="" readonly="readonly">
                                     </div>
                                     <div class="row">
                                         <div class="col-lg-4 col-md-4 col-sm-4">
                                             <div class="form-group">
                                                 <label>CGST(2.5%)</label>
-                                                <input class="form-control" type="text" id="cgst" name="cgst" value="0.00" 
-                                                readonly="readonly" placeholder="Enter CGST">
+                                                <input class="form-control" type="text" id="cgst" name="cgst" value="0.00" readonly="readonly" placeholder="Enter CGST">
                                             </div>
                                         </div>
                                         <div class="col-lg-4 col-md-4 col-sm-4">
                                             <div class="form-group">
                                                 <label>SGST(2.5%)</label>
-                                                <input class="form-control" type="text" id="sgst" name="sgst" value="0.00"
-                                                 readonly="readonly" placeholder="Enter SGST">
+                                                <input class="form-control" type="text" id="sgst" name="sgst" value="0.00" readonly="readonly" placeholder="Enter SGST">
                                             </div>
                                         </div>
                                         <div class="col-lg-4 col-md-4 col-sm-4">
                                             <div class="form-group">
                                                 <label>Taxable Amount(Rs.)</label>
-                                                <input class="form-control" type="text" id="taxable_amount" 
-                                                value="" name="taxable_amount" placeholder="Enter Taxable Amount"
-                                                 readonly="readonly">
+                                                <input class="form-control" type="text" id="taxable_amount" value="" name="taxable_amount" placeholder="Enter Taxable Amount" readonly="readonly">
                                             </div>
                                         </div>
                                     </div>
@@ -266,13 +285,11 @@
                                         <div class="row">
                                             <div class="col-lg-6 col-md-6 col-sm-6">
                                                 <label>Discount(%)</label>
-                                                <input class="form-control" type="text" id="discount" value="0" 
-                                                name="discount" placeholder="Enter Discount" onkeyup="calculate_discount(this)">
+                                                <input class="form-control" type="text" id="discount" value="0" name="discount" placeholder="Enter Discount" onkeyup="calculate_discount(this)">
                                             </div>
                                             <div class="col-lg-6 col-md-6 col-sm-6">
                                                 <label>Discount(Rs.)</label>
-                                                <input type="text" class="form-control" name="discount_value" 
-                                                id="discVal" value="0" readonly="readonly">
+                                                <input type="text" class="form-control" name="discount_value" id="discVal" value="0" readonly="readonly">
                                             </div>
                                         </div>
                                     </div>
@@ -300,9 +317,7 @@
                                         <div class="col-lg-6 col-md-6 col-sm-6">
                                             <div class="form-group">
                                                 <label>Pay Amount(Rs.)</label>
-                                                <input class="form-control" type="text" id="payable_amount" 
-                                                name="payable_amount" value="0.00" onkeyup="get_change_amount(this)" 
-                                                placeholder="Enter Pay Amount">
+                                                <input class="form-control" type="text" id="payable_amount" name="payable_amount" value="0.00" onkeyup="get_change_amount(this)" placeholder="Enter Pay Amount">
                                             </div>
                                         </div>
                                         <script>
@@ -320,8 +335,7 @@
                                         <div class="col-lg-6 col-md-6 col-sm-6">
                                             <div class="form-group">
                                                 <label>Change Amount(Rs.)</label>
-                                                <input class="form-control" type="text" id="change_amount" name="change_amount"
-                                                 value="0.00" placeholder="Enter Change Amount" readonly="readonly">
+                                                <input class="form-control" type="text" id="change_amount" name="change_amount" value="0.00" placeholder="Enter Change Amount" readonly="readonly">
                                             </div>
                                         </div>
                                     </div>

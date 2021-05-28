@@ -2,7 +2,7 @@
      <div class="container-fluid">
      <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-2 text-gray-800">Billing List</h1>   
-        <a href="{{ url('addbilling') }}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fa fa-plus fa-sm text-white-50"></i> Create Bill</a>
+        <!-- <a href="{{ url('addbilling') }}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i class="fa fa-plus fa-sm text-white-50"></i> Create Bill</a> -->
      </div>   
         <div class="card shadow mb-4">
             <div class="card-header py-3">

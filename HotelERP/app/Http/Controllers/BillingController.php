@@ -43,8 +43,6 @@ class BillingController extends Controller
 
                     $btn = '<a href="' . url('viewbilling/' . $data->id) . '">
                            <i class="fa fa-eye" aria-hidden="true"></i></a>
-                           <a href="' . url('updatebilling/' . $data->id) . '">
-                           <i class="fa fa-edit" aria-hidden="true"></i></a>
                            <a href="' . url('deletebilling/' . $data->id) . '" class="delete">
                            <i class="fa fa-trash" aria-hidden="true"></i></a>';
 
@@ -74,11 +72,12 @@ class BillingController extends Controller
         return view('billing.addbilling', ['singlebill' => $singlebill, 'allbill' => $allbill, 'oid' => $id]);
     }
 
-    public function addPostBilling(Request $request, $id)
+    public function addPostBilling(Request $request)
     {
+        
         $bno = $request->bill_no;
         $bdate = $request->bill_date;
-        //$oid = $request->order_id;
+        // $oid = $request->order_id;
         $oid = $request->input('orderId');
         $discount = $request->discount;
         $dis_value = $request->discount_value;
@@ -104,12 +103,15 @@ class BillingController extends Controller
         ]);
 
         if ($pay_amount < $gtotal && $pay_amount > 0) {
-            return redirect('addbilling/' . $id)->with('roleErrMsg', 'Pay Amount Must be Greater than Grand Total');
+            return redirect('addbilling/' . $oid)->with('roleErrMsg', 'Pay Amount Must be Greater than Grand Total');
         } else {
             if ($results != false) {
-                return redirect('addbilling/' . $id)->with('roleSccssMsg', 'Bill Added Successfully');
+                $result = DB::update('update orders set order_status = ? where id = ?', ['Complete',$oid]);
+                $id1 = DB::table('billing')->orderBy('id','desc')->first();
+                // $this->viewBilling($id1->id);
+                return redirect('viewbilling/' . $id1->id);
             } else {
-                return redirect('addbilling/' . $id)->with('roleErrMsg', 'Bill add to failed!!');
+                return redirect('addbilling/' . $oid)->with('roleErrMsg', 'Bill add to failed!!');
             }
         }
         return view('billing.addbilling');
@@ -282,7 +284,7 @@ class BillingController extends Controller
     public function getBillNo()
     {
         $bill_data = DB::table('billing')
-            ->select('bill_no')->orderBy('id', 'DESC')->get();
+            ->select('*')->orderBy('id', 'DESC')->get();
         return $bill_data;
     }
 
