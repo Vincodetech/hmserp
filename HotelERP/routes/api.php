@@ -3,6 +3,9 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ApiController;
+use App\Http\Controllers\FoodCategoryAPIController;
+use App\Http\Controllers\FoodItemAPIController;
+use App\Http\Controllers\SliderAPIController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,3 +27,10 @@ Route::post('addusers',[ApiController::class,'addUsers']);
 Route::post('loginuser',[ApiController::class,'loginUser']);
 Route::post('updateuser/{id}',[ApiController::class,'updateUser']);
 Route::get('deleteuser/{id}',[ApiController::class,'deleteUser']);
+
+Route::get('foodcategorylist',[FoodCategoryAPIController::class,'displayFoodCategory']);
+
+Route::get('fooditemlist',[FoodItemAPIController::class,'displayFoodItem']);
+
+Route::get('sliderlist',[SliderAPIController::class,'displaySliderImage']);
+

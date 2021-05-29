@@ -22,7 +22,7 @@ class CategoryController extends Controller
             return datatables()->of($data)
             ->addIndexColumn()
             ->addColumn('category_image', function ($data) { 
-                $url= asset('/storage/images1/'.$data->category_image);
+                $url= asset('/storage/'.$data->category_image);
                 return '<img src="'.$url.'" border="0" width="50" class="img-rounded" align="center" />';
             })
             ->addColumn('active', function($data){
@@ -79,13 +79,12 @@ class CategoryController extends Controller
 
             if($request->category_image)
             {
-                $request->category_image->storeAs('images1',$filename,'public');
+                $file_path = $request->category_image->storeAs('images1',$filename,'public');
             }
             
-           // $path->save();
-           // $request->item_image->update(['item_image'=>$filename]);
-           // session()->put('message','Image Uploaded...');
         }
+
+        $server_url = "http://192.168.42.136:8000/storage/" . $file_path;
         
         if($active != '1')
         {
@@ -95,8 +94,9 @@ class CategoryController extends Controller
         {
             $active = 1;
         }
-        $results = DB::insert('insert into food_category(name,category_type,category_image,category_quantity,active) 
-        values (?,?,?,?,?)', [$cat_name,$category_type,$filename,$category_quantity,$active]);
+        $results = DB::insert('insert into food_category(name,category_type,category_image,
+        server_url_image,category_quantity,active) 
+        values (?,?,?,?,?,?)', [$cat_name,$category_type,$file_path,$server_url,$category_quantity,$active]);
 
         if ($results != false) {
             return redirect('/addfoodcategory')->with('roleSccssMsg', 'Food Category Added Successfully.');
@@ -129,13 +129,12 @@ class CategoryController extends Controller
 
             if($request->category_image)
             {
-                $request->category_image->storeAs('images1',$filename,'public');
+                $file_path = $request->category_image->storeAs('images1',$filename,'public');
             }
             
-           // $path->save();
-           // $request->item_image->update(['item_image'=>$filename]);
-           // session()->put('message','Image Uploaded...');
         }
+
+        $server_url = "http://192.168.42.136:8000/storage/" . $file_path;
         
         if($active != '1')
         {
@@ -146,7 +145,8 @@ class CategoryController extends Controller
             $active = 1;
         }
         $result = DB::update('update food_category set name = ?, category_type = ?, category_image = ?, 
-        category_quantity = ?, active = ? where id = ?', [$cat_name, $category_type, $filename, $category_quantity, $active, $id]);
+        server_url_image = ?, category_quantity = ?, active = ? where id = ?', [$cat_name, $category_type, $file_path, 
+        $server_url, $category_quantity, $active, $id]);
        
         if ($result == 1) {
             return redirect('updatefoodcategory/'. $id)->with('updateCategoryInMsg', 'Food Category Updated Successfully');
