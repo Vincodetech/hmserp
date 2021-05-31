@@ -19,7 +19,7 @@ class SettingsController extends Controller
             return datatables()->of($data)
             ->addIndexColumn()
             ->addColumn('slider_image', function ($data) { 
-                $url= asset('/storage/images2/'.$data->slider_image);
+                $url= asset('/storage/'.$data->slider_image);
                 return '<img src="'.$url.'" border="0" width="50" class="img-rounded" align="center" />';
             })
             ->addColumn('active', function($data){
@@ -75,14 +75,12 @@ class SettingsController extends Controller
 
             if($request->slider_image)
             {
-                $request->slider_image->storeAs('images2',$filename,'public');
+               $file_path = $request->slider_image->storeAs('images2',$filename,'public');
             }
             
-           // $path->save();
-           // $request->item_image->update(['item_image'=>$filename]);
-           // session()->put('message','Image Uploaded...');
         }
 
+        $server_url = "http://192.168.42.136:8000/storage/" . $file_path;
 
         if($active != '1')
         {
@@ -92,8 +90,8 @@ class SettingsController extends Controller
         {
             $active = 1;
         }
-        $results = DB::insert('insert into sliders(slider_image,active) 
-        values (?,?)', [$filename,$active]);
+        $results = DB::insert('insert into sliders(slider_image,server_url_image,active) 
+        values (?,?,?)', [$file_path,$server_url,$active]);
 
         if ($results != false) {
             return redirect('/addslider')->with('roleSccssMsg', 'Slider Image Added Successfully.');
@@ -123,13 +121,12 @@ class SettingsController extends Controller
 
             if($request->slider_image)
             {
-                $request->slider_image->storeAs('images2',$filename,'public');
+                $file_path = $request->slider_image->storeAs('images2',$filename,'public');
             }
             
-           // $path->save();
-           // $request->item_image->update(['item_image'=>$filename]);
-           // session()->put('message','Image Uploaded...');
-        }    
+        }   
+        
+        $server_url = "http://192.168.42.136:8000/storage/" . $file_path;
 
         if($active != '1')
         {
@@ -139,7 +136,8 @@ class SettingsController extends Controller
         {
             $active = 1;
         }
-        $result = DB::update('update sliders set slider_image = ?, active = ? where id = ?', [$filename, $active, $id]);
+        $result = DB::update('update sliders set slider_image = ?, server_url_image = ?,
+         active = ? where id = ?', [$file_path, $server_url, $active, $id]);
 
         if ($result != false) {
             return redirect('updateslider/'. $id)->with('updateCategoryInMsg', 'Slider Image Updated Successfully');
