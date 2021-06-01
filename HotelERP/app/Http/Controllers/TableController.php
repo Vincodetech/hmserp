@@ -68,7 +68,7 @@ class TableController extends Controller
         $results = DB::insert('insert into tables(name,table_type,unique_key,active) 
         values (?,?,?,?)', [$title,$table_type,$unique_key,$active]);
 
-        if ($results != false) {
+        if ($results == 1) {
             return redirect('/addtables')->with('roleSccssMsg', 'Table Added Successfully.');
         } else {
             return redirect('/addtables')->with('roleErrMsg', 'Table add to failed!!');

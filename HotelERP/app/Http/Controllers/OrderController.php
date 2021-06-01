@@ -98,7 +98,7 @@ class OrderController extends Controller
         active) 
         values (?,?,?,?,?,?)', [$tname,$ono,$otype,$ostatus,$pstatus,$active]);
 
-        if ($results != false) {
+        if ($results == 1) {
             return redirect('/addorder')->with('roleSccssMsg', 'Order Added Successfully.');
         } else {
             return redirect('/addorder')->with('roleErrMsg', 'Order add to failed!!');
@@ -135,7 +135,7 @@ class OrderController extends Controller
         order_type = ?, order_status = ?,  payment_status = ?, active = ? where id = ?', [$tname, $ono,
          $otype, $ostatus, $pstatus, $active, $id]);
 
-        if ($result != false) {
+        if ($result == 1) {
             return redirect('updateorder/'. $id)->with('updateCategoryInMsg', 'Order Updated Successfully');
         } else {
             return redirect('updateorder/'. $id)->with('errUpdateCategoryInMsg', 'Order not Updated');
@@ -147,7 +147,7 @@ class OrderController extends Controller
     {
         $data = DB::delete('delete from orders where id = ?', [$id]);
 
-        if ($data != false) {
+        if ($data == 1) {
             return redirect('/orderlist')->with('deleteCategoryInMsg', 'Order Deleted Successfully');
         } else {
             return redirect('/orderlist')->with('errDeleteCategoryInMsg', 'Order not Deleted');

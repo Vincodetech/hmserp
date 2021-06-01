@@ -71,7 +71,8 @@ class CategoryController extends Controller
         $category_quantity = $request->category_quantity;
         $active = $request->active;
 
-        $filename = "";
+        $file_path = "";
+        $server_url = "";
 
         if($request->hasFile('category_image'))
         {
@@ -80,11 +81,12 @@ class CategoryController extends Controller
             if($request->category_image)
             {
                 $file_path = $request->category_image->storeAs('images1',$filename,'public');
+                $server_url = "http://192.168.42.136:8000/storage/" . $file_path;
             }
             
         }
 
-        $server_url = "http://192.168.42.136:8000/storage/" . $file_path;
+       
         
         if($active != '1')
         {
@@ -98,7 +100,7 @@ class CategoryController extends Controller
         server_url_image,category_quantity,active) 
         values (?,?,?,?,?,?)', [$cat_name,$category_type,$file_path,$server_url,$category_quantity,$active]);
 
-        if ($results != false) {
+        if ($results == 1) {
             return redirect('/addfoodcategory')->with('roleSccssMsg', 'Food Category Added Successfully.');
         } else {
             return redirect('/addfoodcategory')->with('roleErrMsg', 'Food Category add to failed!!');
@@ -121,7 +123,8 @@ class CategoryController extends Controller
         $category_quantity = $request->category_quantity;
         $active = $request->active;
 
-        $filename = $data->category_image;
+        $server_url = $data->server_url_image;
+        $file_path = $data->category_image;
 
         if($request->hasFile('category_image'))
         {
@@ -130,11 +133,12 @@ class CategoryController extends Controller
             if($request->category_image)
             {
                 $file_path = $request->category_image->storeAs('images1',$filename,'public');
+                $server_url = "http://192.168.42.136:8000/storage/" . $file_path;
             }
             
         }
 
-        $server_url = "http://192.168.42.136:8000/storage/" . $file_path;
+      
         
         if($active != '1')
         {
@@ -160,7 +164,7 @@ class CategoryController extends Controller
     {
         $data = DB::delete('delete from food_category where id = ?', [$id]);
 
-        if ($data != false) {
+        if ($data == 1) {
             return redirect('/foodcategory')->with('deleteCategoryInMsg', 'Food Category Deleted Successfully');
         } else {
             return redirect('/foodcategory')->with('errDeleteCategoryInMsg', 'Food Category not Deleted');

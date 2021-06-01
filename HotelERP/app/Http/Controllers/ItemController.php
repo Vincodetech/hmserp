@@ -34,7 +34,7 @@ class ItemController extends Controller
             return datatables()->of($data)
             ->addIndexColumn()
             ->addColumn('item_image', function ($data) { 
-                $url= asset('/storage/images/'.$data->item_image);
+                $url= asset('/storage/'.$data->item_image);
                 return '<img src="'.$url.'" border="0" width="50" class="img-rounded" align="center" />';
             })
             ->addColumn('category_id', function ($data) { 
@@ -97,7 +97,8 @@ class ItemController extends Controller
         $item_type = $request->item_type;
         $active = $request->active;
         
-       $filename = "";
+        $file_path = "";
+        $server_url = "";
         
         if($request->hasFile('item_image'))
         {
@@ -105,7 +106,8 @@ class ItemController extends Controller
 
             if($request->item_image)
             {
-                $request->item_image->storeAs('images',$filename,'public');
+                $file_path = $request->item_image->storeAs('images',$filename,'public');
+                $server_url = "http://192.168.42.136:8000/storage/" . $file_path;
             }
         }
    
@@ -118,12 +120,13 @@ class ItemController extends Controller
         {
             $active = 1;
         }
-        $results = DB::insert('insert into food_item(name,slug,item_image,category_id,item_code,description,
+        $results = DB::insert('insert into food_item(name,slug,item_image,server_url_image,
+        category_id,item_code,description,
         unit,price,quantity,item_type,active) 
-        values (?,?,?,?,?,?,?,?,?,?,?)', [$item_name,$slug,$filename,$food_category,
+        values (?,?,?,?,?,?,?,?,?,?,?,?)', [$item_name,$slug,$file_path,$server_url,$food_category,
         $item_code,$description,$unit,$price,$quantity,$item_type,$active]);
 
-        if ($results != false) {
+        if ($results == 1) {
             return redirect('/addfooditem')->with('roleSccssMsg', 'Food Item Added Successfully.');
         } else {
             return redirect('/addfooditem')->with('roleErrMsg', 'Food Item add to failed!!');
@@ -154,7 +157,8 @@ class ItemController extends Controller
         $item_type = $request->item_type;
         $active = $request->active == '1' ? '1' : '0';
  
-        $filename = $data->item_image;
+        $server_url = $data->server_url_image;
+        $file_path = $data->item_image;
 
         if($request->hasFile('item_image'))
         {
@@ -162,28 +166,18 @@ class ItemController extends Controller
 
             if($request->item_image)
             {
-                $request->item_image->storeAs('images',$filename,'public');
+                $file_path = $request->item_image->storeAs('images',$filename,'public');
+                $server_url = "http://192.168.42.136:8000/storage/" . $file_path;
             }
-            
-           // $path->save();
-           // $request->item_image->update(['item_image'=>$filename]);
-           // session()->put('message','Image Uploaded...');
         }
 
-        // if($active != '1')
-        // {
-        //     $active = 0;
-        // }
-        // else
-        // {
-        //     $active = 1;
-        // }
-        $result = DB::update('update food_item set name = ?, slug = ?, item_image = ?,
+        
+        $result = DB::update('update food_item set name = ?, slug = ?, item_image = ?, server_url_image = ?,
         category_id = ?, item_code = ?, description = ?, unit = ?, price = ?, quantity = ?,
-        item_type = ?, active = ? where id = ?', [$item_name, $slug, $filename, $food_category,
+        item_type = ?, active = ? where id = ?', [$item_name, $slug, $file_path, $server_url, $food_category,
          $item_code, $description, $unit, $price, $quantity, $item_type, $active, $id]);
 
-        if ($result != false) {
+        if ($result == 1) {
             return redirect('updatefooditem/'. $id)->with('updateItemInMsg', 'Food Item Updated Successfully');
         } else {
             return redirect('updatefooditem/'. $id)->with('errUpdateItemInMsg', 'Food Item not Updated');
@@ -195,7 +189,7 @@ class ItemController extends Controller
     {
         $data = DB::delete('delete from food_item where id = ?', [$id]);
 
-        if ($data != false) {
+        if ($data == 1) {
             return redirect('/fooditem')->with('deleteItemInMsg', 'Food Item Deleted Successfully');
         } else {
             return redirect('/fooditem')->with('errDeleteItemInMsg', 'Food Item not Deleted');

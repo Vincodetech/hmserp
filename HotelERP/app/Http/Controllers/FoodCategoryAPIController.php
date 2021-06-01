@@ -27,7 +27,7 @@ class FoodCategoryAPIController extends Controller
         }
 
 
-        $results = DB::select("select server_url_image, name from food_category where 
+        $results = DB::select("select id, server_url_image, name from food_category where 
         category_type = '$cat_type'");
         if ($results) 
         {

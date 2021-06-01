@@ -105,7 +105,7 @@ class UserController extends Controller
         $results = DB::insert('insert into users(user_name,email,phone,user_role,active) 
         values (?,?,?,?,?)', [$uname,$uemail,$uphone,$userrole,$active]);
 
-        if ($results != false) {
+        if ($results == 1) {
             return redirect('/adduserslist')->with('roleSccssMsg', 'User Added Successfully.');
         } else {
             return redirect('/adduserslist')->with('roleErrMsg', 'User add to failed!!');
@@ -140,7 +140,7 @@ class UserController extends Controller
         $result = DB::update('update users set user_name = ?, email = ?, 
         phone = ?, user_role = ?, active = ? where id = ?', [$uname, $uemail, $uphone, $userrole, $active, $id]);
 
-        if ($result != false) {
+        if ($result == 1) {
             return redirect('updateuserslist/'. $id)->with('updateCategoryInMsg', 'User Updated Successfully');
         } else {
             return redirect('updateuserslist/'. $id)->with('errUpdateCategoryInMsg', 'User not Updated');
@@ -152,7 +152,7 @@ class UserController extends Controller
     {
         $data = DB::delete('delete from users where id = ?', [$id]);
 
-        if ($data != false) {
+        if ($data == 1) {
             return redirect('/userslist')->with('deleteCategoryInMsg', 'User Deleted Successfully');
         } else {
             return redirect('/userslist')->with('errDeleteCategoryInMsg', 'User not Deleted');

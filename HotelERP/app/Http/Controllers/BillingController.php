@@ -105,7 +105,7 @@ class BillingController extends Controller
         if ($pay_amount < $gtotal && $pay_amount > 0) {
             return redirect('addbilling/' . $oid)->with('roleErrMsg', 'Pay Amount Must be Greater than Grand Total');
         } else {
-            if ($results != false) {
+            if ($results == 1) {
                 $result = DB::update('update orders set order_status = ? where id = ?', ['Complete',$oid]);
                 $id1 = DB::table('billing')->orderBy('id','desc')->first();
                 // $this->viewBilling($id1->id);
@@ -156,7 +156,7 @@ class BillingController extends Controller
         if ($pay_amount < $gtotal && $pay_amount > 0) {
             return redirect('updatebilling/' . $id)->with('errUpdateCategoryInMsg', 'Pay Amount Must be Greater than Grand Total');
         } else {
-            if ($result != false) {
+            if ($result == 1) {
                 return redirect('updatebilling/' . $id)->with('updateCategoryInMsg', 'Bill Updated Successfully');
             } else {
                 return redirect('updatebilling/' . $id)->with('errUpdateCategoryInMsg', 'Bill not Updated');
@@ -169,7 +169,7 @@ class BillingController extends Controller
     {
         $data = DB::delete('delete from billing where id = ?', [$id]);
 
-        if ($data != false) {
+        if ($data == 1) {
             return redirect('/billinglist')->with('deleteCategoryInMsg', 'Bill Deleted Successfully');
         } else {
             return redirect('/billinglist')->with('errDeleteCategoryInMsg', 'Bill not Deleted');
@@ -302,7 +302,7 @@ class BillingController extends Controller
             $i_id, $oid, $qty, $amt, $active
         ]);
 
-        if ($results != false) {
+        if ($results == 1) {
             return 1;
         } else {
             return 0;

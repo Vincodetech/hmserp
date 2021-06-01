@@ -74,7 +74,7 @@ class UserRoleController extends Controller
         $results = DB::insert('insert into users_roles(role,active) 
         values (?,?)', [$userrole,$active]);
 
-        if ($results != false) {
+        if ($results == 1) {
             return redirect('/adduserrolelist')->with('roleSccssMsg', 'User Role Added Successfully.');
         } else {
             return redirect('/adduserrolelist')->with('roleErrMsg', 'User Role add to failed!!');
@@ -103,7 +103,7 @@ class UserRoleController extends Controller
         }
         $result = DB::update('update users_roles set role = ?, active = ? where id = ?', [$userrole, $active, $id]);
 
-        if ($result != false) {
+        if ($result == 1) {
             return redirect('updateuserrolelist/'. $id)->with('updateCategoryInMsg', 'User Role Updated Successfully');
         } else {
             return redirect('updateuserrolelist/'. $id)->with('errUpdateCategoryInMsg', 'User Role not Updated');
@@ -115,7 +115,7 @@ class UserRoleController extends Controller
     {
         $data = DB::delete('delete from users_roles where id = ?', [$id]);
 
-        if ($data != false) {
+        if ($data == 1) {
             return redirect('/userrolelist')->with('deleteCategoryInMsg', 'User Role Deleted Successfully');
         } else {
             return redirect('/userrolelist')->with('errDeleteCategoryInMsg', 'User Role not Deleted');

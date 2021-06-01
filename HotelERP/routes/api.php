@@ -34,3 +34,6 @@ Route::get('fooditemlist',[FoodItemAPIController::class,'displayFoodItem']);
 
 Route::get('sliderlist',[SliderAPIController::class,'displaySliderImage']);
 
+Route::get('getfooditems',[FoodItemAPIController::class,'getFoodItems']);
+
+Route::get('getcafeitems/{id}',[FoodItemAPIController::class,'getCafeItems']);

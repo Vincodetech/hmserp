@@ -93,7 +93,7 @@ class SettingsController extends Controller
         $results = DB::insert('insert into sliders(slider_image,server_url_image,active) 
         values (?,?,?)', [$file_path,$server_url,$active]);
 
-        if ($results != false) {
+        if ($results == 1) {
             return redirect('/addslider')->with('roleSccssMsg', 'Slider Image Added Successfully.');
         } else {
             return redirect('/addslider')->with('roleErrMsg', 'Slider Image add to failed!!');
@@ -139,7 +139,7 @@ class SettingsController extends Controller
         $result = DB::update('update sliders set slider_image = ?, server_url_image = ?,
          active = ? where id = ?', [$file_path, $server_url, $active, $id]);
 
-        if ($result != false) {
+        if ($result == 1) {
             return redirect('updateslider/'. $id)->with('updateCategoryInMsg', 'Slider Image Updated Successfully');
         } else {
             return redirect('updateslider/'. $id)->with('errUpdateCategoryInMsg', 'Slider Image not Updated');
@@ -151,7 +151,7 @@ class SettingsController extends Controller
     {
         $data = DB::delete('delete from sliders where id = ?', [$id]);
 
-        if ($data != false) {
+        if ($data == 1) {
             return redirect('/sliderlist')->with('deleteCategoryInMsg', 'Slider Image Deleted Successfully');
         } else {
             return redirect('/sliderlist')->with('errDeleteCategoryInMsg', 'Slider Image not Deleted');
