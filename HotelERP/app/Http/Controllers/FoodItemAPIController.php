@@ -78,4 +78,42 @@ class FoodItemAPIController extends Controller
                 return response()->json($results, 400);
             }    
     }
+
+    public function getFoodItem(Request $request)
+    {
+        $id = $request->id;
+        $item_name =  $request->name;
+        $item_image = $request->item_image;
+        $desc = $request->description;
+        $price = $request->price;
+
+        $filename = "";
+
+        if($request->hasFile('item_image'))
+        {
+            $filename = $request->item_image->getClientOriginalName();
+
+            if($request->item_image)
+            {
+                $file_path = $request->item_image->storeAs('images1',$filename,'public');
+            }
+            
+        }
+
+        $results = DB::select("select id, name, description, price, server_url_image
+        from food_item where id = '$id'");
+       if ($results) 
+       {
+           return response()->json($results, 200);
+           
+       } 
+       else 
+       {
+           return response()->json($results, 400);
+       }
+
+
+
+    }
+
 }
