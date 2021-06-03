@@ -100,7 +100,7 @@ class FoodItemAPIController extends Controller
             
         }
 
-        $results = DB::select("select id, name, description, price, server_url_image
+        $results = DB::select("select id, name, quantity, description, price, server_url_image
         from food_item where id = '$id'");
        if ($results) 
        {
