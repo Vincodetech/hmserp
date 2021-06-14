@@ -7,6 +7,7 @@ use App\Http\Controllers\FoodCategoryAPIController;
 use App\Http\Controllers\FoodItemAPIController;
 use App\Http\Controllers\SliderAPIController;
 use App\Http\Controllers\CartAPIController;
+use App\Http\Controllers\OrderAPIController;
 
 /*
 |--------------------------------------------------------------------------
@@ -42,3 +43,7 @@ Route::get('singlefooditem',[FoodItemAPIController::class,'getFoodItem']);
 Route::get('getcafeitems/{id}',[FoodItemAPIController::class,'getCafeItems']);
 
 Route::post('addcartitem',[CartAPIController::class,'addCartItem']);
+
+Route::post('addorder',[OrderAPIController::class,'addOrder']);
+
+Route::get('getorderid',[OrderAPIController::class,'getOrderId']);
