@@ -36,7 +36,7 @@ class OrderAPIController extends Controller
     public function getOrderId()
     {
         $results= DB::table('orders')
-            ->select('Id','active')
+            ->select('Id','order_no')
             ->orderBy('Id','desc')->first();
 
         if ($results) 
@@ -48,5 +48,29 @@ class OrderAPIController extends Controller
         {
             return response()->json($results, 400);
         }
+    }
+
+    public function updateOrderId(Request $request, $id)
+    {
+        $otype = $request->order_type;
+
+        $results = DB::update('update orders set order_type = ?
+            where id = ?', [$otype, $id]);
+        
+            if($results) 
+            {
+                $response['id']=$id;
+                $response['error']="204";
+  	            $response['message']="Update Order Successful!";
+                return response()->json($response);
+            } 
+            else 
+            {
+                $response['id']=$id;
+                $response['error']="000";
+  	            $response['message']="Update Order Failed!";
+                return response()->json($response);
+            }
+
     }
 }

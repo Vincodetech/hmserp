@@ -47,3 +47,5 @@ Route::post('addcartitem',[CartAPIController::class,'addCartItem']);
 Route::post('addorder',[OrderAPIController::class,'addOrder']);
 
 Route::get('getorderid',[OrderAPIController::class,'getOrderId']);
+
+Route::post('updateorderid/{id}',[OrderAPIController::class,'updateOrderId']);
