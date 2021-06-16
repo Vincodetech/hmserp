@@ -49,3 +49,5 @@ Route::post('addorder',[OrderAPIController::class,'addOrder']);
 Route::get('getorderid',[OrderAPIController::class,'getOrderId']);
 
 Route::post('updateorderid/{id}',[OrderAPIController::class,'updateOrderId']);
+
+Route::get('getorder',[OrderAPIController::class,'getOrder']);

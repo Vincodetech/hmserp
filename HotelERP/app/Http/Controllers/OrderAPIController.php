@@ -73,4 +73,21 @@ class OrderAPIController extends Controller
             }
 
     }
+
+    public function getOrder()
+    {
+        $results= DB::table('orders')
+            ->select('Id','order_no','order_type')
+            ->orderBy('Id','desc')->first();
+
+        if ($results) 
+        {
+            return response()->json($results, 200);
+            
+        } 
+        else 
+        {
+            return response()->json($results, 400);
+        }
+    }
 }
