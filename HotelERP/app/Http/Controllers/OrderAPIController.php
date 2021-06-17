@@ -90,4 +90,36 @@ class OrderAPIController extends Controller
             return response()->json($results, 400);
         }
     }
+
+    public function addOrderDetail(Request $request)
+    {
+        $i_id = $request->item_id;
+        $o_id = $request->order_id;
+        $qty = $request->quantity;
+        $amt = $request->amount;
+        $active = $request->active;
+
+        $results = DB::insert('insert into order_detail(item_id,order_id,quantity,
+        amount,active) values
+        (?,?,?,?,?)', [$i_id,$o_id,$qty,$amt,$active]);
+
+        if ($results) 
+       {
+            $response['item_id']=$i_id;
+            $response['order_id']=$o_id;
+            $response['quantity']=$qty;
+            $response['amount']=$amt;
+            $response['active']=$active;
+            $response['error']="000";
+            $response['message']="Add Order Detail Successfully...!";
+            return response()->json($response);
+           
+       } 
+       else 
+       {
+            $response['error']="000";
+            $response['message']="Not Add Successfully...!";
+            return response()->json($response);
+       }
+    }
 }
