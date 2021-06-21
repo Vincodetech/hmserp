@@ -74,6 +74,30 @@ class OrderAPIController extends Controller
 
     }
 
+    public function updateStatus(Request $request, $id)
+    {
+        $ostatus = $request->order_status;
+        $pstatus = $request->payment_status;
+
+        $results = DB::update('update orders set order_status = ?,  payment_status = ?
+            where id = ?', [$ostatus, $pstatus, $id]);
+        
+            if($results) 
+            {
+                $response['id']=$id;
+                $response['error']="204";
+  	            $response['message']="Update Order Successful!";
+                return response()->json($response);
+            } 
+            else 
+            {
+                $response['id']=$id;
+                $response['error']="000";
+  	            $response['message']="Update Order Failed!";
+                return response()->json($response);
+            }
+    }
+
     public function getOrder()
     {
         $results= DB::table('orders')
