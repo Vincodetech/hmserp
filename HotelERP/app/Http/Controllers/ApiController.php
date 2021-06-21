@@ -162,6 +162,37 @@ class ApiController extends Controller
 
     }
 
+    public function updateAddress(Request $request, $id)
+    {
+        $street1 = $request->street1;
+        $street2 = $request->street2;
+        $city = $request->city;
+        $state = $request->state;
+        $country = $request->country;
+        $pincode = $request->pincode;
+
+        $results = DB::update('update users set street1 = ?, street2 = ?, city = ?, state = ?,
+            country = ?, pincode = ?
+            where id = ?', [$street1, $street2, $city, $state, $country, $pincode, $id]);
+        
+            if($results) 
+            {
+                $response['id']=$id;
+                $response['error']="204";
+  	            $response['message']="Update Address Successful!";
+                return response()->json($response);
+            } 
+            else 
+            {
+                $response['id']=$id;
+                $response['error']="000";
+  	            $response['message']="Update Address Failed!";
+                return response()->json($response);
+            }
+
+    }
+
+
     public function deleteUser($id)
     {
         $result = DB::delete('delete from users where id = ?', [$id]);

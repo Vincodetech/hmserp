@@ -28,6 +28,7 @@ Route::get('user/{id}',[ApiController::class,'getUser']);
 Route::post('addusers',[ApiController::class,'addUsers']);
 Route::post('loginuser',[ApiController::class,'loginUser']);
 Route::post('updateuser/{id}',[ApiController::class,'updateUser']);
+Route::post('updateaddress/{id}',[ApiController::class,'updateAddress']);
 Route::get('deleteuser/{id}',[ApiController::class,'deleteUser']);
 
 Route::get('foodcategorylist',[FoodCategoryAPIController::class,'displayFoodCategory']);
