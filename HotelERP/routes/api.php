@@ -56,3 +56,7 @@ Route::get('getorder',[OrderAPIController::class,'getOrder']);
 Route::post('addorderdetail',[OrderAPIController::class,'addOrderDetail']);
 
 Route::post('updatestatus/{id}',[OrderAPIController::class,'updateStatus']);
+
+Route::post('addbilldetail',[OrderAPIController::class,'addBillDetail']);
+
+Route::get('getbillno',[OrderAPIController::class,'getBillNo']);

@@ -94,8 +94,9 @@ class ApiController extends Controller
         $email = $request->email;
         $uname = $request->user_name;
         $pass =  $request->password;
+        $active = $request->active;
 
-        $results= DB::select("select id, email, user_name from users where email = '$email'
+        $results= DB::select("select id, email, user_name, active from users where email = '$email'
         and password = '$pass'");
         
         if($results) 
@@ -105,6 +106,7 @@ class ApiController extends Controller
                     $response['id']=$data->id;
                     $response['email']=$data->email;
                     $response['user_name']=$data->user_name;
+                    $response['active']=$data->active;
                     $response['error']="200";
                     $response['message']="Login Successful!";
                 }

@@ -146,4 +146,51 @@ class OrderAPIController extends Controller
             return response()->json($response);
        }
     }
+
+    public function addBillDetail(Request $request)
+    {
+        $b_no = $request->bill_no;
+        $b_date = $request->bill_date;
+        $o_id = $request->order_id;
+        $g_total = $request->grand_total;
+        $active = $request->active;
+    
+        $results = DB::insert('insert into billing(bill_no,bill_date,order_id,grand_total,
+        active) values
+        (?,?,?,?,?)', [$b_no,$b_date,$o_id,$g_total,$active]);
+
+        if ($results) 
+       {
+            $response['bill_no']=$b_no;
+            $response['bill_date']=$b_date;
+            $response['order_id']=$o_id;
+            $response['grand_total']=$g_total;
+            $response['active']=$active;
+            $response['error']="000";
+            $response['message']="Add Bill Detail Successfully...!";
+            return response()->json($response);
+           
+       } 
+       else 
+       {
+            $response['error']="000";
+            $response['message']="Not Add Successfully...!";
+            return response()->json($response);
+       }
+    }
+
+    public function getBillNo()
+    {
+        $results = DB::table('billing')->select('bill_no')->orderBy('id','desc')->first();
+
+        if ($results) 
+        {
+            return response()->json($results, 200);
+            
+        } 
+        else 
+        {
+            return response()->json($results, 400);
+        }
+    }
 }
