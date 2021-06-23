@@ -54,7 +54,7 @@ class OrderAPIController extends Controller
     {
         $otype = $request->order_type;
 
-        $results = DB::update('update orders set order_type = ?
+        $results = DB::update('update orders set order_type = ?, order_status = ?
             where id = ?', [$otype, $id]);
         
             if($results) 

@@ -14,7 +14,6 @@
                   <thead>
                     <tr>  
                       <th>No.</th>
-                      <th>Table Name</th>
                       <th>Order No.</th>
                       <th>Order Type</th>
                       <th>Order Status</th>
@@ -44,10 +43,6 @@
                     {
                       data: 'DT_RowIndex',
                       name: 'DT_RowIndex'
-                    },
-                    {
-                      data:'table_id',
-                      name:'table_id'
                     },
                     {
                       data:'order_no',

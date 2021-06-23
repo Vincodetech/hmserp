@@ -23,11 +23,6 @@ class OrderController extends Controller
             
             return datatables()->of($data)
             ->addIndexColumn()
-            ->addColumn('table_id', function ($data) { 
-            
-                $sql = DB::table('tables')->where('id',$data->table_id)->first();
-                return $sql->name;
-            })
             ->addColumn('active', function($data){
                 if($data->active == '1')
                 {
@@ -59,7 +54,7 @@ class OrderController extends Controller
                         return $btn;
                 }          
             })
-            ->rawColumns(['table_id','active','Action'])->make(true);
+            ->rawColumns(['active','Action'])->make(true);
         }
         $order = DB::table('orders')
                         ->select('id')
