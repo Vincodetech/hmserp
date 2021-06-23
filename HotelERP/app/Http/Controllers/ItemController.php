@@ -107,7 +107,7 @@ class ItemController extends Controller
             if($request->item_image)
             {
                 $file_path = $request->item_image->storeAs('images',$filename,'public');
-                $server_url = "http://192.168.42.235:8000/storage/" . $file_path;
+                $server_url = "http://192.168.42.185:8000/storage/" . $file_path;
             }
         }
    
@@ -167,7 +167,7 @@ class ItemController extends Controller
             if($request->item_image)
             {
                 $file_path = $request->item_image->storeAs('images',$filename,'public');
-                $server_url = "http://192.168.42.235:8000/storage/" . $file_path;
+                $server_url = "http://192.168.42.185:8000/storage/" . $file_path;
             }
         }
 

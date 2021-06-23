@@ -81,7 +81,7 @@ class CategoryController extends Controller
             if($request->category_image)
             {
                 $file_path = $request->category_image->storeAs('images1',$filename,'public');
-                $server_url = "http://192.168.42.235:8000/storage/" . $file_path;
+                $server_url = "http://192.168.42.185:8000/storage/" . $file_path;
             }
             
         }
@@ -133,7 +133,7 @@ class CategoryController extends Controller
             if($request->category_image)
             {
                 $file_path = $request->category_image->storeAs('images1',$filename,'public');
-                $server_url = "http://192.168.42.235:8000/storage/" . $file_path;
+                $server_url = "http://192.168.42.185:8000/storage/" . $file_path;
             }
             
         }
