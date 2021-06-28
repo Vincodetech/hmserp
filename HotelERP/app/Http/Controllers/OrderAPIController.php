@@ -11,9 +11,10 @@ class OrderAPIController extends Controller
     {
         $order_no = $request->order_no;
         $active = $request->active;
+        $uid = $request->user_id;
 
-        $results = DB::insert('insert into orders(order_no,active) values
-        (?,?)', [$order_no,$active]);
+        $results = DB::insert('insert into orders(order_no,active,user_id) values
+        (?,?,?)', [$order_no,$active,$uid]);
 
         if ($results) 
        {
@@ -53,9 +54,10 @@ class OrderAPIController extends Controller
     public function updateOrderId(Request $request, $id)
     {
         $otype = $request->order_type;
+        $ostatus = $request->order_status;
 
         $results = DB::update('update orders set order_type = ?, order_status = ?
-            where id = ?', [$otype, $id]);
+            where id = ?', [$otype, $ostatus, $id]);
         
             if($results) 
             {
