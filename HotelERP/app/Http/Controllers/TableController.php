@@ -13,7 +13,7 @@ class TableController extends Controller
         if(request()->ajax())
         {
             $data = DB::table('tables')
-                    ->select('id', 'name', 'qr_code', 'table_type', 'active')
+                    ->select('id', 'name', 'table_type', 'active')
                     ->get();
             return datatables()->of($data)
             ->addIndexColumn()

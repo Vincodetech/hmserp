@@ -15,7 +15,6 @@
                     <tr>  
                       <th>No.</th>
                       <th>Title</th>
-                      <th>QR Code Path</th>
                       <th>Table Type</th>
                       <th>Active</th>
                       <th>Action</th>
@@ -46,10 +45,6 @@
                     {
                       data:'name',
                       name:'name'
-                    },
-                    {
-                      data:'qr_code',
-                      name:'qr_code'
                     },
                     {
                       data:'table_type',
