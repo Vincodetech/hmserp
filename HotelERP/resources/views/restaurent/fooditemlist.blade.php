@@ -30,8 +30,8 @@
                   <label>Item Type:</label> &nbsp;
                   <select name="dropdown1" id="filter_item_type"> &nbsp;
                     <option value="">Select</option>
-                    <option value="restaurant">Restaurant</option>
-                    <option value="cafe">Cafe</option> 
+                    <option value="Restaurant">Restaurant</option>
+                    <option value="Cafe">Cafe</option> 
                   </select> &nbsp; &nbsp; &nbsp;
                   <button type="button" name="filter" id="filter" class="btn btn-info">Filter</button> &nbsp; &nbsp; &nbsp;
                   <button type="button" name="reset" id="reset" class="btn btn-danger">Reset</button>

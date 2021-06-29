@@ -10,8 +10,44 @@ class TableController extends Controller
 {
     public function tablesList()
     {
-        $result = DB::table('tables')->paginate(5);
-        return view('tables.tableslist',['result' => $result]);
+        if(request()->ajax())
+        {
+            $data = DB::table('tables')
+                    ->select('id', 'name', 'qr_code', 'table_type', 'active')
+                    ->get();
+            return datatables()->of($data)
+            ->addIndexColumn()
+            ->addColumn('active', function($data){
+                if($data->active == '1')
+                {
+                    $btn1 = '<span class="badge badge-success">Active</span>';
+                }
+                else
+                {
+                    $btn1 = '<span class="badge badge-danger">InActive</span>';
+                }
+                 return $btn1;
+            })
+        ->addColumn('Action', function($data){
+     
+                           $btn = '<a href="'.url('updatetables/'.$data->id).'">
+                           <i class="fa fa-edit" aria-hidden="true"></i></a>
+                           <a href="'.url('deletetable/'.$data->id).'" class="delete">
+                           <i class="fa fa-trash" aria-hidden="true"></i></a>';
+                           
+                            return $btn;
+                           
+                    })
+            ->rawColumns(['active','Action'])->make(true);
+        }
+        $name = DB::table('tables')
+                        ->select('name')
+                        ->groupBy('name')
+                        ->orderBy('name', 'ASC')
+                        ->get();
+                        
+        $result = DB::table('tables')->select("*")->get(); 
+        return view('tables.tableslist', compact('name'), ['result' => $result]);
     }
 
     public function addTables()
@@ -27,37 +63,8 @@ class TableController extends Controller
         $unique_key = $request->unique_key;
         $active = $request->active;
         
-        $filename = "";
         
-        if($request->hasFile('name'))
-        {
-            $filename = $request->item_image->getClientOriginalName();
-
-            if($request->item_image)
-            {
-                $request->item_image->storeAs('img',$filename,'public');
-            }
-            
-           // $path->save();
-           // $request->item_image->update(['item_image'=>$filename]);
-           // session()->put('message','Image Uploaded...');
-        }
-
-        $title = QrCode::size(500)
-            ->format('svg')
-            ->generate($request->name, public_path($filename));
-        
-        // # Instantiate LoadOption object using SVG load option
-        // $options = new SvgLoadOptions();
-
-        // # Create document object
-        // $pdf = new Document($dataDir . 'Example.svg', $options);
-
-        // # Save the output to XLS format
-        // $pdf->save($dataDir . "SVG.pdf");
-    
-        
-        if($active != 1)
+         if($active != 1)
         {
             $active = 0;
         }
@@ -74,5 +81,49 @@ class TableController extends Controller
             return redirect('/addtables')->with('roleErrMsg', 'Table add to failed!!');
         }
        return view('tables.addtables');
+    }
+
+    public function updateTables($id)
+    {
+        $singletable = DB::table('tables')->where('Id', $id)->first();
+        return view('tables.updatetables',['singletable' => $singletable]);
+    }   
+    
+    public function postUpdateTables(Request $request, $id)
+    {
+        $title = $request->name;
+        $table_type = $request->table_type;
+        $unique_key = $request->unique_key;
+        $active = $request->active;
+        
+        if($active != '1')
+        {
+            $active = 0;
+        }
+        else
+        {
+            $active = 1;
+        }
+        $result = DB::update('update tables set name = ?, table_type = ?, 
+        unique_key = ?, active = ? where id = ?', [$title, $table_type, $unique_key, $active, $id]);
+
+        if ($result == 1) {
+            return redirect('updatetables/'. $id)->with('updateCategoryInMsg', 'Table Updated Successfully');
+        } else {
+            return redirect('updatetables/'. $id)->with('errUpdateCategoryInMsg', 'Table not Updated');
+        }
+        return view('tables.updatetables');
+    }
+
+    public function deleteTable($id)
+    {
+        $data = DB::delete('delete from tables where id = ?', [$id]);
+
+        if ($data == 1) {
+            return redirect('/tables')->with('deleteCategoryInMsg', 'Table Deleted Successfully');
+        } else {
+            return redirect('/tables')->with('errDeleteCategoryInMsg', 'Table not Deleted');
+        }
+        return view('tables.tableslist');
     }
 }
