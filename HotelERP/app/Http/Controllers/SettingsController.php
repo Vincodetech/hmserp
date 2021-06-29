@@ -80,7 +80,7 @@ class SettingsController extends Controller
             
         }
 
-        $server_url = "http://192.168.42.185:8000/storage/" . $file_path;
+        $server_url = "https://hotelthegrandpiano.vincodetech.com/storage/" . $file_path;
 
         if($active != '1')
         {
@@ -126,7 +126,7 @@ class SettingsController extends Controller
             
         }   
         
-        $server_url = "http://192.168.42.185:8000/storage/" . $file_path;
+        $server_url = "https://hotelthegrandpiano.vincodetech.com/storage/" . $file_path;
 
         if($active != '1')
         {
