@@ -42,8 +42,8 @@
                                     <label>Category Type</label>
                                     <select class="form-control" name="category_type">
                                         <option value="">Select</option>
-                                        <option value="restaurant">Restaurant</option>
-                                        <option value="cafe">Cafe</option>
+                                        <option value="Restaurant">Restaurant</option>
+                                        <option value="Cafe">Cafe</option>
                                     </select>
                                 </div>
                                 <div class="form-group">
