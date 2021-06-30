@@ -66,6 +66,11 @@ class SettingsController extends Controller
     {
         $slider_image = $request->slider_image;
         $active = $request->active;
+
+        if($request->validate([
+            'category_image.*' => 'mimes:jpeg,jpg,png|max:200'
+          ]))
+        {
         
         $filename = "";
 
@@ -98,6 +103,11 @@ class SettingsController extends Controller
         } else {
             return redirect('/addslider')->with('roleErrMsg', 'Slider Image add to failed!!');
         }
+    }
+    else
+    {
+        return redirect('/addslider')->with('roleErrMsg', 'Please Select Valid Image File');
+    }
        return view('settings.slider.addslider');
     }
 
@@ -112,6 +122,11 @@ class SettingsController extends Controller
         $data = DB::table('sliders')->where('id', $id)->first();
         $slider_image = $request->slider_image;
         $active = $request->active;
+
+        if($request->validate([
+            'category_image.*' => 'mimes:jpeg,jpg,png|max:200'
+          ]))
+        {
         
         $filename = $data->slider_image;
 
@@ -144,6 +159,11 @@ class SettingsController extends Controller
         } else {
             return redirect('updateslider/'. $id)->with('errUpdateCategoryInMsg', 'Slider Image not Updated');
         }
+    }
+    else
+    {
+        return redirect('updateslider/'. $id)->with('errUpdateCategoryInMsg', 'Please Select Valid Image File');
+    }
         return view('settings.slider.updateslider');
     }
 

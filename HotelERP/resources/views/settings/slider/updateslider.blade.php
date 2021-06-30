@@ -29,7 +29,9 @@
                             <div class="form-group">
                                     <label>Slider Image</label>
                                     <input type="file" name="slider_image" 
-                                    value="{{ $singleimage->slider_image }}">
+                                    value="{{ $singleimage->slider_image }}"> <br/>
+                                    <span class="badge badge-danger">Image File Size Must be Less than 200kb</span>
+                                    <span class="badge badge-danger">Image File Must be Extension with .jpeg, .jpg, .png</span>
                                 </div>
                                 <div class="form-group">
                                     <label>Active</label>

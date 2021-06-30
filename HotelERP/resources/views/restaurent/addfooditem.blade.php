@@ -52,7 +52,9 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Item Image</label>
-                                    <input type="file" name="item_image">
+                                    <input type="file" name="item_image"> <br/>
+                                    <span class="badge badge-danger">Image File Size Must be Less than 200kb</span>
+                                    <span class="badge badge-danger">Image File Must be Extension with .jpeg, .jpg, .png</span>
                                 </div>    
                                 <div class="form-group">
                                     <label>Food Category</label>
@@ -105,7 +107,7 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Active</label>
-                                    <input type="checkbox" name="active" value="1">
+                                    <input type="checkbox" name="active" value="1" checked>
                                 </div>
                                 <button type="submit" class="btn btn-primary"> Add Food Item</button>
                             </form>

@@ -36,7 +36,9 @@
                                 </div>
                                 <div class="form-group">
                                     <label>Category Image</label>
-                                    <input type="file" name="category_image">
+                                    <input type="file" name="category_image"> <br/>
+                                    <span class="badge badge-danger">Image File Size Must be Less than 200kb</span>
+                                    <span class="badge badge-danger">Image File Must be Extension with .jpeg, .jpg, .png</span>
                                 </div>
                                 <div class="form-group">
                                     <label>Category Type</label>
@@ -54,7 +56,7 @@
                                 <div class="form-group">
                                     <label>Active</label>
                                 
-                                    <input type="checkbox" name="active" value="1">
+                                    <input type="checkbox" name="active" value="1" checked>
                                 </div>
 
                                 <button type="submit" class="btn btn-primary"> Add Category</button>

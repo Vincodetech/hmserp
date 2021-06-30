@@ -71,8 +71,13 @@ class CategoryController extends Controller
         $category_quantity = $request->category_quantity;
         $active = $request->active;
 
-        $file_path = "";
-        $server_url = "";
+        if($request->validate([
+            'category_image.*' => 'mimes:jpeg,jpg,png|max:200'
+          ]))
+        {
+        
+            $file_path = "";
+            $server_url = "";
 
         if($request->hasFile('category_image'))
         {
@@ -86,8 +91,6 @@ class CategoryController extends Controller
             
         }
 
-       
-        
         if($active != '1')
         {
             $active = 0;
@@ -105,6 +108,11 @@ class CategoryController extends Controller
         } else {
             return redirect('/addfoodcategory')->with('roleErrMsg', 'Food Category add to failed!!');
         }
+    }
+    else
+    {
+        return redirect('/addfoodcategory')->with('roleErrMsg', 'Please Select Valid Image File');
+    }
        return view('restaurent.addfoodcategory');
     }
 
@@ -122,6 +130,11 @@ class CategoryController extends Controller
         $cat_image = $request->category_image;
         $category_quantity = $request->category_quantity;
         $active = $request->active;
+        
+        if($request->validate([
+            'category_image.*' => 'mimes:jpeg,jpg,png|max:200'
+          ]))
+        {
 
         $server_url = $data->server_url_image;
         $file_path = $data->category_image;
@@ -138,9 +151,7 @@ class CategoryController extends Controller
             
         }
 
-      
-        
-        if($active != '1')
+       if($active != '1')
         {
             $active = 0;
         }
@@ -157,6 +168,11 @@ class CategoryController extends Controller
         } else {
             return redirect('updatefoodcategory/'. $id)->with('errUpdateCategoryInMsg', 'Food Category not Updated');
         }
+    }
+    else
+    {
+        return redirect('updatefoodcategory/'. $id)->with('errUpdateCategoryInMsg', 'Please Select Valid Image File');
+    }
         return view('restaurent.updatefoodcategory');
     }
 

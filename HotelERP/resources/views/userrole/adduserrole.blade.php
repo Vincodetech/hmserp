@@ -36,7 +36,7 @@
                                 <div class="form-group">
                                     <label>Active</label>
                                 
-                                    <input type="checkbox" name="active" value="1">
+                                    <input type="checkbox" name="active" value="1" checked>
                                 </div>
 
                                 <button type="submit" class="btn btn-primary"> Add User Role</button>

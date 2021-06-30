@@ -96,9 +96,14 @@ class ItemController extends Controller
         $quantity = $request->quantity;
         $item_type = $request->item_type;
         $active = $request->active;
+
+        if($request->validate([
+            'category_image.*' => 'mimes:jpeg,jpg,png|max:200'
+          ]))
+        {
         
-        $file_path = "";
-        $server_url = "";
+            $file_path = "";
+            $server_url = "";
         
         if($request->hasFile('item_image'))
         {
@@ -131,6 +136,11 @@ class ItemController extends Controller
         } else {
             return redirect('/addfooditem')->with('roleErrMsg', 'Food Item add to failed!!');
         }
+    }
+    else
+    {
+        return redirect('/addfooditem')->with('roleErrMsg', 'Please Select Valid Image File');
+    }
        return view('restaurent.addfooditem');
     }
 
@@ -156,6 +166,11 @@ class ItemController extends Controller
         $quantity = $request->quantity;
         $item_type = $request->item_type;
         $active = $request->active == '1' ? '1' : '0';
+
+        if($request->validate([
+            'category_image.*' => 'mimes:jpeg,jpg,png|max:200'
+          ]))
+        {
  
         $server_url = $data->server_url_image;
         $file_path = $data->item_image;
@@ -182,6 +197,11 @@ class ItemController extends Controller
         } else {
             return redirect('updatefooditem/'. $id)->with('errUpdateItemInMsg', 'Food Item not Updated');
         }
+    }
+    else
+    {
+        return redirect('updatefooditem/'. $id)->with('errUpdateItemInMsg', 'Please Select Valid Image File');
+    }
         return view('restaurent.updatefooditem');
     }
 

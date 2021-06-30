@@ -53,7 +53,9 @@
                                 <div class="form-group">
                                     <label>Item Image</label>
                                     <input type="file" name="item_image" 
-                                    value="{{ $singlefooditem->item_image }}">
+                                    value="{{ $singlefooditem->item_image }}"> <br/>
+                                    <span class="badge badge-danger">Image File Size Must be Less than 200kb</span>
+                                    <span class="badge badge-danger">Image File Must be Extension with .jpeg, .jpg, .png</span>
                                 </div>    
                                 <div class="form-group">
                                     <label>Food Category</label>
