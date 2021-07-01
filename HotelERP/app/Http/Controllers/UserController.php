@@ -75,7 +75,7 @@ class UserController extends Controller
                         ->get();
                         
         $result = DB::table('users')->select("*")->get(); 
-                       
+                      
         return view('users.userslist', compact('name'), ['result' => $result]);
 
     }

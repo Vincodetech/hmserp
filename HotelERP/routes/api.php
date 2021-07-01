@@ -8,6 +8,7 @@ use App\Http\Controllers\FoodItemAPIController;
 use App\Http\Controllers\SliderAPIController;
 use App\Http\Controllers\CartAPIController;
 use App\Http\Controllers\OrderAPIController;
+use App\Http\Controllers\CartController;
 
 /*
 |--------------------------------------------------------------------------
@@ -43,6 +44,8 @@ Route::get('singlefooditem',[FoodItemAPIController::class,'getFoodItem']);
 
 Route::get('getcafeitems/{id}',[FoodItemAPIController::class,'getCafeItems']);
 
+Route::get('getrelatedfooditem/{category_id}',[FoodItemAPIController::class,'getRelatedFoodItem']);
+
 Route::post('addcartitem',[CartAPIController::class,'addCartItem']);
 
 Route::post('addorder',[OrderAPIController::class,'addOrder']);
@@ -60,3 +63,11 @@ Route::post('updatestatus/{id}',[OrderAPIController::class,'updateStatus']);
 Route::post('addbilldetail',[OrderAPIController::class,'addBillDetail']);
 
 Route::get('getbillno',[OrderAPIController::class,'getBillNo']);
+
+Route::get('getcartdata',[CartController::class,'getCartData']);
+
+Route::post('addcartdata',[CartController::class,'addCartData']);
+
+Route::post('updatecartdata/{id}',[CartController::class,'updateCartData']);
+
+Route::get('deletecartdata/{id}',[CartController::class,'deleteCartData']);
