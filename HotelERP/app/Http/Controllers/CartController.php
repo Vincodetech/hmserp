@@ -16,7 +16,7 @@ class CartController extends Controller
         $i_id = $request->item_id;
         $active = $request->active;
 
-        $results = DB::select("select name, quantity, price, amount, item_id, active
+        $results = DB::select("select name, quantity, price, amount, i_id, active
          from cart");
         if ($results) 
         {
@@ -38,7 +38,7 @@ class CartController extends Controller
         $i_id = $request->item_id;
         $active = $request->active;
 
-        $results = DB::insert('insert into cart(name,quantity,price,amount,item_id,active)
+        $results = DB::insert('insert into cart(name,quantity,price,amount,i_id,active)
         values (?,?,?,?,?,?)', [$name,$qty,$price,$amt,$i_id,$active]);
 
         if ($results) 
@@ -72,7 +72,7 @@ class CartController extends Controller
         $active = $request->active;
 
         $results = DB::update('update cart set name = ?, quantity = ?, price = ?,
-            amount = ?, item_id = ?, active = ?
+            amount = ?, i_id = ?, active = ?
             where id = ?', [$name, $qty, $price, $amt, $i_id, $active, $id]);
         
             if($results) 
