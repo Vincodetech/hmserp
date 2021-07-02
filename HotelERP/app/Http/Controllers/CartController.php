@@ -13,10 +13,11 @@ class CartController extends Controller
         $qty = $request->quantity;
         $price = $request->price;
         $amt =  $request->amount;
-        $i_id = $request->item_id;
+        $i_id = $request->i_id;
+        $u_id = $request->u_id;
         $active = $request->active;
 
-        $results = DB::select("select name, quantity, price, amount, i_id, active
+        $results = DB::select("select id, name, quantity, price, amount, i_id, u_id, active
          from cart");
         if ($results) 
         {
@@ -35,11 +36,12 @@ class CartController extends Controller
         $qty = $request->quantity;
         $price = $request->price;
         $amt =  $request->amount;
-        $i_id = $request->item_id;
+        $i_id = $request->i_id;
+        $u_id = $request->u_id;
         $active = $request->active;
 
-        $results = DB::insert('insert into cart(name,quantity,price,amount,i_id,active)
-        values (?,?,?,?,?,?)', [$name,$qty,$price,$amt,$i_id,$active]);
+        $results = DB::insert('insert into cart(name,quantity,price,amount,i_id,u_id,active)
+        values (?,?,?,?,?,?,?)', [$name,$qty,$price,$amt,$i_id,$u_id,$active]);
 
         if ($results) 
        {
@@ -47,7 +49,8 @@ class CartController extends Controller
             $response['quantity']=$qty;
             $response['price']=$price;
             $response['amount']=$amt;
-            $response['item_id']=$i_id;
+            $response['i_id']=$i_id;
+            $response['u_id']=$u_id;
             $response['active']=$active;
             $response['error']="000";
             $response['message']="Add Cart Data Successfully...!";
@@ -68,12 +71,13 @@ class CartController extends Controller
         $qty = $request->quantity;
         $price = $request->price;
         $amt =  $request->amount;
-        $i_id = $request->item_id;
+        $i_id = $request->i_id;
+        $u_id = $request->u_id;
         $active = $request->active;
 
         $results = DB::update('update cart set name = ?, quantity = ?, price = ?,
-            amount = ?, i_id = ?, active = ?
-            where id = ?', [$name, $qty, $price, $amt, $i_id, $active, $id]);
+            amount = ?, i_id = ?, u_id = ? active = ?
+            where id = ?', [$name, $qty, $price, $amt, $i_id, $u_id, $active, $id]);
         
             if($results) 
             {
