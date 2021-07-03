@@ -112,4 +112,22 @@ class CartController extends Controller
                 return response()->json($response);
             }
     }
+
+    public function deleteCartDatabyUserId($u_id)
+    {
+        $result = DB::delete('delete from cart where u_id = ?', [$u_id]);
+
+        if($result) 
+            {
+                $response['error']="000";
+  	            $response['message']="Delete Cart Data Successful!";
+                return response()->json($response);
+            } 
+            else 
+            {
+                $response['error']="000";
+  	            $response['message']="Delete Cart Data Failed!";
+                return response()->json($response);
+            }
+    }
 }
