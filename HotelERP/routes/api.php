@@ -66,6 +66,8 @@ Route::get('getbillno',[OrderAPIController::class,'getBillNo']);
 
 Route::get('getcartdata',[CartController::class,'getCartData']);
 
+Route::get('getsumofamountcartdata/{u_id}',[CartController::class,'getSumofAmountCartData']);
+
 Route::post('addcartdata',[CartController::class,'addCartData']);
 
 Route::post('updatecartdata/{id}',[CartController::class,'updateCartData']);

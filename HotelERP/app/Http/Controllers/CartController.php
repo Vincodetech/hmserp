@@ -30,6 +30,29 @@ class CartController extends Controller
         }
     }
 
+    public function getSumofAmountCartData(Request $request, $u_id)
+    {
+        $name = $request->name;
+        $qty = $request->quantity;
+        $price = $request->price;
+        $amt =  $request->amount;
+        $i_id = $request->i_id;
+        $u_id = $request->u_id;
+        $active = $request->active;
+
+        $results = DB::select('select sum(amount) from cart where u_id = ?', [$u_id]);
+        if ($results) 
+        {
+            return response()->json($results, 200);
+            
+        } 
+        else 
+        {
+            return response()->json($results, 400);
+        }
+
+    }
+
     public function addCartData(Request $request)
     {
         $name = $request->name;
