@@ -40,7 +40,8 @@ class CartController extends Controller
         $u_id = $request->u_id;
         $active = $request->active;
 
-        $results = DB::select('select sum(amount) from cart where u_id = ?', [$u_id]);
+        $results = DB::select('SELECT SUM(amount) AS total_amount FROM cart WHERE u_id = ?', [$u_id]);
+    
         if ($results) 
         {
             return response()->json($results, 200);
