@@ -126,7 +126,7 @@ class OrderController extends Controller
         {
             $active = 1;
         }
-        $result = DB::update('update users set table_id = ?, order_no = ?, 
+        $result = DB::update('update orders set table_id = ?, order_no = ?, 
         order_type = ?, order_status = ?,  payment_status = ?, active = ? where id = ?', [$tname, $ono,
          $otype, $ostatus, $pstatus, $active, $id]);
 

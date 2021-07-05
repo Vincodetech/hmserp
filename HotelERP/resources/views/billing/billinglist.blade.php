@@ -72,4 +72,15 @@
             }
           });
       </script>
+      <script type="text/javascript">
+      $(document).on('click','.delete',function(){
+        var url = $(this).attr('url');
+        if(confirm("Are you sure you want to delete this item?")){
+          window.location.href = url
+        }
+        else{
+          return false;
+        }
+      });
+      </script>
 @include('admin.footer')
